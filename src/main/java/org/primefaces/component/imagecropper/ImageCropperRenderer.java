@@ -35,6 +35,12 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.convert.ConverterException;
 import javax.imageio.ImageIO;
+import static org.primefaces.component.Literals.ALT;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.IMG;
+import static org.primefaces.component.Literals.INPUT;
+import static org.primefaces.component.Literals.NAME;
+import static org.primefaces.component.Literals.TYPE;
 
 import org.primefaces.model.CroppedImage;
 import org.primefaces.renderkit.CoreRenderer;
@@ -73,11 +79,11 @@ public class ImageCropperRenderer extends CoreRenderer {
                 .attr("image", image);
 
         if (cropper.getMinSize() != null) {
-            wb.append(",minSize:[").append(cropper.getMinSize()).append("]");
+            wb.append(",minSize:[").append(cropper.getMinSize()).append(']');
         }
 
         if (cropper.getMaxSize() != null) {
-            wb.append(",maxSize:[").append(cropper.getMaxSize()).append("]");
+            wb.append(",maxSize:[").append(cropper.getMaxSize()).append(']');
         }
 
         wb.attr("bgColor", cropper.getBackgroundColor(), null)
@@ -111,29 +117,29 @@ public class ImageCropperRenderer extends CoreRenderer {
         String clientId = cropper.getClientId(context);
         String coordsHolderId = clientId + "_coords";
 
-        writer.startElement("div", cropper);
+        writer.startElement(DIV, cropper);
         writer.writeAttribute("id", clientId, null);
 
         renderImage(context, cropper, clientId);
 
-        writer.startElement("input", null);
-        writer.writeAttribute("type", "hidden", null);
+        writer.startElement(INPUT, null);
+        writer.writeAttribute(TYPE, "hidden", null);
         writer.writeAttribute("id", coordsHolderId, null);
-        writer.writeAttribute("name", coordsHolderId, null);
-        writer.endElement("input");
+        writer.writeAttribute(NAME, coordsHolderId, null);
+        writer.endElement(INPUT);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     private void renderImage(FacesContext context, ImageCropper cropper, String clientId) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
         String alt = cropper.getAlt() == null ? "" : cropper.getAlt();
 
-        writer.startElement("img", null);
+        writer.startElement(IMG, null);
         writer.writeAttribute("id", clientId + "_image", null);
-        writer.writeAttribute("alt", alt, null);
+        writer.writeAttribute(ALT, alt, null);
         writer.writeAttribute("src", getResourceURL(context, cropper.getImage()), null);
-        writer.endElement("img");
+        writer.endElement(IMG);
     }
 
     @Override

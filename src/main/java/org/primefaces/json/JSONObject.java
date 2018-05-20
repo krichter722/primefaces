@@ -55,6 +55,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.ResourceBundle;
 import java.util.Set;
+import static org.primefaces.component.Literals.NULL;
 
 /**
  * A JSONObject is an unordered collection of name/value pairs. Its external
@@ -110,6 +111,8 @@ import java.util.Set;
  * @version 2015-12-09
  */
 public class JSONObject {
+
+    private static final String LITERAL0 = "JSONObject[";
     /**
      * JSONObject.NULL is equivalent to the value that JavaScript calls null,
      * whilst Java's null is equivalent to the value that JavaScript calls
@@ -148,7 +151,7 @@ public class JSONObject {
          */
         @Override
         public String toString() {
-            return "null";
+            return org.primefaces.component.Literals.NULL;
         }
     }
 
@@ -182,6 +185,7 @@ public class JSONObject {
      * @param names
      *            An array of strings.
      */
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     public JSONObject(JSONObject jo, String[] names) {
         this();
         for (int i = 0; i < names.length; i += 1) {
@@ -306,6 +310,7 @@ public class JSONObject {
      *            An array of strings, the names of the fields to be obtained
      *            from the object.
      */
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     public JSONObject(Object object, String names[]) {
         this();
         Class<?> c = object.getClass();
@@ -434,7 +439,7 @@ public class JSONObject {
         } else if (object instanceof JSONArray) {
             this.put(key, ((JSONArray) object).put(value));
         } else {
-            throw new JSONException("JSONObject[" + key
+            throw new JSONException(LITERAL0 + key
                     + "] is not a JSONArray.");
         }
         return this;
@@ -450,7 +455,7 @@ public class JSONObject {
      */
     public static String doubleToString(double d) {
         if (Double.isInfinite(d) || Double.isNaN(d)) {
-            return "null";
+            return org.primefaces.component.Literals.NULL;
         }
 
 // Shave off trailing zeros and decimal point, if possible.
@@ -483,7 +488,7 @@ public class JSONObject {
         }
         Object object = this.opt(key);
         if (object == null) {
-            throw new JSONException("JSONObject[" + quote(key) + "] not found.");
+            throw new JSONException(LITERAL0 + quote(key) + "] not found.");
         }
         return object;
     }
@@ -506,7 +511,7 @@ public class JSONObject {
             // JSONException should really take a throwable argument.
             // If it did, I would re-implement this with the Enum.valueOf
             // method and place any thrown exception in the JSONException
-            throw new JSONException("JSONObject[" + quote(key)
+            throw new JSONException(LITERAL0 + quote(key)
                     + "] is not an enum of type " + quote(clazz.getSimpleName())
                     + ".");
         }
@@ -534,7 +539,7 @@ public class JSONObject {
                         .equalsIgnoreCase("true"))) {
             return true;
         }
-        throw new JSONException("JSONObject[" + quote(key)
+        throw new JSONException(LITERAL0 + quote(key)
                 + "] is not a Boolean.");
     }
 
@@ -548,12 +553,13 @@ public class JSONObject {
      *             if the key is not found or if the value cannot 
      *             be converted to BigInteger.
      */
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     public BigInteger getBigInteger(String key) throws JSONException {
         Object object = this.get(key);
         try {
             return new BigInteger(object.toString());
         } catch (Exception e) {
-            throw new JSONException("JSONObject[" + quote(key)
+            throw new JSONException(LITERAL0 + quote(key)
                     + "] could not be converted to BigInteger.");
         }
     }
@@ -568,12 +574,13 @@ public class JSONObject {
      *             if the key is not found or if the value
      *             cannot be converted to BigDecimal.
      */
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     public BigDecimal getBigDecimal(String key) throws JSONException {
         Object object = this.get(key);
         try {
             return new BigDecimal(object.toString());
         } catch (Exception e) {
-            throw new JSONException("JSONObject[" + quote(key)
+            throw new JSONException(LITERAL0 + quote(key)
                     + "] could not be converted to BigDecimal.");
         }
     }
@@ -588,13 +595,14 @@ public class JSONObject {
      *             if the key is not found or if the value is not a Number
      *             object and cannot be converted to a number.
      */
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     public double getDouble(String key) throws JSONException {
         Object object = this.get(key);
         try {
             return object instanceof Number ? ((Number) object).doubleValue()
                     : Double.parseDouble((String) object);
         } catch (Exception e) {
-            throw new JSONException("JSONObject[" + quote(key)
+            throw new JSONException(LITERAL0 + quote(key)
                     + "] is not a number.");
         }
     }
@@ -609,13 +617,14 @@ public class JSONObject {
      *             if the key is not found or if the value cannot be converted
      *             to an integer.
      */
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     public int getInt(String key) throws JSONException {
         Object object = this.get(key);
         try {
             return object instanceof Number ? ((Number) object).intValue()
                     : Integer.parseInt((String) object);
         } catch (Exception e) {
-            throw new JSONException("JSONObject[" + quote(key)
+            throw new JSONException(LITERAL0 + quote(key)
                     + "] is not an int.");
         }
     }
@@ -634,7 +643,7 @@ public class JSONObject {
         if (object instanceof JSONArray) {
             return (JSONArray) object;
         }
-        throw new JSONException("JSONObject[" + quote(key)
+        throw new JSONException(LITERAL0 + quote(key)
                 + "] is not a JSONArray.");
     }
 
@@ -652,7 +661,7 @@ public class JSONObject {
         if (object instanceof JSONObject) {
             return (JSONObject) object;
         }
-        throw new JSONException("JSONObject[" + quote(key)
+        throw new JSONException(LITERAL0 + quote(key)
                 + "] is not a JSONObject.");
     }
 
@@ -666,13 +675,14 @@ public class JSONObject {
      *             if the key is not found or if the value cannot be converted
      *             to a long.
      */
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     public long getLong(String key) throws JSONException {
         Object object = this.get(key);
         try {
             return object instanceof Number ? ((Number) object).longValue()
                     : Long.parseLong((String) object);
         } catch (Exception e) {
-            throw new JSONException("JSONObject[" + quote(key)
+            throw new JSONException(LITERAL0 + quote(key)
                     + "] is not a long.");
         }
     }
@@ -733,7 +743,7 @@ public class JSONObject {
         if (object instanceof String) {
             return (String) object;
         }
-        throw new JSONException("JSONObject[" + quote(key) + "] not a string.");
+        throw new JSONException(LITERAL0 + quote(key) + "] not a string.");
     }
 
     /**
@@ -903,6 +913,8 @@ public class JSONObject {
      * @return The enum value associated with the key or defaultValue
      *            if the value is not found or cannot be assigned to clazz
      */
+    @SuppressWarnings({"PMD.AvoidCatchingNPE",
+            "PMD.AvoidCatchingGenericException"})
     public <E extends Enum<E>> E optEnum(Class<E> clazz, String key, E defaultValue) {
         try {
             Object val = this.opt(key);
@@ -946,6 +958,7 @@ public class JSONObject {
      *            The default.
      * @return The truth.
      */
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     public boolean optBoolean(String key, boolean defaultValue) {
         try {
             return this.getBoolean(key);
@@ -978,6 +991,7 @@ public class JSONObject {
      *            The default.
      * @return An object which is the value.
      */
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     public BigInteger optBigInteger(String key, BigInteger defaultValue) {
         try {
             return this.getBigInteger(key);
@@ -997,6 +1011,7 @@ public class JSONObject {
      *            The default.
      * @return An object which is the value.
      */
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     public BigDecimal optBigDecimal(String key, BigDecimal defaultValue) {
         try {
             return this.getBigDecimal(key);
@@ -1016,6 +1031,7 @@ public class JSONObject {
      *            The default.
      * @return An object which is the value.
      */
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     public double optDouble(String key, double defaultValue) {
         try {
             return this.getDouble(key);
@@ -1048,6 +1064,7 @@ public class JSONObject {
      *            The default.
      * @return An object which is the value.
      */
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     public int optInt(String key, int defaultValue) {
         try {
             return this.getInt(key);
@@ -1106,6 +1123,7 @@ public class JSONObject {
      *            The default.
      * @return An object which is the value.
      */
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     public long optLong(String key, long defaultValue) {
         try {
             return this.getLong(key);
@@ -1142,6 +1160,7 @@ public class JSONObject {
         return NULL.equals(object) ? defaultValue : object.toString();
     }
 
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     private void populateMap(Object bean) {
         Class<?> klass = bean.getClass();
 
@@ -1298,6 +1317,7 @@ public class JSONObject {
      * @throws JSONException
      *             If the value is non-finite number or if the key is null.
      */
+    @SuppressWarnings("PMD.AvoidThrowingNullPointerException")
     public JSONObject put(String key, Object value) throws JSONException {
         if (key == null) {
             throw new NullPointerException("Null key.");
@@ -1454,6 +1474,7 @@ public class JSONObject {
      * @param other The other JSONObject
      * @return true if they are equal
      */
+    @SuppressWarnings("PMD.AvoidCatchingThrowable")
     public boolean similar(Object other) {
         try {
             if (!(other instanceof JSONObject)) {
@@ -1494,6 +1515,7 @@ public class JSONObject {
      *            A String.
      * @return A simple JSON value.
      */
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     public static Object stringToValue(String string) {
         Double d;
         if (string.equals("")) {
@@ -1505,7 +1527,7 @@ public class JSONObject {
         if (string.equalsIgnoreCase("false")) {
             return Boolean.FALSE;
         }
-        if (string.equalsIgnoreCase("null")) {
+        if (string.equalsIgnoreCase(org.primefaces.component.Literals.NULL)) {
             return JSONObject.NULL;
         }
 
@@ -1598,6 +1620,7 @@ public class JSONObject {
      *         brace)</small>.
      */
     @Override
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     public String toString() {
         try {
             return this.toString(0);
@@ -1651,9 +1674,10 @@ public class JSONObject {
      * @throws JSONException
      *             If the value is or contains an invalid number.
      */
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     public static String valueToString(Object value) throws JSONException {
         if (value == null || value.equals(null)) {
-            return "null";
+            return org.primefaces.component.Literals.NULL;
         }
         if (value instanceof JSONString) {
             Object object;
@@ -1700,6 +1724,7 @@ public class JSONObject {
      *            The object to wrap
      * @return The wrapped value
      */
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     public static Object wrap(Object object) {
         try {
             if (object == null) {
@@ -1754,10 +1779,11 @@ public class JSONObject {
         return this.write(writer, 0, 0);
     }
 
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     static final Writer writeValue(Writer writer, Object value,
             int indentFactor, int indent) throws JSONException, IOException {
         if (value == null || value.equals(null)) {
-            writer.write("null");
+            writer.write(org.primefaces.component.Literals.NULL);
         } else if (value instanceof JSONObject) {
             ((JSONObject) value).write(writer, indentFactor, indent);
         } else if (value instanceof JSONArray) {

@@ -21,6 +21,9 @@ import javax.faces.component.UIComponent;
 
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.STYLE;
 import org.primefaces.renderkit.CoreRenderer;
 import org.primefaces.util.WidgetBuilder;
 
@@ -32,14 +35,14 @@ public class ImageSwitchRenderer extends CoreRenderer {
         ResponseWriter writer = context.getResponseWriter();
         String clientId = imageSwitch.getClientId(context);
 
-        writer.startElement("div", imageSwitch);
+        writer.startElement(DIV, imageSwitch);
         writer.writeAttribute("id", clientId, "id");
 
         if (imageSwitch.getStyle() != null) {
-            writer.writeAttribute("style", imageSwitch.getStyle(), null);
+            writer.writeAttribute(STYLE, imageSwitch.getStyle(), null);
         }
         if (imageSwitch.getStyleClass() != null) {
-            writer.writeAttribute("class", imageSwitch.getStyleClass(), null);
+            writer.writeAttribute(CLASS, imageSwitch.getStyleClass(), null);
         }
     }
 
@@ -50,7 +53,7 @@ public class ImageSwitchRenderer extends CoreRenderer {
         ResponseWriter writer = context.getResponseWriter();
         int slideshowSpeed = imageSwitch.isSlideshowAuto() ? imageSwitch.getSlideshowSpeed() : 0;
 
-        writer.endElement("div");
+        writer.endElement(DIV);
 
         WidgetBuilder wb = getWidgetBuilder(context);
         wb.init("ImageSwitch", imageSwitch.resolveWidgetVar(), clientId)

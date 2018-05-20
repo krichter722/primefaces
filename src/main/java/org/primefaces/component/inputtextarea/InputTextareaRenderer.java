@@ -22,6 +22,12 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.event.PhaseId;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DISABLED;
+import static org.primefaces.component.Literals.NAME;
+import static org.primefaces.component.Literals.READONLY;
+import static org.primefaces.component.Literals.STYLE;
+import static org.primefaces.component.Literals.VALUE;
 import org.primefaces.component.autocomplete.AutoComplete;
 import org.primefaces.context.PrimeApplicationContext;
 import org.primefaces.event.AutoCompleteEvent;
@@ -79,11 +85,11 @@ public class InputTextareaRenderer extends InputRenderer {
         List<Object> items = inputTextarea.getSuggestions();
 
         writer.startElement("ul", inputTextarea);
-        writer.writeAttribute("class", AutoComplete.LIST_CLASS, null);
+        writer.writeAttribute(CLASS, AutoComplete.LIST_CLASS, null);
 
         for (Object item : items) {
             writer.startElement("li", null);
-            writer.writeAttribute("class", AutoComplete.ITEM_CLASS, null);
+            writer.writeAttribute(CLASS, AutoComplete.ITEM_CLASS, null);
             writer.writeAttribute("data-item-value", escapeText(item.toString()), null);
             writer.writeText(item, null);
 
@@ -126,17 +132,17 @@ public class InputTextareaRenderer extends InputRenderer {
 
         writer.startElement("textarea", null);
         writer.writeAttribute("id", clientId, null);
-        writer.writeAttribute("name", clientId, null);
+        writer.writeAttribute(NAME, clientId, null);
 
         renderPassThruAttributes(context, inputTextarea, HTML.TEXTAREA_ATTRS_WITHOUT_EVENTS);
         renderDomEvents(context, inputTextarea, HTML.INPUT_TEXT_EVENTS);
 
-        if (inputTextarea.isDisabled()) writer.writeAttribute("disabled", "disabled", null);
-        if (inputTextarea.isReadonly()) writer.writeAttribute("readonly", "readonly", null);
-        if (inputTextarea.getStyle() != null) writer.writeAttribute("style", inputTextarea.getStyle(), null);
+        if (inputTextarea.isDisabled()) writer.writeAttribute(DISABLED, DISABLED, null);
+        if (inputTextarea.isReadonly()) writer.writeAttribute(READONLY, READONLY, null);
+        if (inputTextarea.getStyle() != null) writer.writeAttribute(STYLE, inputTextarea.getStyle(), null);
         if (inputTextarea.isRequired()) writer.writeAttribute("aria-required", "true", null);
 
-        writer.writeAttribute("class", createStyleClass(inputTextarea), "styleClass");
+        writer.writeAttribute(CLASS, createStyleClass(inputTextarea), "styleClass");
 
         if (PrimeApplicationContext.getCurrentInstance(context).getConfig().isClientSideValidationEnabled()) {
             renderValidationMetadata(context, inputTextarea);
@@ -148,7 +154,7 @@ public class InputTextareaRenderer extends InputRenderer {
                 writer.writeText("\n", null);
             }
 
-            writer.writeText(valueToRender, "value");
+            writer.writeText(valueToRender, VALUE);
         }
 
         writer.endElement("textarea");

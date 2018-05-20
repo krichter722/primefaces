@@ -22,6 +22,14 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.event.ActionEvent;
+import static org.primefaces.component.Literals.BUTTON;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DISABLED;
+import static org.primefaces.component.Literals.NAME;
+import static org.primefaces.component.Literals.ONCLICK;
+import static org.primefaces.component.Literals.SPAN;
+import static org.primefaces.component.Literals.TITLE;
+import static org.primefaces.component.Literals.VALUE;
 import org.primefaces.context.PrimeRequestContext;
 
 import org.primefaces.renderkit.CoreRenderer;
@@ -59,7 +67,7 @@ public class CommandButtonRenderer extends CoreRenderer {
         ResponseWriter writer = context.getResponseWriter();
         String clientId = button.getClientId(context);
         String type = button.getType();
-        boolean pushButton = (type.equals("reset") || type.equals("button"));
+        boolean pushButton = (type.equals("reset") || type.equals(BUTTON));
         Object value = button.getValue();
         String icon = button.resolveIcon();
         String title = button.getTitle();
@@ -67,61 +75,61 @@ public class CommandButtonRenderer extends CoreRenderer {
 
         if (!button.isDisabled() || button.isRenderDisabledClick()) {
             String request = pushButton ? null : buildRequest(context, button, clientId);
-            onclick = buildDomEvent(context, button, "onclick", "click", "action", request);
+            onclick = buildDomEvent(context, button, ONCLICK, "click", "action", request);
         }
 
-        writer.startElement("button", button);
+        writer.startElement(BUTTON, button);
         writer.writeAttribute("id", clientId, "id");
-        writer.writeAttribute("name", clientId, "name");
-        writer.writeAttribute("class", button.resolveStyleClass(), "styleClass");
+        writer.writeAttribute(NAME, clientId, NAME);
+        writer.writeAttribute(CLASS, button.resolveStyleClass(), "styleClass");
         writer.writeAttribute("aria-label", button.getAriaLabel(), null);
 
         if (onclick != null) {
             if (button.requiresConfirmation()) {
                 writer.writeAttribute("data-pfconfirmcommand", onclick, null);
-                writer.writeAttribute("onclick", button.getConfirmationScript(), "onclick");
+                writer.writeAttribute(ONCLICK, button.getConfirmationScript(), ONCLICK);
             }
             else {
-                writer.writeAttribute("onclick", onclick, "onclick");
+                writer.writeAttribute(ONCLICK, onclick, ONCLICK);
             }
         }
 
         renderPassThruAttributes(context, button, HTML.BUTTON_ATTRS, HTML.CLICK_EVENT);
 
-        if (button.isDisabled()) writer.writeAttribute("disabled", "disabled", "disabled");
+        if (button.isDisabled()) writer.writeAttribute(DISABLED, DISABLED, DISABLED);
 
         //icon
         if (!isValueBlank(icon)) {
             String defaultIconClass = button.getIconPos().equals("left") ? HTML.BUTTON_LEFT_ICON_CLASS : HTML.BUTTON_RIGHT_ICON_CLASS;
             String iconClass = defaultIconClass + " " + icon;
 
-            writer.startElement("span", null);
-            writer.writeAttribute("class", iconClass, null);
-            writer.endElement("span");
+            writer.startElement(SPAN, null);
+            writer.writeAttribute(CLASS, iconClass, null);
+            writer.endElement(SPAN);
         }
 
         //text
-        writer.startElement("span", null);
-        writer.writeAttribute("class", HTML.BUTTON_TEXT_CLASS, null);
+        writer.startElement(SPAN, null);
+        writer.writeAttribute(CLASS, HTML.BUTTON_TEXT_CLASS, null);
 
         if (value == null) {
             //For ScreenReader
             String text = (title != null) ? title : "ui-button";
 
-            writer.writeText(text, "title");
+            writer.writeText(text, TITLE);
         }
         else {
             if (button.isEscape()) {
-                writer.writeText(value, "value");
+                writer.writeText(value, VALUE);
             }
             else {
                 writer.write(value.toString());
             }
         }
 
-        writer.endElement("span");
+        writer.endElement(SPAN);
 
-        writer.endElement("button");
+        writer.endElement(BUTTON);
     }
 
     protected String buildRequest(FacesContext context, CommandButton button, String clientId) throws FacesException {

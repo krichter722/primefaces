@@ -19,6 +19,14 @@ import java.io.IOException;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import static org.primefaces.component.Literals.BUTTON;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DISABLED;
+import static org.primefaces.component.Literals.NAME;
+import static org.primefaces.component.Literals.ONCLICK;
+import static org.primefaces.component.Literals.SPAN;
+import static org.primefaces.component.Literals.TYPE;
+import static org.primefaces.component.Literals.VALUE;
 import org.primefaces.renderkit.OutcomeTargetRenderer;
 import org.primefaces.util.ComponentUtils;
 import org.primefaces.util.HTML;
@@ -43,54 +51,54 @@ public class ButtonRenderer extends OutcomeTargetRenderer {
         String value = (String) button.getValue();
         String icon = button.resolveIcon();
 
-        writer.startElement("button", button);
+        writer.startElement(BUTTON, button);
         writer.writeAttribute("id", clientId, "id");
-        writer.writeAttribute("name", clientId, "name");
-        writer.writeAttribute("type", "button", null);
-        writer.writeAttribute("class", button.resolveStyleClass(), "styleClass");
+        writer.writeAttribute(NAME, clientId, NAME);
+        writer.writeAttribute(TYPE, BUTTON, null);
+        writer.writeAttribute(CLASS, button.resolveStyleClass(), "styleClass");
 
         renderPassThruAttributes(context, button, HTML.BUTTON_ATTRS, HTML.CLICK_EVENT);
 
         if (button.isDisabled()) {
-            writer.writeAttribute("disabled", "disabled", "disabled");
+            writer.writeAttribute(DISABLED, DISABLED, DISABLED);
         }
 
-        writer.writeAttribute("onclick", buildOnclick(context, button), null);
+        writer.writeAttribute(ONCLICK, buildOnclick(context, button), null);
 
         //icon
         if (!isValueBlank(icon)) {
             String defaultIconClass = button.getIconPos().equals("left") ? HTML.BUTTON_LEFT_ICON_CLASS : HTML.BUTTON_RIGHT_ICON_CLASS;
             String iconClass = defaultIconClass + " " + icon;
 
-            writer.startElement("span", null);
-            writer.writeAttribute("class", iconClass, null);
-            writer.endElement("span");
+            writer.startElement(SPAN, null);
+            writer.writeAttribute(CLASS, iconClass, null);
+            writer.endElement(SPAN);
         }
 
         //text
-        writer.startElement("span", null);
-        writer.writeAttribute("class", HTML.BUTTON_TEXT_CLASS, null);
+        writer.startElement(SPAN, null);
+        writer.writeAttribute(CLASS, HTML.BUTTON_TEXT_CLASS, null);
 
         if (value == null) {
             writer.write("ui-button");
         }
         else {
             if (button.isEscape()) {
-                writer.writeText(value, "value");
+                writer.writeText(value, VALUE);
             }
             else {
                 writer.write(value);
             }
         }
 
-        writer.endElement("span");
+        writer.endElement(SPAN);
 
-        writer.endElement("button");
+        writer.endElement(BUTTON);
     }
 
     public void encodeScript(FacesContext context, Button button) throws IOException {
         WidgetBuilder wb = getWidgetBuilder(context);
-        wb.init("Button", button.resolveWidgetVar(), button.getClientId(context));
+        wb.init(BUTTON, button.resolveWidgetVar(), button.getClientId(context));
         wb.finish();
     }
 
@@ -100,12 +108,12 @@ public class ButtonRenderer extends OutcomeTargetRenderer {
         String targetURL = getTargetURL(context, button);
 
         if (userOnclick != null) {
-            onclick.append(userOnclick).append(";");
+            onclick.append(userOnclick).append(';');
         }
 
         String onclickBehaviors = getEventBehaviors(context, button, "click", null);
         if (onclickBehaviors != null) {
-            onclick.append(onclickBehaviors).append(";");
+            onclick.append(onclickBehaviors).append(';');
         }
 
         if (targetURL != null) {

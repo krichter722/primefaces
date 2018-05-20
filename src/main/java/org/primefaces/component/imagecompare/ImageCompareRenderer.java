@@ -20,6 +20,8 @@ import java.io.IOException;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.STYLE;
 
 import org.primefaces.renderkit.CoreRenderer;
 import org.primefaces.util.WidgetBuilder;
@@ -46,11 +48,11 @@ public class ImageCompareRenderer extends CoreRenderer {
 
     protected void encodeMarkup(FacesContext context, ImageCompare compare) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
-        writer.startElement("div", compare);
-        writer.writeAttribute("style", "width: " + compare.getWidth() + "px;" + "height: " + compare.getHeight() + "px;", null);
+        writer.startElement(DIV, compare);
+        writer.writeAttribute(STYLE, "width: " + compare.getWidth() + "px;" + "height: " + compare.getHeight() + "px;", null);
         writer.writeAttribute("id", compare.getClientId(context), "id");
         renderDynamicPassThruAttributes(context, compare);
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
 

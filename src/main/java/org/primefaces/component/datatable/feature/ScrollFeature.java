@@ -24,6 +24,7 @@ import org.primefaces.component.datatable.DataTableRenderer;
 public class ScrollFeature implements DataTableFeature {
 
     @Override
+    @SuppressWarnings("PMD.AvoidThrowingRawExceptionTypes")
     public void decode(FacesContext context, DataTable table) {
         throw new RuntimeException("RowScrollFeature should not decode.");
     }

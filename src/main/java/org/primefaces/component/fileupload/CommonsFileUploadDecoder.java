@@ -42,7 +42,7 @@ public class CommonsFileUploadDecoder {
 
         if (multipartRequest != null) {
             if (fileUpload.getMode().equals("simple")) {
-                decodeSimple(context, fileUpload, multipartRequest, inputToDecodeId);
+                decodeSimple(fileUpload, multipartRequest, inputToDecodeId);
             }
             else {
                 decodeAdvanced(context, fileUpload, multipartRequest);
@@ -50,7 +50,7 @@ public class CommonsFileUploadDecoder {
         }
     }
 
-    private static void decodeSimple(FacesContext context, FileUpload fileUpload, MultipartRequest request, String inputToDecodeId) {
+    private static void decodeSimple(FileUpload fileUpload, MultipartRequest request, String inputToDecodeId) {
         FileItem file = request.getFileItem(inputToDecodeId);
 
         if (file != null) {

@@ -20,6 +20,9 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import org.primefaces.component.row.Row;
 import org.primefaces.renderkit.CoreRenderer;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.ROLE;
+import static org.primefaces.component.Literals.UI_WIDGET_HEADER;
 
 public class PanelGridFacetRowRenderer extends CoreRenderer implements HelperRowRenderer {
 
@@ -28,8 +31,8 @@ public class PanelGridFacetRowRenderer extends CoreRenderer implements HelperRow
         ResponseWriter writer = context.getResponseWriter();
 
         writer.startElement("tr", row);
-        writer.writeAttribute("class", "ui-widget-header", null);
-        writer.writeAttribute("role", "row", null);
+        writer.writeAttribute(CLASS, UI_WIDGET_HEADER, null);
+        writer.writeAttribute(ROLE, "row", null);
         renderChildren(context, row);
         writer.endElement("tr");
     }

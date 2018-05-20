@@ -24,6 +24,9 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import org.primefaces.context.PrimeRequestContext;
 import org.primefaces.util.HTML;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.SCRIPT;
+import static org.primefaces.component.Literals.TYPE;
 
 public class BodyRenderer extends CoreRenderer {
 
@@ -39,7 +42,7 @@ public class BodyRenderer extends CoreRenderer {
 
         String styleClass = (String) component.getAttributes().get("styleClass");
         if (styleClass != null && styleClass.length() != 0) {
-            writer.writeAttribute("class", styleClass, "styleClass");
+            writer.writeAttribute(CLASS, styleClass, "styleClass");
         }
 
         renderPassThruAttributes(context, component, HTML.BODY_ATTRS);
@@ -62,8 +65,8 @@ public class BodyRenderer extends CoreRenderer {
         List<String> scripts = PrimeRequestContext.getCurrentInstance().getScriptsToExecute();
 
         if (!scripts.isEmpty()) {
-            writer.startElement("script", null);
-            writer.writeAttribute("type", "text/javascript", null);
+            writer.startElement(SCRIPT, null);
+            writer.writeAttribute(TYPE, "text/javascript", null);
 
             writer.write("$(function(){");
 
@@ -73,7 +76,7 @@ public class BodyRenderer extends CoreRenderer {
             }
 
             writer.write("});");
-            writer.endElement("script");
+            writer.endElement(SCRIPT);
         }
     }
 

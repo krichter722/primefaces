@@ -26,6 +26,9 @@ import org.primefaces.event.CaptureEvent;
 import org.primefaces.expression.SearchExpressionFacade;
 import org.primefaces.renderkit.CoreRenderer;
 import org.primefaces.util.WidgetBuilder;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.STYLE;
 
 public class PhotoCamRenderer extends CoreRenderer {
 
@@ -60,12 +63,12 @@ public class PhotoCamRenderer extends CoreRenderer {
         String style = cam.getStyle();
         String styleClass = cam.getStyleClass();
 
-        writer.startElement("div", null);
+        writer.startElement(DIV, null);
         writer.writeAttribute("id", clientId, null);
-        if (style != null) writer.writeAttribute("style", style, null);
-        if (styleClass != null) writer.writeAttribute("class", styleClass, null);
+        if (style != null) writer.writeAttribute(STYLE, style, null);
+        if (styleClass != null) writer.writeAttribute(CLASS, styleClass, null);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeScript(FacesContext context, PhotoCam cam) throws IOException {

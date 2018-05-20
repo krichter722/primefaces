@@ -44,6 +44,7 @@ import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import javax.validation.metadata.ConstraintDescriptor;
+import static org.primefaces.component.Literals.VALUE;
 import org.primefaces.context.PrimeApplicationContext;
 import org.primefaces.metadata.BeanValidationMetadataExtractor;
 
@@ -70,6 +71,7 @@ public class BeanValidationMetadataMapper {
         CONSTRAINT_MAPPING.put(Pattern.class, new PatternClientValidationConstraint());
     }
 
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     public static BeanValidationMetadata resolveValidationMetadata(FacesContext context, UIComponent component, PrimeApplicationContext applicationContext)
             throws IOException {
 
@@ -79,7 +81,7 @@ public class BeanValidationMetadataMapper {
         try {
             // get BV ConstraintDescriptors
             Set<ConstraintDescriptor<?>> constraints = BeanValidationMetadataExtractor.extractAllConstraintDescriptors(
-                    context, applicationContext, component.getValueExpression("value"));
+                    context, applicationContext, component.getValueExpression(VALUE));
 
             if (constraints != null && !constraints.isEmpty()) {
 

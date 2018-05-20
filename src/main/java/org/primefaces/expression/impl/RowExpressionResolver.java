@@ -84,6 +84,7 @@ public class RowExpressionResolver implements SearchExpressionResolver, ClientId
         return clientIds;
     }
 
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     protected int validate(FacesContext context, UIComponent source, UIComponent last, String expression) {
 
         if (!(last instanceof UIData)) {

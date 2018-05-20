@@ -51,7 +51,6 @@ public class DraggableRowsFeature implements DataTableFeature {
             int fromIndex = Integer.parseInt(params.get(clientId + "_fromIndex"));
             int toIndex = Integer.parseInt(params.get(clientId + "_toIndex"));
             table.setRowIndex(fromIndex);
-            Object rowData = table.getRowData();
             Object value = table.getValue();
 
             if (value instanceof List) {
@@ -72,6 +71,7 @@ public class DraggableRowsFeature implements DataTableFeature {
     }
 
     @Override
+    @SuppressWarnings("PMD.AvoidThrowingRawExceptionTypes")
     public void encode(FacesContext context, DataTableRenderer renderer, DataTable table) throws IOException {
         throw new RuntimeException("DraggableRows Feature should not encode.");
     }

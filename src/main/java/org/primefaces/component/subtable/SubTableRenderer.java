@@ -24,6 +24,10 @@ import org.primefaces.component.columngroup.ColumnGroup;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.component.row.Row;
 import org.primefaces.renderkit.CoreRenderer;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.COLSPAN;
+import static org.primefaces.component.Literals.STYLE;
+import static org.primefaces.component.Literals.UI_WIDGET_HEADER;
 
 public class SubTableRenderer extends CoreRenderer {
 
@@ -47,11 +51,11 @@ public class SubTableRenderer extends CoreRenderer {
 
         if (header != null) {
             writer.startElement("tr", null);
-            writer.writeAttribute("class", "ui-widget-header", null);
+            writer.writeAttribute(CLASS, UI_WIDGET_HEADER, null);
 
             writer.startElement("td", null);
-            writer.writeAttribute("class", DataTable.SUBTABLE_HEADER, null);
-            writer.writeAttribute("colspan", table.getColumns().size(), null);
+            writer.writeAttribute(CLASS, DataTable.SUBTABLE_HEADER, null);
+            writer.writeAttribute(COLSPAN, table.getColumns().size(), null);
 
             header.encodeAll(context);
 
@@ -66,7 +70,7 @@ public class SubTableRenderer extends CoreRenderer {
                     Row headerRow = (Row) child;
 
                     writer.startElement("tr", null);
-                    writer.writeAttribute("class", "ui-widget-header", null);
+                    writer.writeAttribute(CLASS, UI_WIDGET_HEADER, null);
 
                     for (UIComponent headerRowChild : headerRow.getChildren()) {
                         if (headerRowChild.isRendered() && headerRowChild instanceof Column) {
@@ -92,15 +96,15 @@ public class SubTableRenderer extends CoreRenderer {
 
         writer.startElement("tr", null);
         writer.writeAttribute("id", clientId + "_row_" + rowIndex, null);
-        writer.writeAttribute("class", DataTable.ROW_CLASS, null);
+        writer.writeAttribute(CLASS, DataTable.ROW_CLASS, null);
 
         for (Column column : table.getColumns()) {
             String style = column.getStyle();
             String styleClass = column.getStyleClass();
 
             writer.startElement("td", null);
-            if (style != null) writer.writeAttribute("style", style, null);
-            if (styleClass != null) writer.writeAttribute("class", styleClass, null);
+            if (style != null) writer.writeAttribute(STYLE, style, null);
+            if (styleClass != null) writer.writeAttribute(CLASS, styleClass, null);
 
             column.encodeAll(context);
 
@@ -116,11 +120,11 @@ public class SubTableRenderer extends CoreRenderer {
 
         if (footer != null) {
             writer.startElement("tr", null);
-            writer.writeAttribute("class", "ui-widget-header", null);
+            writer.writeAttribute(CLASS, UI_WIDGET_HEADER, null);
 
             writer.startElement("td", null);
-            writer.writeAttribute("class", DataTable.SUBTABLE_FOOTER, null);
-            writer.writeAttribute("colspan", table.getColumns().size(), null);
+            writer.writeAttribute(CLASS, DataTable.SUBTABLE_FOOTER, null);
+            writer.writeAttribute(COLSPAN, table.getColumns().size(), null);
 
             footer.encodeAll(context);
 
@@ -139,7 +143,7 @@ public class SubTableRenderer extends CoreRenderer {
                 Row footerRow = (Row) child;
 
                 writer.startElement("tr", null);
-                writer.writeAttribute("class", "ui-widget-header", null);
+                writer.writeAttribute(CLASS, UI_WIDGET_HEADER, null);
 
                 for (UIComponent footerRowChild : footerRow.getChildren()) {
                     if (footerRowChild.isRendered() && footerRowChild instanceof Column) {
@@ -164,10 +168,10 @@ public class SubTableRenderer extends CoreRenderer {
         columnClass = (columnClass == null) ? styleClass : styleClass + " " + columnClass;
 
         writer.startElement("td", null);
-        writer.writeAttribute("class", columnClass, null);
+        writer.writeAttribute(CLASS, columnClass, null);
         if (column.getRowspan() != 1) writer.writeAttribute("rowspan", column.getRowspan(), null);
-        if (column.getColspan() != 1) writer.writeAttribute("colspan", column.getColspan(), null);
-        if (style != null) writer.writeAttribute("style", style, null);
+        if (column.getColspan() != 1) writer.writeAttribute(COLSPAN, column.getColspan(), null);
+        if (style != null) writer.writeAttribute(STYLE, style, null);
 
         // Footer content
         UIComponent facet = column.getFacet(facetName);

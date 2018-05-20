@@ -44,7 +44,6 @@ import javax.faces.view.facelets.TagHandler;
 
 import org.primefaces.behavior.ajax.AjaxBehaviorHandler;
 import org.primefaces.context.PrimeApplicationContext;
-import org.primefaces.context.PrimeRequestContext;
 
 public abstract class AbstractBehaviorHandler<E extends AbstractBehavior>
         extends TagHandler implements BehaviorHolderAttachedObjectHandler {
@@ -228,6 +227,7 @@ public abstract class AbstractBehaviorHandler<E extends AbstractBehavior>
     protected static Method MYFACES_GET_COMPOSITION_CONTEXT_INSTANCE;
     protected static Method MYFACES_ADD_ATTACHED_OBJECT_HANDLER;
 
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     protected void addAttachedObjectHandlerToMyFaces(UIComponent component, FaceletContext ctx) {
         try {
             if (MYFACES_GET_COMPOSITION_CONTEXT_INSTANCE == null || MYFACES_ADD_ATTACHED_OBJECT_HANDLER == null) {

@@ -25,6 +25,8 @@ import javax.faces.application.Resource;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.IMG;
 import org.primefaces.application.resource.DynamicContentType;
 import org.primefaces.renderkit.CoreRenderer;
 import org.primefaces.util.Constants;
@@ -64,13 +66,13 @@ public class BarcodeRenderer extends CoreRenderer {
             barcodeMapping.put(sessionKey, (String) value);
             StringBuilder builder = SharedStringBuilder.get(context, SB_BUILD);
 
-            src = builder.append(resourcePath).append("&").append(Constants.DYNAMIC_CONTENT_PARAM).append("=").append(URLEncoder.encode(sessionKey, "UTF-8"))
-                    .append("&").append(Constants.DYNAMIC_CONTENT_TYPE_PARAM).append("=").append(dynamicContentType.toString())
+            src = builder.append(resourcePath).append('&').append(Constants.DYNAMIC_CONTENT_PARAM).append('=').append(URLEncoder.encode(sessionKey, "UTF-8"))
+                    .append('&').append(Constants.DYNAMIC_CONTENT_TYPE_PARAM).append('=').append(dynamicContentType.toString())
                     .append("&gen=").append(type)
                     .append("&fmt=").append(barcode.getFormat())
                     .append("&qrec=").append(barcode.getQrErrorCorrection())
                     .append("&hrp=").append(barcode.getHrp())
-                    .append("&").append(Constants.DYNAMIC_CONTENT_CACHE_PARAM).append("=").append(barcode.isCache())
+                    .append('&').append(Constants.DYNAMIC_CONTENT_CACHE_PARAM).append('=').append(barcode.isCache())
                     .append("&ori=").append(barcode.getOrientation())
                     .toString();
         }
@@ -78,18 +80,18 @@ public class BarcodeRenderer extends CoreRenderer {
             throw new IOException(ex);
         }
 
-        writer.startElement("img", barcode);
+        writer.startElement(IMG, barcode);
         if (shouldWriteId(component)) {
             writer.writeAttribute("id", clientId, "id");
         }
         if (styleClass != null) {
-            writer.writeAttribute("class", styleClass, "styleClass");
+            writer.writeAttribute(CLASS, styleClass, "styleClass");
         }
 
         writer.writeAttribute("src", context.getExternalContext().encodeResourceURL(src), null);
 
         renderPassThruAttributes(context, barcode, HTML.IMG_ATTRS);
 
-        writer.endElement("img");
+        writer.endElement(IMG);
     }
 }

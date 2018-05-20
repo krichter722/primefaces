@@ -38,6 +38,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.RandomAccess;
+import static org.primefaces.component.Literals.VALUE;
 
 public class SelectRenderer extends InputRenderer {
 
@@ -184,7 +185,7 @@ public class SelectRenderer extends InputRenderer {
     }
 
     protected Converter findImplicitConverter(FacesContext context, UIComponent component) {
-        ValueExpression ve = component.getValueExpression("value");
+        ValueExpression ve = component.getValueExpression(VALUE);
 
         if (ve != null) {
             Class<?> valueType = ve.getType(context.getELContext());

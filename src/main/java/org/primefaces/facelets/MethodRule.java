@@ -93,6 +93,7 @@ public class MethodRule extends MetaRule {
         }
 
         @Override
+        @SuppressWarnings("PMD.AvoidCatchingGenericException")
         public void applyMetadata(FaceletContext ctx, Object instance) {
             MethodExpression expr = this.attribute.getMethodExpression(ctx, this.returnType, this.paramList);
 
@@ -123,6 +124,7 @@ public class MethodRule extends MetaRule {
         }
 
         @Override
+        @SuppressWarnings("PMD.AvoidCatchingGenericException")
         public void applyMetadata(FaceletContext ctx, Object instance) {
             MethodExpression expr = this.attribute.getMethodExpression(ctx, this.returnType, this.paramList);
 

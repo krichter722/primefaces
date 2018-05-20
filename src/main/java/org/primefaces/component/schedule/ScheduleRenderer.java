@@ -33,6 +33,13 @@ import org.primefaces.model.ScheduleEvent;
 import org.primefaces.model.ScheduleModel;
 import org.primefaces.renderkit.CoreRenderer;
 import org.primefaces.util.WidgetBuilder;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.INPUT;
+import static org.primefaces.component.Literals.NAME;
+import static org.primefaces.component.Literals.STYLE;
+import static org.primefaces.component.Literals.TYPE;
+import static org.primefaces.component.Literals.VALUE;
 
 public class ScheduleRenderer extends CoreRenderer {
 
@@ -148,7 +155,7 @@ public class ScheduleRenderer extends CoreRenderer {
 
         if (schedule.isShowHeader()) {
             wb.append(",header:{left:'")
-                    .append(schedule.getLeftHeaderTemplate()).append("'")
+                    .append(schedule.getLeftHeaderTemplate()).append('\'')
                     .attr("center", schedule.getCenterHeaderTemplate())
                     .attr("right", schedule.getRightHeaderTemplate())
                     .append("}");
@@ -243,18 +250,18 @@ public class ScheduleRenderer extends CoreRenderer {
         ResponseWriter writer = context.getResponseWriter();
         String clientId = schedule.getClientId(context);
 
-        writer.startElement("div", null);
+        writer.startElement(DIV, null);
         writer.writeAttribute("id", clientId, null);
-        if (schedule.getStyle() != null) writer.writeAttribute("style", schedule.getStyle(), "style");
-        if (schedule.getStyleClass() != null) writer.writeAttribute("class", schedule.getStyleClass(), "style");
+        if (schedule.getStyle() != null) writer.writeAttribute(STYLE, schedule.getStyle(), STYLE);
+        if (schedule.getStyleClass() != null) writer.writeAttribute(CLASS, schedule.getStyleClass(), STYLE);
 
-        writer.startElement("div", null);
+        writer.startElement(DIV, null);
         writer.writeAttribute("id", clientId + "_container", null);
-        writer.endElement("div");
+        writer.endElement(DIV);
 
         encodeStateParam(context, schedule);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     @Override
@@ -272,14 +279,14 @@ public class ScheduleRenderer extends CoreRenderer {
         String id = schedule.getClientId(context) + "_view";
         String view = schedule.getView();
 
-        writer.startElement("input", null);
-        writer.writeAttribute("type", "hidden", null);
+        writer.startElement(INPUT, null);
+        writer.writeAttribute(TYPE, "hidden", null);
         writer.writeAttribute("id", id, null);
-        writer.writeAttribute("name", id, null);
+        writer.writeAttribute(NAME, id, null);
         writer.writeAttribute("autocomplete", "off", null);
         if (view != null) {
-            writer.writeAttribute("value", view, null);
+            writer.writeAttribute(VALUE, view, null);
         }
-        writer.endElement("input");
+        writer.endElement(INPUT);
     }
 }

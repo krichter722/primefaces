@@ -43,6 +43,19 @@ import org.primefaces.util.ComponentUtils;
 import org.primefaces.util.HTML;
 import org.primefaces.util.SharedStringBuilder;
 import org.primefaces.util.WidgetBuilder;
+import static org.primefaces.component.Literals.BUTTON;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DISABLED;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.MENUITEM;
+import static org.primefaces.component.Literals.NAME;
+import static org.primefaces.component.Literals.ONCLICK;
+import static org.primefaces.component.Literals.ROLE;
+import static org.primefaces.component.Literals.SPAN;
+import static org.primefaces.component.Literals.STYLE;
+import static org.primefaces.component.Literals.TITLE;
+import static org.primefaces.component.Literals.TYPE;
+import static org.primefaces.component.Literals.VALUE;
 
 public class SplitButtonRenderer extends OutcomeTargetRenderer {
 
@@ -80,11 +93,11 @@ public class SplitButtonRenderer extends OutcomeTargetRenderer {
         String styleClass = button.getStyleClass();
         styleClass = styleClass == null ? SplitButton.STYLE_CLASS : SplitButton.STYLE_CLASS + " " + styleClass;
 
-        writer.startElement("div", button);
+        writer.startElement(DIV, button);
         writer.writeAttribute("id", clientId, "id");
-        writer.writeAttribute("class", styleClass, "id");
+        writer.writeAttribute(CLASS, styleClass, "id");
         if (button.getStyle() != null) {
-            writer.writeAttribute("style", button.getStyle(), "id");
+            writer.writeAttribute(STYLE, button.getStyle(), "id");
         }
 
         encodeDefaultButton(context, button, buttonId);
@@ -93,7 +106,7 @@ public class SplitButtonRenderer extends OutcomeTargetRenderer {
             encodeMenu(context, button, menuId);
         }
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeDefaultButton(FacesContext context, SplitButton button, String id) throws IOException {
@@ -102,19 +115,19 @@ public class SplitButtonRenderer extends OutcomeTargetRenderer {
         String icon = button.getIcon();
         String onclick = buildOnclick(context, button);
 
-        writer.startElement("button", button);
+        writer.startElement(BUTTON, button);
         writer.writeAttribute("id", id, "id");
-        writer.writeAttribute("name", id, "name");
-        writer.writeAttribute("class", button.resolveStyleClass(), "styleClass");
+        writer.writeAttribute(NAME, id, NAME);
+        writer.writeAttribute(CLASS, button.resolveStyleClass(), "styleClass");
 
         if (onclick.length() > 0) {
-            writer.writeAttribute("onclick", onclick, "onclick");
+            writer.writeAttribute(ONCLICK, onclick, ONCLICK);
         }
 
         renderPassThruAttributes(context, button, HTML.BUTTON_ATTRS, HTML.CLICK_EVENT);
 
         if (button.isDisabled()) {
-            writer.writeAttribute("disabled", "disabled", "disabled");
+            writer.writeAttribute(DISABLED, DISABLED, DISABLED);
         }
 
         //icon
@@ -122,25 +135,25 @@ public class SplitButtonRenderer extends OutcomeTargetRenderer {
             String defaultIconClass = button.getIconPos().equals("left") ? HTML.BUTTON_LEFT_ICON_CLASS : HTML.BUTTON_RIGHT_ICON_CLASS;
             String iconClass = defaultIconClass + " " + icon;
 
-            writer.startElement("span", null);
-            writer.writeAttribute("class", iconClass, null);
-            writer.endElement("span");
+            writer.startElement(SPAN, null);
+            writer.writeAttribute(CLASS, iconClass, null);
+            writer.endElement(SPAN);
         }
 
         //text
-        writer.startElement("span", null);
-        writer.writeAttribute("class", HTML.BUTTON_TEXT_CLASS, null);
+        writer.startElement(SPAN, null);
+        writer.writeAttribute(CLASS, HTML.BUTTON_TEXT_CLASS, null);
 
         if (value == null) {
             writer.write("ui-button");
         }
         else {
-            writer.writeText(value, "value");
+            writer.writeText(value, VALUE);
         }
 
-        writer.endElement("span");
+        writer.endElement(SPAN);
 
-        writer.endElement("button");
+        writer.endElement(BUTTON);
     }
 
     protected void encodeMenuIcon(FacesContext context, SplitButton button, String id) throws IOException {
@@ -150,28 +163,28 @@ public class SplitButtonRenderer extends OutcomeTargetRenderer {
             buttonClass += " ui-state-disabled";
         }
 
-        writer.startElement("button", button);
+        writer.startElement(BUTTON, button);
         writer.writeAttribute("id", id, null);
-        writer.writeAttribute("name", id, null);
-        writer.writeAttribute("type", "button", null);
-        writer.writeAttribute("class", buttonClass, null);
+        writer.writeAttribute(NAME, id, null);
+        writer.writeAttribute(TYPE, BUTTON, null);
+        writer.writeAttribute(CLASS, buttonClass, null);
 
         if (button.isDisabled()) {
-            writer.writeAttribute("disabled", "disabled", "disabled");
+            writer.writeAttribute(DISABLED, DISABLED, DISABLED);
         }
 
         //icon    
-        writer.startElement("span", null);
-        writer.writeAttribute("class", "ui-button-icon-left ui-icon ui-icon-triangle-1-s", null);
-        writer.endElement("span");
+        writer.startElement(SPAN, null);
+        writer.writeAttribute(CLASS, "ui-button-icon-left ui-icon ui-icon-triangle-1-s", null);
+        writer.endElement(SPAN);
 
         //text
-        writer.startElement("span", null);
-        writer.writeAttribute("class", HTML.BUTTON_TEXT_CLASS, null);
+        writer.startElement(SPAN, null);
+        writer.writeAttribute(CLASS, HTML.BUTTON_TEXT_CLASS, null);
         writer.write("ui-button");
-        writer.endElement("span");
+        writer.endElement(SPAN);
 
-        writer.endElement("button");
+        writer.endElement(BUTTON);
     }
 
     protected void encodeScript(FacesContext context, SplitButton button) throws IOException {
@@ -185,7 +198,7 @@ public class SplitButtonRenderer extends OutcomeTargetRenderer {
     protected String buildOnclick(FacesContext context, SplitButton button) throws IOException {
         StringBuilder onclick = SharedStringBuilder.get(context, SB_BUILD_ONCLICK);
         if (button.getOnclick() != null) {
-            onclick.append(button.getOnclick()).append(";");
+            onclick.append(button.getOnclick()).append(';');
         }
 
         if (button.isAjax()) {
@@ -202,7 +215,7 @@ public class SplitButtonRenderer extends OutcomeTargetRenderer {
 
         String onclickBehaviors = getEventBehaviors(context, button, "click", null);
         if (onclickBehaviors != null) {
-            onclick.append(onclickBehaviors).append(";");
+            onclick.append(onclickBehaviors).append(';');
         }
 
         return onclick.toString();
@@ -213,13 +226,13 @@ public class SplitButtonRenderer extends OutcomeTargetRenderer {
         String menuStyleClass = button.getMenuStyleClass();
         menuStyleClass = (menuStyleClass == null) ? SplitButton.SPLITBUTTON_CONTAINER_CLASS : SplitButton.SPLITBUTTON_CONTAINER_CLASS + " " + menuStyleClass;
 
-        writer.startElement("div", null);
+        writer.startElement(DIV, null);
         writer.writeAttribute("id", menuId, null);
-        writer.writeAttribute("class", menuStyleClass, "styleClass");
-        writer.writeAttribute("role", "menu", null);
+        writer.writeAttribute(CLASS, menuStyleClass, "styleClass");
+        writer.writeAttribute(ROLE, "menu", null);
 
         writer.startElement("ul", null);
-        writer.writeAttribute("class", MenuButton.LIST_CLASS, "styleClass");
+        writer.writeAttribute(CLASS, MenuButton.LIST_CLASS, "styleClass");
 
         for (int i = 0; i < button.getChildCount(); i++) {
             UIComponent child = button.getChildren().get(i);
@@ -228,8 +241,8 @@ public class SplitButtonRenderer extends OutcomeTargetRenderer {
                     UIMenuItem item = (UIMenuItem) child;
 
                     writer.startElement("li", null);
-                    writer.writeAttribute("class", Menu.MENUITEM_CLASS, null);
-                    writer.writeAttribute("role", "menuitem", null);
+                    writer.writeAttribute(CLASS, Menu.MENUITEM_CLASS, null);
+                    writer.writeAttribute(ROLE, MENUITEM, null);
                     encodeMenuItem(context, item);
                     writer.endElement("li");
                 }
@@ -240,7 +253,7 @@ public class SplitButtonRenderer extends OutcomeTargetRenderer {
         }
 
         writer.endElement("ul");
-        writer.endElement("div");
+        writer.endElement(DIV);
 
     }
 
@@ -258,22 +271,22 @@ public class SplitButtonRenderer extends OutcomeTargetRenderer {
             writer.startElement("a", null);
             writer.writeAttribute("id", menuitem.getClientId(), null);
             if (title != null) {
-                writer.writeAttribute("title", title, null);
+                writer.writeAttribute(TITLE, title, null);
             }
 
             String styleClass = menuitem.getStyleClass();
             styleClass = styleClass == null ? AbstractMenu.MENUITEM_LINK_CLASS : AbstractMenu.MENUITEM_LINK_CLASS + " " + styleClass;
             styleClass = disabled ? styleClass + " ui-state-disabled" : styleClass;
 
-            writer.writeAttribute("class", styleClass, null);
+            writer.writeAttribute(CLASS, styleClass, null);
 
             if (menuitem.getStyle() != null) {
-                writer.writeAttribute("style", menuitem.getStyle(), null);
+                writer.writeAttribute(STYLE, menuitem.getStyle(), null);
             }
 
             if (disabled) {
                 writer.writeAttribute("href", "#", null);
-                writer.writeAttribute("onclick", "return false;", null);
+                writer.writeAttribute(ONCLICK, "return false;", null);
             }
             else {
                 setConfirmationScript(context, menuitem);
@@ -307,25 +320,25 @@ public class SplitButtonRenderer extends OutcomeTargetRenderer {
                 if (onclick != null) {
                     if (menuitem.requiresConfirmation()) {
                         writer.writeAttribute("data-pfconfirmcommand", onclick, null);
-                        writer.writeAttribute("onclick", menuitem.getConfirmationScript(), "onclick");
+                        writer.writeAttribute(ONCLICK, menuitem.getConfirmationScript(), ONCLICK);
                     }
                     else {
-                        writer.writeAttribute("onclick", onclick, null);
+                        writer.writeAttribute(ONCLICK, onclick, null);
                     }
                 }
             }
 
             if (icon != null) {
-                writer.startElement("span", null);
-                writer.writeAttribute("class", AbstractMenu.MENUITEM_ICON_CLASS + " " + icon, null);
-                writer.endElement("span");
+                writer.startElement(SPAN, null);
+                writer.writeAttribute(CLASS, AbstractMenu.MENUITEM_ICON_CLASS + " " + icon, null);
+                writer.endElement(SPAN);
             }
 
             if (menuitem.getValue() != null) {
-                writer.startElement("span", null);
-                writer.writeAttribute("class", AbstractMenu.MENUITEM_TEXT_CLASS, null);
-                writer.writeText((String) menuitem.getValue(), "value");
-                writer.endElement("span");
+                writer.startElement(SPAN, null);
+                writer.writeAttribute(CLASS, AbstractMenu.MENUITEM_TEXT_CLASS, null);
+                writer.writeText((String) menuitem.getValue(), VALUE);
+                writer.endElement(SPAN);
             }
 
             writer.endElement("a");
@@ -340,9 +353,9 @@ public class SplitButtonRenderer extends OutcomeTargetRenderer {
 
         //title
         writer.startElement("li", null);
-        writer.writeAttribute("class", styleClass, null);
+        writer.writeAttribute(CLASS, styleClass, null);
         if (style != null) {
-            writer.writeAttribute("style", style, null);
+            writer.writeAttribute(STYLE, style, null);
         }
 
         writer.endElement("li");

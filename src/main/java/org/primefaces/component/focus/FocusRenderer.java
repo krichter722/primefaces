@@ -24,6 +24,9 @@ import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import static org.primefaces.component.Literals.SCRIPT;
+import static org.primefaces.component.Literals.SPAN;
+import static org.primefaces.component.Literals.TYPE;
 
 import org.primefaces.expression.SearchExpressionFacade;
 import org.primefaces.renderkit.CoreRenderer;
@@ -45,12 +48,12 @@ public class FocusRenderer extends CoreRenderer {
         ResponseWriter writer = context.getResponseWriter();
 
         //Dummy markup for ajax update
-        writer.startElement("span", focus);
+        writer.startElement(SPAN, focus);
         writer.writeAttribute("id", focus.getClientId(context), "id");
-        writer.endElement("span");
+        writer.endElement(SPAN);
 
-        writer.startElement("script", focus);
-        writer.writeAttribute("type", "text/javascript", null);
+        writer.startElement(SCRIPT, focus);
+        writer.writeAttribute(TYPE, "text/javascript", null);
 
         if (isValueBlank(focus.getFor())) {
             encodeImplicitFocus(context, focus);
@@ -59,7 +62,7 @@ public class FocusRenderer extends CoreRenderer {
             encodeExplicitFocus(context, focus);
         }
 
-        writer.endElement("script");
+        writer.endElement(SCRIPT);
     }
 
     protected void encodeExplicitFocus(FacesContext context, Focus focus) throws IOException {

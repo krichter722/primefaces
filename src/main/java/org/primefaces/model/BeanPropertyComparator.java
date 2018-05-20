@@ -51,8 +51,9 @@ public class BeanPropertyComparator implements Comparator {
         this.nullSortOrder = nullSortOrder;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
+    @SuppressWarnings({"unchecked",
+        "PMD.AvoidCatchingGenericException"})
     public int compare(Object obj1, Object obj2) {
         try {
             FacesContext context = FacesContext.getCurrentInstance();

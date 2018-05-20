@@ -20,6 +20,9 @@ import java.util.List;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.STYLE;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.renderkit.CoreRenderer;
 import org.primefaces.util.WidgetBuilder;
@@ -60,18 +63,18 @@ public class DataScrollerRenderer extends CoreRenderer {
         String userStyleClass = ds.getStyleClass();
         String styleClass = (userStyleClass == null) ? containerClass : containerClass + " " + userStyleClass;
 
-        writer.startElement("div", ds);
+        writer.startElement(DIV, ds);
         writer.writeAttribute("id", clientId, null);
-        writer.writeAttribute("class", styleClass, null);
+        writer.writeAttribute(CLASS, styleClass, null);
         if (style != null) {
-            writer.writeAttribute("style", styleClass, null);
+            writer.writeAttribute(STYLE, styleClass, null);
         }
 
         if (header != null && header.isRendered()) {
-            writer.startElement("div", ds);
-            writer.writeAttribute("class", DataScroller.HEADER_CLASS, null);
+            writer.startElement(DIV, ds);
+            writer.writeAttribute(CLASS, DataScroller.HEADER_CLASS, null);
             header.encodeAll(context);
-            writer.endElement("div");
+            writer.endElement(DIV);
 
             contentCornerClass = "ui-corner-bottom";
         }
@@ -79,28 +82,28 @@ public class DataScrollerRenderer extends CoreRenderer {
             contentCornerClass = "ui-corner-all";
         }
 
-        writer.startElement("div", ds);
-        writer.writeAttribute("class", DataScroller.CONTENT_CLASS + " " + contentCornerClass, null);
+        writer.startElement(DIV, ds);
+        writer.writeAttribute(CLASS, DataScroller.CONTENT_CLASS + " " + contentCornerClass, null);
         if (inline) {
-            writer.writeAttribute("style", "height:" + ds.getScrollHeight() + "px", null);
+            writer.writeAttribute(STYLE, "height:" + ds.getScrollHeight() + "px", null);
         }
 
         writer.startElement("ul", ds);
-        writer.writeAttribute("class", DataScroller.LIST_CLASS, null);
+        writer.writeAttribute(CLASS, DataScroller.LIST_CLASS, null);
         loadChunk(context, ds, 0, chunkSize);
         ds.setRowIndex(-1);
         writer.endElement("ul");
 
-        writer.startElement("div", null);
-        writer.writeAttribute("class", DataScroller.LOADER_CLASS, null);
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, DataScroller.LOADER_CLASS, null);
         if (loader != null && loader.isRendered()) {
             loader.encodeAll(context);
         }
-        writer.endElement("div");
+        writer.endElement(DIV);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeScript(FacesContext context, DataScroller ds, int chunkSize) throws IOException {
@@ -131,7 +134,7 @@ public class DataScrollerRenderer extends CoreRenderer {
             }
 
             writer.startElement("li", null);
-            writer.writeAttribute("class", DataScroller.ITEM_CLASS, null);
+            writer.writeAttribute(CLASS, DataScroller.ITEM_CLASS, null);
             renderChildren(context, ds);
             writer.endElement("li");
         }

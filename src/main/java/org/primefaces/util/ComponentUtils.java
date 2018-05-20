@@ -42,6 +42,8 @@ import javax.faces.component.visit.VisitHint;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.render.Renderer;
+import org.apache.commons.lang3.StringUtils;
+import static org.primefaces.component.Literals.VALUE;
 
 import org.primefaces.component.api.RTLAware;
 import org.primefaces.component.api.Widget;
@@ -150,7 +152,7 @@ public class ComponentUtils {
             return converter;
         }
 
-        ValueExpression valueExpression = component.getValueExpression("value");
+        ValueExpression valueExpression = component.getValueExpression(VALUE);
         if (valueExpression == null) {
             return null;
         }
@@ -195,7 +197,7 @@ public class ComponentUtils {
     
 
     public static boolean isValueBlank(String value) {
-        return value == null || value.trim().isEmpty();
+        return value == null || StringUtils.isBlank(value);
     }
 
     public static boolean isRTL(FacesContext context, RTLAware component) {
@@ -304,13 +306,14 @@ public class ComponentUtils {
      * @param params A map with parameters for adding to <code>baseUrl</code>.
      * @return An URL resulting in <code>params</code> added to <code>baseUrl</code> for using as <code>href</code> attribute.
      */
+    @SuppressWarnings("PMD.AvoidThrowingRawExceptionTypes")
     public static String getHrefURL(String baseUrl, Map<String, List<String>> params) {
         if (params == null || params.isEmpty()) {
             return baseUrl;
         }
         //Fragment
         String fragment = null;
-        int fragmentIndex = baseUrl.indexOf("#");
+        int fragmentIndex = baseUrl.indexOf('#');
         if (fragmentIndex != -1) {
             fragment = baseUrl.substring(fragmentIndex + 1).trim();
             baseUrl = baseUrl.substring(0, fragmentIndex);
@@ -318,7 +321,7 @@ public class ComponentUtils {
 
         //Query string and path
         String queryString, path;
-        int queryStringIndex = baseUrl.indexOf("?");
+        int queryStringIndex = baseUrl.indexOf('?');
         if (queryStringIndex != -1) {
             queryString = baseUrl.substring(queryStringIndex + 1).trim();
             path = baseUrl.substring(0, queryStringIndex);
@@ -331,7 +334,7 @@ public class ComponentUtils {
         boolean hasParam = false;
         StringBuilder url = new StringBuilder(baseUrl.length() * 2);
         url.append(path)
-                .append("?");
+                .append('?');
         //If has previous queryString, set that first as is
         if (!isValueBlank(queryString)) {
             for (String pair : queryString.split("&")) {
@@ -342,10 +345,10 @@ public class ComponentUtils {
                     continue;
                 }
                 if (hasParam) {
-                    url.append("&");
+                    url.append('&');
                 }
                 url.append(nameAndValue[0])
-                        .append("=")
+                        .append('=')
                         .append(nameAndValue[1]);
                 hasParam = true;
             }
@@ -354,11 +357,11 @@ public class ComponentUtils {
         for (Map.Entry<String, List<String>> entry : params.entrySet()) {
             for (String value : entry.getValue()) {
                 if (hasParam) {
-                    url.append("&");
+                    url.append('&');
                 }
                 try {
                     url.append(URLEncoder.encode(entry.getKey(), "UTF-8"))
-                            .append("=")
+                            .append('=')
                             .append(URLEncoder.encode(value, "UTF-8"));
                 }
                 catch (UnsupportedEncodingException e) {
@@ -368,7 +371,7 @@ public class ComponentUtils {
             }
         }
         if (!isValueBlank(fragment)) {
-            url.append("#")
+            url.append('#')
                     .append(fragment);
         }
         return url.toString();

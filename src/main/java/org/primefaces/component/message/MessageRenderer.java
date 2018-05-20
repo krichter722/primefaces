@@ -23,6 +23,12 @@ import javax.faces.application.FacesMessage.Severity;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.ROLE;
+import static org.primefaces.component.Literals.SPAN;
+import static org.primefaces.component.Literals.STYLE;
+import static org.primefaces.component.Literals.TITLE;
 import org.primefaces.component.api.InputHolder;
 import org.primefaces.context.PrimeApplicationContext;
 
@@ -55,12 +61,12 @@ public class MessageRenderer extends UINotificationRenderer {
 
         Iterator<FacesMessage> msgs = context.getMessages(targetClientId);
 
-        writer.startElement("div", uiMessage);
+        writer.startElement(DIV, uiMessage);
         writer.writeAttribute("id", uiMessage.getClientId(context), null);
         writer.writeAttribute("aria-live", "polite", null);
 
         if (style != null) {
-            writer.writeAttribute("style", style, null);
+            writer.writeAttribute(STYLE, style, null);
         }
 
         if (PrimeApplicationContext.getCurrentInstance(context).getConfig().isClientSideValidationEnabled()) {
@@ -74,8 +80,8 @@ public class MessageRenderer extends UINotificationRenderer {
             String severityName = getSeverityName(msg);
 
             if (!shouldRender(uiMessage, msg, severityName)) {
-                writer.writeAttribute("class", styleClass, null);
-                writer.endElement("div");
+                writer.writeAttribute(CLASS, styleClass, null);
+                writer.endElement(DIV);
 
                 return;
             }
@@ -102,8 +108,8 @@ public class MessageRenderer extends UINotificationRenderer {
                     styleClass += " ui-message-icon-only ui-helper-clearfix";
                 }
 
-                writer.writeAttribute("class", styleClass, null);
-                writer.writeAttribute("role", "alert", null);
+                writer.writeAttribute(CLASS, styleClass, null);
+                writer.writeAttribute(ROLE, "alert", null);
                 writer.writeAttribute("aria-atomic", "true", null);
 
                 if (!display.equals("text")) {
@@ -123,15 +129,15 @@ public class MessageRenderer extends UINotificationRenderer {
             }
         }
         else {
-            writer.writeAttribute("class", styleClass, null);
+            writer.writeAttribute(CLASS, styleClass, null);
         }
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeText(ResponseWriter writer, String text, String severity, boolean escape) throws IOException {
-        writer.startElement("span", null);
-        writer.writeAttribute("class", "ui-message-" + severity, null);
+        writer.startElement(SPAN, null);
+        writer.writeAttribute(CLASS, "ui-message-" + severity, null);
 
         if (escape) {
             writer.writeText(text, null);
@@ -140,16 +146,16 @@ public class MessageRenderer extends UINotificationRenderer {
             writer.write(text);
         }
 
-        writer.endElement("span");
+        writer.endElement(SPAN);
     }
 
     protected void encodeIcon(ResponseWriter writer, String severity, String title, boolean iconOnly) throws IOException {
-        writer.startElement("span", null);
-        writer.writeAttribute("class", "ui-message-" + severity + "-icon", null);
+        writer.startElement(SPAN, null);
+        writer.writeAttribute(CLASS, "ui-message-" + severity + "-icon", null);
         if (iconOnly) {
-            writer.writeAttribute("title", title, null);
+            writer.writeAttribute(TITLE, title, null);
         }
-        writer.endElement("span");
+        writer.endElement(SPAN);
     }
 
     protected void encodeScript(FacesContext context, Message uiMessage, UIComponent target) throws IOException {

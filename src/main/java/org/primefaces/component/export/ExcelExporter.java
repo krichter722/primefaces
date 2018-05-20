@@ -45,6 +45,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.WorkbookUtil;
+import static org.primefaces.component.Literals.NULL;
 import org.primefaces.component.api.DynamicColumn;
 import org.primefaces.component.api.UIColumn;
 
@@ -69,7 +70,7 @@ public class ExcelExporter extends Exporter {
         }
 
         sheetName = WorkbookUtil.createSafeSheetName(sheetName);
-        if (sheetName.equals("empty") || sheetName.equals("null")) {
+        if (sheetName.equals("empty") || sheetName.equals(NULL)) {
             sheetName = "Sheet";
         }
 
@@ -112,8 +113,8 @@ public class ExcelExporter extends Exporter {
             }
 
             sheetName = WorkbookUtil.createSafeSheetName(sheetName);
-            if (sheetName.equals("empty") || sheetName.equals("null")) {
-                sheetName = "Sheet" + String.valueOf(i + 1);
+            if (sheetName.equals("empty") || sheetName.equals(NULL)) {
+                sheetName = "Sheet" + (i + 1);
             }
 
             Sheet sheet = wb.createSheet(sheetName);

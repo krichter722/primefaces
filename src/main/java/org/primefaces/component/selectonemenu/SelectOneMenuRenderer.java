@@ -36,8 +36,29 @@ import org.primefaces.renderkit.SelectOneRenderer;
 import org.primefaces.util.ComponentUtils;
 import org.primefaces.util.HTML;
 import org.primefaces.util.WidgetBuilder;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.COLSPAN;
+import static org.primefaces.component.Literals.DISABLED;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.FILTER;
+import static org.primefaces.component.Literals.INPUT;
+import static org.primefaces.component.Literals.LABEL;
+import static org.primefaces.component.Literals.NAME;
+import static org.primefaces.component.Literals.OPTION;
+import static org.primefaces.component.Literals.ROLE;
+import static org.primefaces.component.Literals.SELECT;
+import static org.primefaces.component.Literals.SPAN;
+import static org.primefaces.component.Literals.STYLE;
+import static org.primefaces.component.Literals.TABINDEX;
+import static org.primefaces.component.Literals.TABLE;
+import static org.primefaces.component.Literals.TBODY;
+import static org.primefaces.component.Literals.TITLE;
+import static org.primefaces.component.Literals.TYPE;
+import static org.primefaces.component.Literals.VALUE;
 
 public class SelectOneMenuRenderer extends SelectOneRenderer {
+
+    private static final String LITERAL0 = "&nbsp;";
 
     @Override
     public void decode(FacesContext context, UIComponent component) {
@@ -116,21 +137,21 @@ public class SelectOneMenuRenderer extends SelectOneRenderer {
         styleClass = !valid ? styleClass + " ui-state-error" : styleClass;
         styleClass = menu.isDisabled() ? styleClass + " ui-state-disabled" : styleClass;
 
-        writer.startElement("div", menu);
+        writer.startElement(DIV, menu);
         writer.writeAttribute("id", clientId, "id");
-        writer.writeAttribute("class", styleClass, "styleclass");
-        writer.writeAttribute("role", "combobox", null);
+        writer.writeAttribute(CLASS, styleClass, "styleclass");
+        writer.writeAttribute(ROLE, "combobox", null);
         writer.writeAttribute("aria-haspopup", "true", null);
         writer.writeAttribute("aria-expanded", "false", null);
-        if (style != null) writer.writeAttribute("style", style, "style");
-        if (title != null) writer.writeAttribute("title", title, "title");
+        if (style != null) writer.writeAttribute(STYLE, style, STYLE);
+        if (title != null) writer.writeAttribute(TITLE, title, TITLE);
 
         encodeInput(context, menu, clientId, selectItems, values, submittedValues, converter);
         encodeLabel(context, menu, selectItems);
         encodeMenuIcon(context, menu, valid);
         encodePanel(context, menu, selectItems);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeInput(FacesContext context, SelectOneMenu menu, String clientId, List<SelectItem> selectItems, Object values,
@@ -141,33 +162,33 @@ public class SelectOneMenuRenderer extends SelectOneRenderer {
         String labelledBy = menu.getLabelledBy();
 
         //input for accessibility
-        writer.startElement("div", null);
-        writer.writeAttribute("class", "ui-helper-hidden-accessible", null);
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, "ui-helper-hidden-accessible", null);
 
-        writer.startElement("input", null);
+        writer.startElement(INPUT, null);
         writer.writeAttribute("id", focusId, null);
-        writer.writeAttribute("name", focusId, null);
-        writer.writeAttribute("type", "text", null);
+        writer.writeAttribute(NAME, focusId, null);
+        writer.writeAttribute(TYPE, "text", null);
         writer.writeAttribute("autocomplete", "off", null);
         //for keyboard accessibility and ScreenReader
         writer.writeAttribute("aria-expanded", "false", null);
         if (labelledBy != null) writer.writeAttribute("aria-labelledby", labelledBy, null);
-        if (menu.getTabindex() != null) writer.writeAttribute("tabindex", menu.getTabindex(), null);
-        if (menu.isDisabled()) writer.writeAttribute("disabled", "disabled", null);
+        if (menu.getTabindex() != null) writer.writeAttribute(TABINDEX, menu.getTabindex(), null);
+        if (menu.isDisabled()) writer.writeAttribute(DISABLED, DISABLED, null);
 
         renderDomEvents(context, menu, HTML.BLUR_FOCUS_EVENTS);
 
-        writer.endElement("input");
+        writer.endElement(INPUT);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
 
         //hidden select
-        writer.startElement("div", null);
-        writer.writeAttribute("class", "ui-helper-hidden-accessible", null);
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, "ui-helper-hidden-accessible", null);
 
         encodeHiddenSelect(context, menu, clientId, selectItems, values, submittedValues, converter);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
 
     }
 
@@ -177,12 +198,12 @@ public class SelectOneMenuRenderer extends SelectOneRenderer {
         ResponseWriter writer = context.getResponseWriter();
         String inputId = clientId + "_input";
 
-        writer.startElement("select", null);
+        writer.startElement(SELECT, null);
         writer.writeAttribute("id", inputId, "id");
-        writer.writeAttribute("name", inputId, null);
-        writer.writeAttribute("tabindex", "-1", null);
+        writer.writeAttribute(NAME, inputId, null);
+        writer.writeAttribute(TABINDEX, "-1", null);
         writer.writeAttribute("aria-hidden", "true", null);
-        if (menu.isDisabled()) writer.writeAttribute("disabled", "disabled", null);
+        if (menu.isDisabled()) writer.writeAttribute(DISABLED, DISABLED, null);
         if (menu.getOnkeydown() != null) writer.writeAttribute("onkeydown", menu.getOnkeydown(), null);
         if (menu.getOnkeyup() != null) writer.writeAttribute("onkeyup", menu.getOnkeyup(), null);
 
@@ -194,7 +215,7 @@ public class SelectOneMenuRenderer extends SelectOneRenderer {
 
         encodeSelectItems(context, menu, selectItems, values, submittedValues, converter);
 
-        writer.endElement("select");
+        writer.endElement(SELECT);
     }
 
     protected void encodeLabel(FacesContext context, SelectOneMenu menu, List<SelectItem> selectItems) throws IOException {
@@ -202,21 +223,21 @@ public class SelectOneMenuRenderer extends SelectOneRenderer {
         String valueToRender = ComponentUtils.getValueToRender(context, menu);
 
         if (menu.isEditable()) {
-            writer.startElement("input", null);
-            writer.writeAttribute("type", "text", null);
-            writer.writeAttribute("name", menu.getClientId(context) + "_editableInput", null);
-            writer.writeAttribute("class", SelectOneMenu.LABEL_CLASS, null);
+            writer.startElement(INPUT, null);
+            writer.writeAttribute(TYPE, "text", null);
+            writer.writeAttribute(NAME, menu.getClientId(context) + "_editableInput", null);
+            writer.writeAttribute(CLASS, SelectOneMenu.LABEL_CLASS, null);
 
             if (menu.getTabindex() != null) {
-                writer.writeAttribute("tabindex", menu.getTabindex(), null);
+                writer.writeAttribute(TABINDEX, menu.getTabindex(), null);
             }
 
             if (menu.isDisabled()) {
-                writer.writeAttribute("disabled", "disabled", null);
+                writer.writeAttribute(DISABLED, DISABLED, null);
             }
 
             if (valueToRender != null) {
-                writer.writeAttribute("value", valueToRender, null);
+                writer.writeAttribute(VALUE, valueToRender, null);
             }
 
             if (menu.getMaxlength() != Integer.MAX_VALUE) {
@@ -236,17 +257,17 @@ public class SelectOneMenuRenderer extends SelectOneRenderer {
                 this.renderDomEvent(context, menu, "onkeyup", "keyup", "keyup", null);
             }
 
-            writer.endElement("input");
+            writer.endElement(INPUT);
         }
         else {
-            writer.startElement("label", null);
+            writer.startElement(LABEL, null);
             writer.writeAttribute("id", menu.getClientId(context) + "_label", null);
-            writer.writeAttribute("class", SelectOneMenu.LABEL_CLASS, null);
+            writer.writeAttribute(CLASS, SelectOneMenu.LABEL_CLASS, null);
             if (menu.getPlaceholder() != null) {
                 writer.writeAttribute("data-placeholder", menu.getPlaceholder(), null);
             }
-            writer.write("&nbsp;");
-            writer.endElement("label");
+            writer.write(LITERAL0);
+            writer.endElement(LABEL);
         }
     }
 
@@ -254,14 +275,14 @@ public class SelectOneMenuRenderer extends SelectOneRenderer {
         ResponseWriter writer = context.getResponseWriter();
         String iconClass = valid ? SelectOneMenu.TRIGGER_CLASS : SelectOneMenu.TRIGGER_CLASS + " ui-state-error";
 
-        writer.startElement("div", null);
-        writer.writeAttribute("class", iconClass, null);
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, iconClass, null);
 
-        writer.startElement("span", null);
-        writer.writeAttribute("class", "ui-icon ui-icon-triangle-1-s ui-c", null);
-        writer.endElement("span");
+        writer.startElement(SPAN, null);
+        writer.writeAttribute(CLASS, "ui-icon ui-icon-triangle-1-s ui-c", null);
+        writer.endElement(SPAN);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodePanel(FacesContext context, SelectOneMenu menu, List<SelectItem> selectItems) throws IOException {
@@ -278,27 +299,27 @@ public class SelectOneMenuRenderer extends SelectOneRenderer {
             height = menu.getHeight();
         }
 
-        writer.startElement("div", null);
+        writer.startElement(DIV, null);
         writer.writeAttribute("id", menu.getClientId(context) + "_panel", null);
-        writer.writeAttribute("class", panelStyleClass, null);
+        writer.writeAttribute(CLASS, panelStyleClass, null);
         if (panelStyle != null) {
-            writer.writeAttribute("style", panelStyle, null);
+            writer.writeAttribute(STYLE, panelStyle, null);
         }
 
         if (menu.isFilter()) {
             encodeFilter(context, menu);
         }
 
-        writer.startElement("div", null);
-        writer.writeAttribute("class", SelectOneMenu.ITEMS_WRAPPER_CLASS, null);
-        writer.writeAttribute("style", "max-height:" + height, null);
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, SelectOneMenu.ITEMS_WRAPPER_CLASS, null);
+        writer.writeAttribute(STYLE, "max-height:" + height, null);
 
         if (!menu.isDynamic()) {
             encodePanelContent(context, menu, selectItems);
         }
 
-        writer.endElement("div");
-        writer.endElement("div");
+        writer.endElement(DIV);
+        writer.endElement(DIV);
     }
 
     protected void encodePanelContent(FacesContext context, SelectOneMenu menu, List<SelectItem> selectItems) throws IOException {
@@ -308,19 +329,19 @@ public class SelectOneMenuRenderer extends SelectOneRenderer {
         if (customContent) {
             List<Column> columns = menu.getColumns();
             
-            writer.startElement("table", null);
-            writer.writeAttribute("class", SelectOneMenu.TABLE_CLASS, null);
+            writer.startElement(TABLE, null);
+            writer.writeAttribute(CLASS, SelectOneMenu.TABLE_CLASS, null);
             encodeColumnsHeader(context, menu, columns);
-            writer.startElement("tbody", null);
+            writer.startElement(TBODY, null);
             encodeOptionsAsTable(context, menu, selectItems, columns);
-            writer.endElement("tbody");
-            writer.endElement("table");
+            writer.endElement(TBODY);
+            writer.endElement(TABLE);
         }
         else {
             writer.startElement("ul", null);
             writer.writeAttribute("id", menu.getClientId(context) + "_items", null);
-            writer.writeAttribute("class", SelectOneMenu.LIST_CLASS, null);
-            writer.writeAttribute("role", "listbox", null);
+            writer.writeAttribute(CLASS, SelectOneMenu.LIST_CLASS, null);
+            writer.writeAttribute(ROLE, "listbox", null);
             encodeOptionsAsList(context, menu, selectItems);
             writer.endElement("ul");
         }
@@ -353,10 +374,10 @@ public class SelectOneMenuRenderer extends SelectOneRenderer {
                 String styleClass = column.getStyleClass() == null ? "ui-state-default" : "ui-state-default " + column.getStyleClass();
 
                 writer.startElement("th", null);
-                writer.writeAttribute("class", styleClass, null);
+                writer.writeAttribute(CLASS, styleClass, null);
 
                 if (column.getStyle() != null) {
-                    writer.writeAttribute("style", column.getStyle(), null);
+                    writer.writeAttribute(STYLE, column.getStyle(), null);
                 }
 
                 if (headerFacet != null) {
@@ -377,14 +398,14 @@ public class SelectOneMenuRenderer extends SelectOneRenderer {
         
         ResponseWriter writer = context.getResponseWriter();
         String var = menu.getVar();
-        ValueExpression value = menu.getValueExpression("value");
+        ValueExpression value = menu.getValueExpression(VALUE);
         Class<?> valueType = value == null ? null : value.getType(context.getELContext());
 
         for (int i = 0; i < selectItems.size(); i++) {
             SelectItem selectItem = selectItems.get(i);
             Object itemValue = selectItem.getValue();
             String itemLabel = selectItem.getLabel();
-            itemLabel = isValueBlank(itemLabel) ? "&nbsp;" : itemLabel;
+            itemLabel = isValueBlank(itemLabel) ? LITERAL0 : itemLabel;
             
             String itemStyleClass = SelectOneMenu.ROW_CLASS;
             if (selectItem.isNoSelectionOption()) {
@@ -394,15 +415,15 @@ public class SelectOneMenuRenderer extends SelectOneRenderer {
             context.getExternalContext().getRequestMap().put(var, itemValue);
 
             writer.startElement("tr", null);
-            writer.writeAttribute("class", itemStyleClass, null);
+            writer.writeAttribute(CLASS, itemStyleClass, null);
             writer.writeAttribute("data-label", itemLabel, null);
             if (selectItem.getDescription() != null) {
-                writer.writeAttribute("title", selectItem.getDescription(), null);
+                writer.writeAttribute(TITLE, selectItem.getDescription(), null);
             }
 
             if (itemValue == null || (valueType != null && !valueType.isAssignableFrom(itemValue.getClass()))) {
                 writer.startElement("td", null);
-                writer.writeAttribute("colspan", columns.size(), null);
+                writer.writeAttribute(COLSPAN, columns.size(), null);
                 writer.writeText(selectItem.getLabel(), null);
                 writer.endElement("td");
             }
@@ -414,10 +435,10 @@ public class SelectOneMenuRenderer extends SelectOneRenderer {
 
                     writer.startElement("td", null);
                     if (style != null) {
-                        writer.writeAttribute("style", style, null);
+                        writer.writeAttribute(STYLE, style, null);
                     }
                     if (styleClass != null) {
-                        writer.writeAttribute("class", styleClass, null);
+                        writer.writeAttribute(CLASS, styleClass, null);
                     }
 
                     renderChildren(context, column);
@@ -450,27 +471,27 @@ public class SelectOneMenuRenderer extends SelectOneRenderer {
     protected void encodeItem(FacesContext context, SelectOneMenu menu, SelectItem selectItem, String styleClass) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
         String itemLabel = selectItem.getLabel();
-        itemLabel = isValueBlank(itemLabel) ? "&nbsp;" : itemLabel;
+        itemLabel = isValueBlank(itemLabel) ? LITERAL0 : itemLabel;
         String itemStyleClass = styleClass;
         if (selectItem.isNoSelectionOption()) {
             itemStyleClass = itemStyleClass + " ui-noselection-option";
         }
 
         writer.startElement("li", null);
-        writer.writeAttribute("class", itemStyleClass, null);
+        writer.writeAttribute(CLASS, itemStyleClass, null);
         writer.writeAttribute("data-label", itemLabel, null);
-        writer.writeAttribute("tabindex", "-1", null);
-        writer.writeAttribute("role", "option", null);
+        writer.writeAttribute(TABINDEX, "-1", null);
+        writer.writeAttribute(ROLE, OPTION, null);
         if (selectItem.getDescription() != null) {
-            writer.writeAttribute("title", selectItem.getDescription(), null);
+            writer.writeAttribute(TITLE, selectItem.getDescription(), null);
         }
 
-        if (itemLabel.equals("&nbsp;")) {
+        if (itemLabel.equals(LITERAL0)) {
             writer.write(itemLabel);
         }
         else {
             if (selectItem.isEscape()) {
-                writer.writeText(itemLabel, "value");
+                writer.writeText(itemLabel, VALUE);
             }
             else {
                 writer.write(itemLabel);
@@ -494,7 +515,7 @@ public class SelectOneMenuRenderer extends SelectOneRenderer {
                 .attr("dynamic", menu.isDynamic(), false);
 
         if (menu.isFilter()) {
-            wb.attr("filter", true)
+            wb.attr(FILTER, true)
                     .attr("filterMatchMode", menu.getFilterMatchMode(), null)
                     .nativeAttr("filterFunction", menu.getFilterFunction(), null)
                     .attr("caseSensitive", menu.isCaseSensitive(), false);
@@ -544,22 +565,22 @@ public class SelectOneMenuRenderer extends SelectOneRenderer {
             boolean selected = isSelected(context, menu, itemValue, valuesArray, converter);
 
             if (!menu.isDynamic() || (menu.isDynamic() && (selected || menu.isDynamicLoadRequest(context) || itemIndex == 0))) {
-                writer.startElement("option", null);
-                writer.writeAttribute("value", itemValueAsString, null);
-                if (disabled) writer.writeAttribute("disabled", "disabled", null);
+                writer.startElement(OPTION, null);
+                writer.writeAttribute(VALUE, itemValueAsString, null);
+                if (disabled) writer.writeAttribute(DISABLED, DISABLED, null);
                 if (selected) writer.writeAttribute("selected", "selected", null);
                 writer.writeAttribute("data-escape", String.valueOf(isEscape), null);
 
                 if (!isValueBlank(option.getLabel())) {
                     if (isEscape) {
-                        writer.writeText(option.getLabel(), "value");
+                        writer.writeText(option.getLabel(), VALUE);
                     }
                     else {
                         writer.write(option.getLabel());
                     }
                 }
 
-                writer.endElement("option");
+                writer.endElement(OPTION);
             }
         }
     }
@@ -583,27 +604,27 @@ public class SelectOneMenuRenderer extends SelectOneRenderer {
         ResponseWriter writer = context.getResponseWriter();
         String id = menu.getClientId(context) + "_filter";
 
-        writer.startElement("div", null);
-        writer.writeAttribute("class", "ui-selectonemenu-filter-container", null);
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, "ui-selectonemenu-filter-container", null);
 
-        writer.startElement("input", null);
-        writer.writeAttribute("class", "ui-selectonemenu-filter ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all", null);
+        writer.startElement(INPUT, null);
+        writer.writeAttribute(CLASS, "ui-selectonemenu-filter ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all", null);
         writer.writeAttribute("id", id, null);
-        writer.writeAttribute("name", id, null);
-        writer.writeAttribute("type", "text", null);
+        writer.writeAttribute(NAME, id, null);
+        writer.writeAttribute(TYPE, "text", null);
         writer.writeAttribute("autocomplete", "off", null);
         
         if (menu.getFilterPlaceholder() != null) {
             writer.writeAttribute("placeholder", menu.getFilterPlaceholder(), null);
         }
 
-        writer.startElement("span", null);
-        writer.writeAttribute("class", "ui-icon ui-icon-search", id);
-        writer.endElement("span");
+        writer.startElement(SPAN, null);
+        writer.writeAttribute(CLASS, "ui-icon ui-icon-search", id);
+        writer.endElement(SPAN);
 
-        writer.endElement("input");
+        writer.endElement(INPUT);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     @Override

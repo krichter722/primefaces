@@ -28,6 +28,16 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DISABLED;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.INPUT;
+import static org.primefaces.component.Literals.NAME;
+import static org.primefaces.component.Literals.READONLY;
+import static org.primefaces.component.Literals.SPAN;
+import static org.primefaces.component.Literals.STYLE;
+import static org.primefaces.component.Literals.TYPE;
+import static org.primefaces.component.Literals.VALUE;
 import org.primefaces.context.PrimeApplicationContext;
 
 import org.primefaces.renderkit.InputRenderer;
@@ -73,25 +83,25 @@ public class CalendarRenderer extends InputRenderer {
         String inputId = clientId + "_input";
         boolean popup = calendar.isPopup();
 
-        writer.startElement("span", calendar);
+        writer.startElement(SPAN, calendar);
         writer.writeAttribute("id", clientId, null);
-        writer.writeAttribute("class", styleClass, null);
+        writer.writeAttribute(CLASS, styleClass, null);
 
         if (calendar.getStyle() != null) {
-            writer.writeAttribute("style", calendar.getStyle(), null);
+            writer.writeAttribute(STYLE, calendar.getStyle(), null);
         }
 
         //inline container
         if (!popup) {
-            writer.startElement("div", null);
+            writer.startElement(DIV, null);
             writer.writeAttribute("id", clientId + "_inline", null);
-            writer.endElement("div");
+            writer.endElement(DIV);
         }
 
         //input
         encodeInput(context, calendar, inputId, value, popup);
 
-        writer.endElement("span");
+        writer.endElement(SPAN);
 
     }
 
@@ -102,17 +112,17 @@ public class CalendarRenderer extends InputRenderer {
         String inputStyle = calendar.getInputStyle();
         String inputStyleClass = calendar.getInputStyleClass();
 
-        writer.startElement("input", null);
+        writer.startElement(INPUT, null);
         writer.writeAttribute("id", id, null);
-        writer.writeAttribute("name", id, null);
-        writer.writeAttribute("type", type, null);
+        writer.writeAttribute(NAME, id, null);
+        writer.writeAttribute(TYPE, type, null);
 
         if (calendar.isRequired()) {
             writer.writeAttribute("aria-required", "true", null);
         }
 
         if (!isValueBlank(value)) {
-            writer.writeAttribute("value", value, null);
+            writer.writeAttribute(VALUE, value, null);
         }
 
         if (popup) {
@@ -125,16 +135,16 @@ public class CalendarRenderer extends InputRenderer {
                 inputStyleClass = inputStyleClass + " ui-state-error";
             }
 
-            writer.writeAttribute("class", inputStyleClass, null);
+            writer.writeAttribute(CLASS, inputStyleClass, null);
 
             if (inputStyle != null) {
-                writer.writeAttribute("style", inputStyle, null);
+                writer.writeAttribute(STYLE, inputStyle, null);
             }
             if (calendar.isReadonly() || calendar.isReadonlyInput()) {
-                writer.writeAttribute("readonly", "readonly", null);
+                writer.writeAttribute(READONLY, READONLY, null);
             }
             if (calendar.isDisabled()) {
-                writer.writeAttribute("disabled", "disabled", null);
+                writer.writeAttribute(DISABLED, DISABLED, null);
             }
 
             renderPassThruAttributes(context, calendar, HTML.INPUT_TEXT_ATTRS_WITHOUT_EVENTS);
@@ -149,7 +159,7 @@ public class CalendarRenderer extends InputRenderer {
             renderValidationMetadata(context, calendar);
         }
 
-        writer.endElement("input");
+        writer.endElement(INPUT);
     }
 
     protected void encodeScript(FacesContext context, Calendar calendar, String value) throws IOException {
@@ -186,7 +196,7 @@ public class CalendarRenderer extends InputRenderer {
                 .attr("showTodayButton", calendar.isShowTodayButton(), true)
                 .attr("showWeek", calendar.isShowWeek(), false)
                 .attr("disabledWeekends", calendar.isDisabledWeekends(), false)
-                .attr("disabled", calendar.isDisabled(), false)
+                .attr(DISABLED, calendar.isDisabled(), false)
                 .attr("yearRange", calendar.getYearRange(), null)
                 .attr("focusOnSelect", calendar.isFocusOnSelect(), false);
 
@@ -302,7 +312,7 @@ public class CalendarRenderer extends InputRenderer {
 
         //Delegate to global defined converter (e.g. joda or java8)
         try {
-            ValueExpression ve = calendar.getValueExpression("value");
+            ValueExpression ve = calendar.getValueExpression(VALUE);
             if (ve != null) {
                 Class type = ve.getType(context.getELContext());
                 if (type != null && type != Object.class && type != Date.class) {

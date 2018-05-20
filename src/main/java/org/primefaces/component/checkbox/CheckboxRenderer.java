@@ -19,6 +19,16 @@ import java.io.IOException;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DISABLED;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.INPUT;
+import static org.primefaces.component.Literals.NAME;
+import static org.primefaces.component.Literals.ONCLICK;
+import static org.primefaces.component.Literals.SPAN;
+import static org.primefaces.component.Literals.STYLE;
+import static org.primefaces.component.Literals.TABINDEX;
+import static org.primefaces.component.Literals.TYPE;
 import org.primefaces.component.radiobutton.RadioButtonRenderer;
 import org.primefaces.component.selectmanycheckbox.SelectManyCheckbox;
 import org.primefaces.expression.SearchExpressionFacade;
@@ -50,17 +60,17 @@ public class CheckboxRenderer extends InputRenderer {
         String styleClass = checkbox.getStyleClass();
         styleClass = styleClass == null ? HTML.CHECKBOX_CLASS : HTML.CHECKBOX_CLASS + " " + styleClass;
 
-        writer.startElement("div", null);
+        writer.startElement(DIV, null);
         writer.writeAttribute("id", clientId, null);
-        writer.writeAttribute("class", styleClass, null);
+        writer.writeAttribute(CLASS, styleClass, null);
         if (style != null) {
-            writer.writeAttribute("style", style, null);
+            writer.writeAttribute(STYLE, style, null);
         }
 
         encodeOptionInput(context, selectManyCheckbox, checkbox, inputId, masterClientId, disabled);
         encodeOptionOutput(context, disabled, selectManyCheckbox);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeOptionInput(FacesContext context, SelectManyCheckbox selectManyCheckbox, Checkbox checkbox, String id, String name,
@@ -72,30 +82,30 @@ public class CheckboxRenderer extends InputRenderer {
             tabindex = selectManyCheckbox.getTabindex();
         }
 
-        writer.startElement("div", null);
-        writer.writeAttribute("class", "ui-helper-hidden-accessible", null);
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, "ui-helper-hidden-accessible", null);
 
-        writer.startElement("input", null);
+        writer.startElement(INPUT, null);
         writer.writeAttribute("id", id + "_clone", null);
-        writer.writeAttribute("name", name, null);
-        writer.writeAttribute("type", "checkbox", null);
-        writer.writeAttribute("class", "ui-chkbox-clone", null);
+        writer.writeAttribute(NAME, name, null);
+        writer.writeAttribute(TYPE, "checkbox", null);
+        writer.writeAttribute(CLASS, "ui-chkbox-clone", null);
         writer.writeAttribute("data-itemindex", checkbox.getItemIndex(), null);
 
-        if (tabindex != null) writer.writeAttribute("tabindex", tabindex, null);
-        if (disabled) writer.writeAttribute("disabled", "disabled", null);
+        if (tabindex != null) writer.writeAttribute(TABINDEX, tabindex, null);
+        if (disabled) writer.writeAttribute(DISABLED, DISABLED, null);
 
         String onchange = buildEvent(context, selectManyCheckbox, checkbox, "onchange", "change", "valueChange");
         if (!isValueBlank(onchange)) {
             writer.writeAttribute("onchange", onchange, null);
         }
-        String onclick = buildEvent(context, selectManyCheckbox, checkbox, "onclick", "click", "click");
+        String onclick = buildEvent(context, selectManyCheckbox, checkbox, ONCLICK, "click", "click");
         if (!isValueBlank(onclick)) {
-            writer.writeAttribute("onclick", onclick, null);
+            writer.writeAttribute(ONCLICK, onclick, null);
         }
 
-        writer.endElement("input");
-        writer.endElement("div");
+        writer.endElement(INPUT);
+        writer.endElement(DIV);
     }
 
     protected String buildEvent(FacesContext context, SelectManyCheckbox selectManyCheckbox, Checkbox checkbox, String domEvent,
@@ -121,13 +131,13 @@ public class CheckboxRenderer extends InputRenderer {
         boxClass = disabled ? boxClass + " ui-state-disabled" : boxClass;
         boxClass = !selectManyCheckbox.isValid() ? boxClass + " ui-state-error" : boxClass;
 
-        writer.startElement("div", null);
-        writer.writeAttribute("class", boxClass, null);
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, boxClass, null);
 
-        writer.startElement("span", null);
-        writer.writeAttribute("class", HTML.CHECKBOX_UNCHECKED_ICON_CLASS, null);
-        writer.endElement("span");
+        writer.startElement(SPAN, null);
+        writer.writeAttribute(CLASS, HTML.CHECKBOX_UNCHECKED_ICON_CLASS, null);
+        writer.endElement(SPAN);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 }

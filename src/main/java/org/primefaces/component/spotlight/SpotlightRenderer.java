@@ -22,6 +22,7 @@ import javax.faces.context.ResponseWriter;
 import org.primefaces.expression.SearchExpressionFacade;
 import org.primefaces.renderkit.CoreRenderer;
 import org.primefaces.util.WidgetBuilder;
+import static org.primefaces.component.Literals.SPAN;
 
 public class SpotlightRenderer extends CoreRenderer {
 
@@ -36,9 +37,9 @@ public class SpotlightRenderer extends CoreRenderer {
     private void encodeMarkup(FacesContext context, Spotlight spotlight) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
 
-        writer.startElement("span", spotlight);
+        writer.startElement(SPAN, spotlight);
         writer.writeAttribute("id", spotlight.getClientId(context), null);
-        writer.endElement("span");
+        writer.endElement(SPAN);
     }
 
     private void encodeScript(FacesContext context, Spotlight spotlight) throws IOException {

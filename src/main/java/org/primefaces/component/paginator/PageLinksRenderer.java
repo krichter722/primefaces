@@ -20,6 +20,9 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import org.primefaces.component.api.Pageable;
 import org.primefaces.component.api.UIData;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.SPAN;
+import static org.primefaces.component.Literals.TABINDEX;
 
 public class PageLinksRenderer implements PaginatorElementRenderer {
 
@@ -39,20 +42,20 @@ public class PageLinksRenderer implements PaginatorElementRenderer {
         int delta = pageLinks - (end - start + 1);
         start = Math.max(0, start - delta);
 
-        writer.startElement("span", null);
-        writer.writeAttribute("class", UIData.PAGINATOR_PAGES_CLASS, null);
+        writer.startElement(SPAN, null);
+        writer.writeAttribute(CLASS, UIData.PAGINATOR_PAGES_CLASS, null);
 
         for (int i = start; i <= end; i++) {
             String styleClass = currentPage == i ? UIData.PAGINATOR_ACTIVE_PAGE_CLASS : UIData.PAGINATOR_PAGE_CLASS;
 
             writer.startElement("a", null);
-            writer.writeAttribute("class", styleClass, null);
-            writer.writeAttribute("tabindex", 0, null);
+            writer.writeAttribute(CLASS, styleClass, null);
+            writer.writeAttribute(TABINDEX, 0, null);
             writer.writeAttribute("href", "#", null);
             writer.writeText((i + 1), null);
             writer.endElement("a");
         }
 
-        writer.endElement("span");
+        writer.endElement(SPAN);
     }
 }

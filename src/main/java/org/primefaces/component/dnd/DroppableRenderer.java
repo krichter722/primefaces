@@ -19,6 +19,7 @@ import java.io.IOException;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import static org.primefaces.component.Literals.DISABLED;
 
 import org.primefaces.expression.SearchExpressionFacade;
 import org.primefaces.expression.SearchExpressionHint;
@@ -43,7 +44,7 @@ public class DroppableRenderer extends CoreRenderer {
         WidgetBuilder wb = getWidgetBuilder(context);
         wb.init("Droppable", droppable.resolveWidgetVar(), clientId)
                 .attr("target", target.getClientId(context))
-                .attr("disabled", droppable.isDisabled(), false)
+                .attr(DISABLED, droppable.isDisabled(), false)
                 .attr("hoverClass", droppable.getHoverStyleClass(), null)
                 .attr("activeClass", droppable.getActiveStyleClass(), null)
                 .attr("accept", droppable.getAccept(), null)

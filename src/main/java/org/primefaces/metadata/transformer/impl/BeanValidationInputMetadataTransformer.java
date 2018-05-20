@@ -31,6 +31,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 import javax.validation.metadata.ConstraintDescriptor;
+import static org.primefaces.component.Literals.VALUE;
 import org.primefaces.component.calendar.Calendar;
 import org.primefaces.component.spinner.Spinner;
 import org.primefaces.context.PrimeApplicationContext;
@@ -52,7 +53,7 @@ public class BeanValidationInputMetadataTransformer extends AbstractInputMetadat
 
         try {
             Set<ConstraintDescriptor<?>> constraints = BeanValidationMetadataExtractor.extractDefaultConstraintDescriptors(
-                    context, applicationContext, input.getValueExpression("value"));
+                    context, applicationContext, input.getValueExpression(VALUE));
             if (constraints != null && !constraints.isEmpty()) {
                 for (ConstraintDescriptor<?> constraintDescriptor : constraints) {
                     applyConstraint(constraintDescriptor, input, editableValueHolder);

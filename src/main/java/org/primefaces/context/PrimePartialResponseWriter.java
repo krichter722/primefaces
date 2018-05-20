@@ -35,6 +35,7 @@ import org.primefaces.json.JSONObject;
 import org.primefaces.util.BeanUtils;
 import org.primefaces.util.ComponentUtils;
 import org.primefaces.util.ResourceUtils;
+import static org.primefaces.component.Literals.TYPE;
 
 public class PrimePartialResponseWriter extends PartialResponseWriter {
 
@@ -43,7 +44,7 @@ public class PrimePartialResponseWriter extends PartialResponseWriter {
     static {
         Map<String, String> callbackExtensionParams = new HashMap<>();
         callbackExtensionParams.put("ln", "primefaces");
-        callbackExtensionParams.put("type", "args");
+        callbackExtensionParams.put(TYPE, "args");
 
         CALLBACK_EXTENSION_PARAMS = Collections.unmodifiableMap(callbackExtensionParams);
     }
@@ -82,6 +83,7 @@ public class PrimePartialResponseWriter extends PartialResponseWriter {
     }
 
     @Override
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     public void endDocument() throws IOException {
         FacesContext context = FacesContext.getCurrentInstance();
         PrimeRequestContext requestContext = PrimeRequestContext.getCurrentInstance(context);
@@ -244,6 +246,7 @@ public class PrimePartialResponseWriter extends PartialResponseWriter {
         }
     }
 
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     protected void startMetadataIfNecessary() throws IOException {
 
         if (metadataRendered) {

@@ -23,6 +23,15 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.convert.Converter;
+import static org.primefaces.component.Literals.BUTTON;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.INPUT;
+import static org.primefaces.component.Literals.NAME;
+import static org.primefaces.component.Literals.SPAN;
+import static org.primefaces.component.Literals.STYLE;
+import static org.primefaces.component.Literals.TYPE;
+import static org.primefaces.component.Literals.VALUE;
 
 import org.primefaces.renderkit.CoreRenderer;
 import org.primefaces.util.HTML;
@@ -80,11 +89,11 @@ public class ColorPickerRenderer extends CoreRenderer {
         String styleClass = colorPicker.getStyleClass();
         styleClass = styleClass == null ? ColorPicker.STYLE_CLASS : ColorPicker.STYLE_CLASS + " " + styleClass;
 
-        writer.startElement("span", null);
+        writer.startElement(SPAN, null);
         writer.writeAttribute("id", clientId, "id");
-        writer.writeAttribute("class", styleClass, "styleClass");
+        writer.writeAttribute(CLASS, styleClass, "styleClass");
         if (colorPicker.getStyle() != null) {
-            writer.writeAttribute("style", colorPicker.getStyle(), "style");
+            writer.writeAttribute(STYLE, colorPicker.getStyle(), STYLE);
         }
 
         if (isPopup) {
@@ -95,10 +104,10 @@ public class ColorPickerRenderer extends CoreRenderer {
         }
 
         //Input
-        writer.startElement("input", null);
+        writer.startElement(INPUT, null);
         writer.writeAttribute("id", inputId, null);
-        writer.writeAttribute("name", inputId, null);
-        writer.writeAttribute("type", "hidden", null);
+        writer.writeAttribute(NAME, inputId, null);
+        writer.writeAttribute(TYPE, "hidden", null);
 
         String onchange = colorPicker.getOnchange();
         if (!isValueBlank(onchange)) {
@@ -108,24 +117,24 @@ public class ColorPickerRenderer extends CoreRenderer {
         renderPassThruAttributes(context, colorPicker, null);
 
         if (value != null) {
-            writer.writeAttribute("value", value, null);
+            writer.writeAttribute(VALUE, value, null);
         }
-        writer.endElement("input");
+        writer.endElement(INPUT);
 
-        writer.endElement("span");
+        writer.endElement(SPAN);
     }
 
     protected void encodeButton(FacesContext context, String clientId, String value) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
 
-        writer.startElement("button", null);
+        writer.startElement(BUTTON, null);
         writer.writeAttribute("id", clientId + "_button", null);
-        writer.writeAttribute("type", "button", null);
-        writer.writeAttribute("class", HTML.BUTTON_TEXT_ONLY_BUTTON_CLASS, null);
+        writer.writeAttribute(TYPE, BUTTON, null);
+        writer.writeAttribute(CLASS, HTML.BUTTON_TEXT_ONLY_BUTTON_CLASS, null);
 
         //text
-        writer.startElement("span", null);
-        writer.writeAttribute("class", HTML.BUTTON_TEXT_CLASS, null);
+        writer.startElement(SPAN, null);
+        writer.writeAttribute(CLASS, HTML.BUTTON_TEXT_CLASS, null);
 
         writer.write("<span id=\"" + clientId + "_livePreview\" "
                 + "style=\"overflow:hidden;width:1em;height:1em;display:block;border:solid 1px #000;text-indent:1em;white-space:nowrap;");
@@ -134,17 +143,17 @@ public class ColorPickerRenderer extends CoreRenderer {
         }
         writer.write("\">Live Preview</span>");
 
-        writer.endElement("span");
+        writer.endElement(SPAN);
 
-        writer.endElement("button");
+        writer.endElement(BUTTON);
     }
 
     protected void encodeInline(FacesContext context, String clientId) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
 
-        writer.startElement("div", null);
+        writer.startElement(DIV, null);
         writer.writeAttribute("id", clientId + "_inline", "id");
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeScript(FacesContext context, ColorPicker colorPicker, String value) throws IOException {

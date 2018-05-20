@@ -179,6 +179,7 @@ public class PrimeRequestContext {
      *
      * @return if secure or not.
      */
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     public boolean isSecure() {
         Object request = context.getExternalContext().getRequest();
 

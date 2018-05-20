@@ -22,6 +22,9 @@ import javax.faces.FacesException;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.TABINDEX;
 
 import org.primefaces.renderkit.CoreRenderer;
 import org.primefaces.util.WidgetBuilder;
@@ -47,7 +50,6 @@ public class CaptchaRenderer extends CoreRenderer {
 
     @Override
     public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
-        ResponseWriter writer = context.getResponseWriter();
         Captcha captcha = (Captcha) component;
         String publicKey = getPublicKey(context, captcha);
 
@@ -63,18 +65,18 @@ public class CaptchaRenderer extends CoreRenderer {
         ResponseWriter writer = context.getResponseWriter();
         String clientId = captcha.getClientId(context);
         captcha.setRequired(true);
-        writer.startElement("div", null);
+        writer.startElement(DIV, null);
         writer.writeAttribute("id", clientId, "id");
         
         if (captcha.getSize() != null && "invisible".equals(captcha.getSize())) {
-            writer.writeAttribute("class", "g-recaptcha", null);
+            writer.writeAttribute(CLASS, "g-recaptcha", null);
             writer.writeAttribute("data-sitekey", publicKey, null);
             writer.writeAttribute("data-size", "invisible", null);
         }
 
         renderDynamicPassThruAttributes(context, captcha);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeScript(FacesContext context, Captcha captcha, String publicKey) throws IOException {
@@ -85,7 +87,7 @@ public class CaptchaRenderer extends CoreRenderer {
         wb.attr("sitekey", publicKey)
                 .attr("theme", captcha.getTheme(), "light")
                 .attr("language", captcha.getLanguage(), "en")
-                .attr("tabindex", captcha.getTabindex(), 0)
+                .attr(TABINDEX, captcha.getTabindex(), 0)
                 .attr("callback", captcha.getCallback(), null)
                 .attr("expired", captcha.getExpired(), null)
                 .attr("size", captcha.getSize(), null);

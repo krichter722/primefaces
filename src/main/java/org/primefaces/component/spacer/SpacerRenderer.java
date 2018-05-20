@@ -20,6 +20,11 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import org.primefaces.renderkit.CoreRenderer;
+import static org.primefaces.component.Literals.ALT;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.IMG;
+import static org.primefaces.component.Literals.STYLE;
+import static org.primefaces.component.Literals.TITLE;
 
 public class SpacerRenderer extends CoreRenderer {
 
@@ -28,17 +33,17 @@ public class SpacerRenderer extends CoreRenderer {
         Spacer spacer = (Spacer) component;
         ResponseWriter writer = context.getResponseWriter();
 
-        writer.startElement("img", spacer);
+        writer.startElement(IMG, spacer);
         writer.writeAttribute("id", spacer.getClientId(context), "id");
         writer.writeAttribute("width", spacer.getWidth(), "width");
         writer.writeAttribute("height", spacer.getHeight(), "height");
-        writer.writeAttribute("alt", "", null);
+        writer.writeAttribute(ALT, "", null);
         writer.writeAttribute("src", getResourceRequestPath(context, "spacer/dot_clear.gif"), null);
 
-        if (spacer.getStyle() != null) writer.writeAttribute("style", spacer.getStyle(), "style");
-        if (spacer.getStyleClass() != null) writer.writeAttribute("class", spacer.getStyleClass(), "styleClass");
-        if (spacer.getTitle() != null) writer.writeAttribute("title", spacer.getTitle(), "title");
+        if (spacer.getStyle() != null) writer.writeAttribute(STYLE, spacer.getStyle(), STYLE);
+        if (spacer.getStyleClass() != null) writer.writeAttribute(CLASS, spacer.getStyleClass(), "styleClass");
+        if (spacer.getTitle() != null) writer.writeAttribute(TITLE, spacer.getTitle(), TITLE);
 
-        writer.endElement("img");
+        writer.endElement(IMG);
     }
 }

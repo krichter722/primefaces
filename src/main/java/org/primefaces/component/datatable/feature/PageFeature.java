@@ -25,6 +25,7 @@ import org.primefaces.event.data.PostPageEvent;
 public class PageFeature implements DataTableFeature {
 
     @Override
+    @SuppressWarnings("PMD.AvoidThrowingRawExceptionTypes")
     public void decode(FacesContext context, DataTable table) {
         throw new RuntimeException("PageFeature should not encode.");
     }

@@ -25,6 +25,11 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DISABLED;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.NAME;
+import static org.primefaces.component.Literals.STYLE;
 
 import org.primefaces.renderkit.CoreRenderer;
 import org.primefaces.util.AgentUtils;
@@ -66,16 +71,16 @@ public class EditorRenderer extends CoreRenderer {
         String style = editor.getStyle();
         style = style == null ? "visibility:hidden" : "visibility:hidden;" + style;
 
-        writer.startElement("div", editor);
+        writer.startElement(DIV, editor);
         writer.writeAttribute("id", clientId, null);
-        writer.writeAttribute("style", style, null);
+        writer.writeAttribute(STYLE, style, null);
         if (editor.getStyleClass() != null) {
-            writer.writeAttribute("class", editor.getStyleClass(), null);
+            writer.writeAttribute(CLASS, editor.getStyleClass(), null);
         }
 
         writer.startElement("textarea", null);
         writer.writeAttribute("id", inputId, null);
-        writer.writeAttribute("name", inputId, null);
+        writer.writeAttribute(NAME, inputId, null);
 
         if (valueToRender != null) {
             writer.write(valueToRender);
@@ -83,14 +88,14 @@ public class EditorRenderer extends CoreRenderer {
 
         writer.endElement("textarea");
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     private void encodeScript(FacesContext context, Editor editor) throws IOException {
         String clientId = editor.getClientId(context);
         WidgetBuilder wb = getWidgetBuilder(context);
         wb.init("Editor", editor.resolveWidgetVar(), clientId)
-                .attr("disabled", editor.isDisabled(), false)
+                .attr(DISABLED, editor.isDisabled(), false)
                 .attr("invalid", editor.isValid(), true)
                 .attr("controls", editor.getControls(), null)
                 .attr("width", editor.getWidth(), Integer.MIN_VALUE)

@@ -24,6 +24,7 @@ import javax.faces.FacesException;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
+import static org.primefaces.component.Literals.VALUE;
 
 import org.primefaces.component.calendar.converter.PatternConverter;
 import org.primefaces.component.calendar.converter.DatePatternConverter;
@@ -113,7 +114,7 @@ public class CalendarUtils {
         }
         else {
             //Delegate to global defined converter (e.g. joda or java8)
-            ValueExpression ve = calendar.getValueExpression("value");
+            ValueExpression ve = calendar.getValueExpression(VALUE);
             if (ve != null) {
                 Class type = ve.getType(context.getELContext());
                 if (type != null && type != Object.class && type != Date.class) {
@@ -150,7 +151,7 @@ public class CalendarUtils {
         }
         else {
             //Delegate to global defined converter (e.g. joda or java8)
-            ValueExpression ve = calendar.getValueExpression("value");
+            ValueExpression ve = calendar.getValueExpression(VALUE);
             if (ve != null) {
                 Class type = ve.getType(context.getELContext());
                 if (type != null && type != Object.class && type != Date.class) {

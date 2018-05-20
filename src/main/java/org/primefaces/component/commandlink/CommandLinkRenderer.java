@@ -25,6 +25,11 @@ import javax.faces.component.behavior.ClientBehaviorContext;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.event.ActionEvent;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.ONCLICK;
+import static org.primefaces.component.Literals.SPAN;
+import static org.primefaces.component.Literals.STYLE;
+import static org.primefaces.component.Literals.VALUE;
 import org.primefaces.component.api.ClientBehaviorRenderingMode;
 import org.primefaces.context.PrimeRequestContext;
 
@@ -72,7 +77,7 @@ public class CommandLinkRenderer extends CoreRenderer {
 
             StringBuilder onclick = SharedStringBuilder.get(context, SB_BUILD_ONCLICK);
             if (link.getOnclick() != null) {
-                onclick.append(link.getOnclick()).append(";");
+                onclick.append(link.getOnclick()).append(';');
             }
 
             String onclickBehaviors = getEventBehaviors(context, link, "click", null);
@@ -83,7 +88,7 @@ public class CommandLinkRenderer extends CoreRenderer {
             writer.startElement("a", link);
             writer.writeAttribute("id", clientId, "id");
             writer.writeAttribute("href", "#", null);
-            writer.writeAttribute("class", styleClass, null);
+            writer.writeAttribute(CLASS, styleClass, null);
             if (link.getTitle() != null) {
                 writer.writeAttribute("aria-label", link.getTitle(), null);
             }
@@ -110,10 +115,10 @@ public class CommandLinkRenderer extends CoreRenderer {
             if (onclick.length() > 0) {
                 if (link.requiresConfirmation()) {
                     writer.writeAttribute("data-pfconfirmcommand", onclick.toString(), null);
-                    writer.writeAttribute("onclick", link.getConfirmationScript(), "onclick");
+                    writer.writeAttribute(ONCLICK, link.getConfirmationScript(), ONCLICK);
                 }
                 else {
-                    writer.writeAttribute("onclick", onclick.toString(), "onclick");
+                    writer.writeAttribute(ONCLICK, onclick.toString(), ONCLICK);
                 }
             }
 
@@ -127,7 +132,7 @@ public class CommandLinkRenderer extends CoreRenderer {
             renderPassThruAttributes(context, link, HTML.LINK_ATTRS, HTML.CLICK_EVENT);
 
             if (label != null) {
-                writer.writeText(label, "value");
+                writer.writeText(label, VALUE);
             }
             else {
                 renderChildren(context, link);
@@ -139,22 +144,22 @@ public class CommandLinkRenderer extends CoreRenderer {
             String styleClass = link.getStyleClass();
             styleClass = styleClass == null ? CommandLink.DISABLED_STYLE_CLASS : CommandLink.DISABLED_STYLE_CLASS + " " + styleClass;
 
-            writer.startElement("span", link);
+            writer.startElement(SPAN, link);
             writer.writeAttribute("id", clientId, "id");
-            writer.writeAttribute("class", styleClass, "styleclass");
+            writer.writeAttribute(CLASS, styleClass, "styleclass");
 
             if (link.getStyle() != null) {
-                writer.writeAttribute("style", link.getStyle(), "style");
+                writer.writeAttribute(STYLE, link.getStyle(), STYLE);
             }
 
             if (label != null) {
-                writer.writeText(label, "value");
+                writer.writeText(label, VALUE);
             }
             else {
                 renderChildren(context, link);
             }
 
-            writer.endElement("span");
+            writer.endElement(SPAN);
         }
     }
 

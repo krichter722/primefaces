@@ -1386,6 +1386,7 @@ public class UIData extends javax.faces.component.UIData {
     }
 
     @Override
+    @SuppressWarnings("PMD.AvoidThrowingNullPointerException")
     public void encodeBegin(FacesContext context) throws IOException {
 
         preEncode(context);

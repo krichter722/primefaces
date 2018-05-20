@@ -62,6 +62,7 @@ public class UploadedFileWrapper implements UploadedFile, FacesWrapper<UploadedF
     }
 
     @Override
+    @SuppressWarnings("PMD.AvoidThrowingRawException")
     public void write(String filePath) throws Exception {
         getWrapped().write(filePath);
     }

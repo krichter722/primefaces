@@ -27,6 +27,14 @@ import javax.faces.convert.ConverterException;
 import org.primefaces.renderkit.CoreRenderer;
 import org.primefaces.util.ComponentUtils;
 import org.primefaces.util.WidgetBuilder;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.INPUT;
+import static org.primefaces.component.Literals.NAME;
+import static org.primefaces.component.Literals.READONLY;
+import static org.primefaces.component.Literals.STYLE;
+import static org.primefaces.component.Literals.TYPE;
+import static org.primefaces.component.Literals.VALUE;
 
 public class TextEditorRenderer extends CoreRenderer {
 
@@ -64,36 +72,36 @@ public class TextEditorRenderer extends CoreRenderer {
         String styleClass = editor.getStyleClass();
         styleClass = (styleClass != null) ? TextEditor.EDITOR_CLASS + " " + styleClass : TextEditor.EDITOR_CLASS;
 
-        writer.startElement("div", editor);
+        writer.startElement(DIV, editor);
         writer.writeAttribute("id", clientId , null);
-        writer.writeAttribute("class", styleClass, null);
-        if (style != null) writer.writeAttribute("style", style, null);
+        writer.writeAttribute(CLASS, styleClass, null);
+        if (style != null) writer.writeAttribute(STYLE, style, null);
 
         if (toolbar != null && editor.isToolbarVisible()) {
-            writer.startElement("div", editor);
+            writer.startElement(DIV, editor);
             writer.writeAttribute("id", clientId + "_toolbar", null);
-            writer.writeAttribute("class", "ui-editor-toolbar", null);
+            writer.writeAttribute(CLASS, "ui-editor-toolbar", null);
             toolbar.encodeAll(context);
-            writer.endElement("div");
+            writer.endElement(DIV);
         }
 
-        writer.startElement("div", editor);
+        writer.startElement(DIV, editor);
         writer.writeAttribute("id", editorId, null);
         if (valueToRender != null) {
             writer.write(valueToRender);
         }
-        writer.endElement("div");
+        writer.endElement(DIV);
 
-        writer.startElement("input", null);
-        writer.writeAttribute("type", "hidden", null);
-        writer.writeAttribute("name", inputId, null);
+        writer.startElement(INPUT, null);
+        writer.writeAttribute(TYPE, "hidden", null);
+        writer.writeAttribute(NAME, inputId, null);
         // #2905
         if (valueToRender != null) {
-            writer.writeAttribute("value", valueToRender, null);
+            writer.writeAttribute(VALUE, valueToRender, null);
         }
-        writer.endElement("input");
+        writer.endElement(INPUT);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     private void encodeScript(FacesContext context, TextEditor editor) throws IOException {
@@ -101,7 +109,7 @@ public class TextEditorRenderer extends CoreRenderer {
         WidgetBuilder wb = getWidgetBuilder(context);
         wb.init("TextEditor", editor.resolveWidgetVar(), clientId)
                 .attr("toolbarVisible", editor.isToolbarVisible())
-                .attr("readOnly", editor.isReadonly(), false)
+                .attr(READONLY, editor.isReadonly(), false)
                 .attr("placeholder", editor.getPlaceholder(), null)
                 .attr("height", editor.getHeight(), Integer.MIN_VALUE);
         encodeClientBehaviors(context, editor);

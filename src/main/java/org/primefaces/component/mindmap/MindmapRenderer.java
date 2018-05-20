@@ -20,6 +20,9 @@ import java.util.List;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.STYLE;
 import org.primefaces.model.mindmap.MindmapNode;
 import org.primefaces.renderkit.CoreRenderer;
 import org.primefaces.util.WidgetBuilder;
@@ -72,14 +75,14 @@ public class MindmapRenderer extends CoreRenderer {
         String styleClass = map.getStyleClass();
         styleClass = (styleClass == null) ? Mindmap.STYLE_CLASS : Mindmap.STYLE_CLASS + " " + styleClass;
 
-        writer.startElement("div", map);
+        writer.startElement(DIV, map);
         writer.writeAttribute("id", clientId, "id");
-        writer.writeAttribute("class", styleClass, "styleClass");
+        writer.writeAttribute(CLASS, styleClass, "styleClass");
         if (style != null) {
-            writer.writeAttribute("style", style, "style");
+            writer.writeAttribute(STYLE, style, STYLE);
         }
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeNode(FacesContext context, Mindmap map, MindmapNode node, String nodeKey) throws IOException {

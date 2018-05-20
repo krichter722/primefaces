@@ -22,6 +22,7 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.validation.Validation;
+import org.apache.commons.lang3.StringUtils;
 import org.primefaces.util.ClassUtils;
 
 public class PrimeEnvironment {
@@ -54,11 +55,12 @@ public class PrimeEnvironment {
         buildVersion = resolveBuildVersion();
         // This should only happen if PF + the webapp is openend and started in the same netbeans instance
         // Fallback to a UID to void a empty version in the resourceUrls
-        if (buildVersion == null || buildVersion.trim().isEmpty()) {
+        if (buildVersion == null || StringUtils.isBlank(buildVersion)) {
             buildVersion = UUID.randomUUID().toString().replace("-", "").substring(0, 10);
         }
     }
-    
+
+    @SuppressWarnings("PMD.AvoidCatchingThrowable")
     protected boolean checkIfBeanValidationIsAvailable() {
         boolean available = ClassUtils.tryToLoadClassForName("javax.validation.Validation") != null;
 
@@ -77,7 +79,8 @@ public class PrimeEnvironment {
 
         return available;
     }
-    
+
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     protected String resolveBuildVersion() {
 
         Properties buildProperties = new Properties();

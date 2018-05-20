@@ -20,6 +20,9 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.event.PhaseId;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.TABLE;
 import org.primefaces.renderkit.CoreRenderer;
 import org.primefaces.util.WidgetBuilder;
 
@@ -31,9 +34,9 @@ public class LifecycleRenderer extends CoreRenderer {
         String clientId = lifecycle.getClientId(context);
         ResponseWriter writer = context.getResponseWriter();
 
-        writer.startElement("table", lifecycle);
+        writer.startElement(TABLE, lifecycle);
         writer.writeAttribute("id", clientId, "id");
-        writer.writeAttribute("class", Lifecycle.STYLE_CLASS, null);
+        writer.writeAttribute(CLASS, Lifecycle.STYLE_CLASS, null);
 
         writer.startElement("tr", null);
         for (PhaseId phaseId : PhaseId.VALUES) {
@@ -44,7 +47,7 @@ public class LifecycleRenderer extends CoreRenderer {
         encodePhase(PhaseId.ANY_PHASE, "ALL", context, writer);
         writer.endElement("tr");
 
-        writer.endElement("table");
+        writer.endElement(TABLE);
 
         WidgetBuilder wb = getWidgetBuilder(context);
         wb.init("Lifecycle", lifecycle.resolveWidgetVar(), clientId);
@@ -56,16 +59,16 @@ public class LifecycleRenderer extends CoreRenderer {
 
         writer.startElement("td", null);
 
-        writer.startElement("div", null);
-        writer.writeAttribute("class", Lifecycle.STYLE_CLASS_NAME, null);
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, Lifecycle.STYLE_CLASS_NAME, null);
         writer.write(name);
-        writer.endElement("div");
+        writer.endElement(DIV);
 
-        writer.startElement("div", null);
-        writer.writeAttribute("class", Lifecycle.STYLE_CLASS_RESULT + " " + Lifecycle.STYLE_CLASS_SCORE
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, Lifecycle.STYLE_CLASS_RESULT + " " + Lifecycle.STYLE_CLASS_SCORE
                 + "-" + getScore(phaseId, phaseInfo.getDuration()), null);
         writer.write(phaseInfo.getDuration() + "ms");
-        writer.endElement("div");
+        writer.endElement(DIV);
 
         writer.endElement("td");
     }

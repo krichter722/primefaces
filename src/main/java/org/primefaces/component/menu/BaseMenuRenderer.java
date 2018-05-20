@@ -32,6 +32,14 @@ import javax.faces.component.behavior.ClientBehaviorHolder;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.event.PhaseId;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.ONCLICK;
+import static org.primefaces.component.Literals.SPAN;
+import static org.primefaces.component.Literals.STYLE;
+import static org.primefaces.component.Literals.TABINDEX;
+import static org.primefaces.component.Literals.TITLE;
+import static org.primefaces.component.Literals.VALUE;
 import org.primefaces.behavior.confirm.ConfirmBehavior;
 import org.primefaces.component.api.AjaxSource;
 import org.primefaces.component.api.UIOutcomeTarget;
@@ -136,12 +144,12 @@ public abstract class BaseMenuRenderer extends OutcomeTargetRenderer {
         String rel = menuitem.getRel();
 
         writer.startElement("a", null);
-        writer.writeAttribute("tabindex", "-1", null);
+        writer.writeAttribute(TABINDEX, "-1", null);
         if (shouldRenderId(menuitem)) {
             writer.writeAttribute("id", menuitem.getClientId(), null);
         }
         if (title != null) {
-            writer.writeAttribute("title", title, null);
+            writer.writeAttribute(TITLE, title, null);
         }
 
         String styleClass = this.getLinkStyleClass(menuitem);
@@ -149,10 +157,10 @@ public abstract class BaseMenuRenderer extends OutcomeTargetRenderer {
             styleClass = styleClass + " ui-state-disabled";
         }
 
-        writer.writeAttribute("class", styleClass, null);
+        writer.writeAttribute(CLASS, styleClass, null);
 
         if (style != null) {
-            writer.writeAttribute("style", style, null);
+            writer.writeAttribute(STYLE, style, null);
         }
 
         if (rel != null) {
@@ -161,7 +169,7 @@ public abstract class BaseMenuRenderer extends OutcomeTargetRenderer {
 
         if (disabled) {
             writer.writeAttribute("href", "#", null);
-            writer.writeAttribute("onclick", "return false;", null);
+            writer.writeAttribute(ONCLICK, "return false;", null);
         }
         else {
             setConfirmationScript(context, menuitem);
@@ -212,10 +220,10 @@ public abstract class BaseMenuRenderer extends OutcomeTargetRenderer {
             if (onclick != null) {
                 if (menuitem.requiresConfirmation()) {
                     writer.writeAttribute("data-pfconfirmcommand", onclick, null);
-                    writer.writeAttribute("onclick", menuitem.getConfirmationScript(), "onclick");
+                    writer.writeAttribute(ONCLICK, menuitem.getConfirmationScript(), ONCLICK);
                 }
                 else {
-                    writer.writeAttribute("onclick", onclick, null);
+                    writer.writeAttribute(ONCLICK, onclick, null);
                 }
             }
         }
@@ -259,17 +267,17 @@ public abstract class BaseMenuRenderer extends OutcomeTargetRenderer {
         Object value = menuitem.getValue();
 
         if (icon != null) {
-            writer.startElement("span", null);
-            writer.writeAttribute("class", AbstractMenu.MENUITEM_ICON_CLASS + " " + icon, null);
-            writer.endElement("span");
+            writer.startElement(SPAN, null);
+            writer.writeAttribute(CLASS, AbstractMenu.MENUITEM_ICON_CLASS + " " + icon, null);
+            writer.endElement(SPAN);
         }
 
-        writer.startElement("span", null);
-        writer.writeAttribute("class", AbstractMenu.MENUITEM_TEXT_CLASS, null);
+        writer.startElement(SPAN, null);
+        writer.writeAttribute(CLASS, AbstractMenu.MENUITEM_TEXT_CLASS, null);
 
         if (value != null) {
             if (menuitem.isEscape()) {
-                writer.writeText(value, "value");
+                writer.writeText(value, VALUE);
             }
             else {
                 writer.write(value.toString());
@@ -279,7 +287,7 @@ public abstract class BaseMenuRenderer extends OutcomeTargetRenderer {
             renderChildren(context, (UIComponent) menuitem);
         }
 
-        writer.endElement("span");
+        writer.endElement(SPAN);
     }
 
     protected void encodeSeparator(FacesContext context, Separator separator) throws IOException {
@@ -290,9 +298,9 @@ public abstract class BaseMenuRenderer extends OutcomeTargetRenderer {
 
         //title
         writer.startElement("li", null);
-        writer.writeAttribute("class", styleClass, null);
+        writer.writeAttribute(CLASS, styleClass, null);
         if (style != null) {
-            writer.writeAttribute("style", style, null);
+            writer.writeAttribute(STYLE, style, null);
         }
 
         writer.endElement("li");
@@ -387,10 +395,10 @@ public abstract class BaseMenuRenderer extends OutcomeTargetRenderer {
                 Object value = params.get(key);
                 String valueStr = value == null ? null : escapeText(value.toString());
 
-                request.append("\"").append(escapeText(key)).append("\":\"").append(valueStr).append("\"");
+                request.append('\"').append(escapeText(key)).append("\":\"").append(valueStr).append('\"');
 
                 if (it.hasNext()) {
-                    request.append(",");
+                    request.append(',');
                 }
             }
 
@@ -407,9 +415,9 @@ public abstract class BaseMenuRenderer extends OutcomeTargetRenderer {
     protected void encodeKeyboardTarget(FacesContext context, AbstractMenu menu) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
 
-        writer.startElement("div", null);
-        writer.writeAttribute("tabindex", menu.getTabindex(), null);
-        writer.writeAttribute("class", "ui-helper-hidden-accessible", null);
-        writer.endElement("div");
+        writer.startElement(DIV, null);
+        writer.writeAttribute(TABINDEX, menu.getTabindex(), null);
+        writer.writeAttribute(CLASS, "ui-helper-hidden-accessible", null);
+        writer.endElement(DIV);
     }
 }

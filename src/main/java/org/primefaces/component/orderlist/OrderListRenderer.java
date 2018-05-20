@@ -24,6 +24,17 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
+import static org.primefaces.component.Literals.BUTTON;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.NAME;
+import static org.primefaces.component.Literals.SELECT;
+import static org.primefaces.component.Literals.SPAN;
+import static org.primefaces.component.Literals.STYLE;
+import static org.primefaces.component.Literals.TABLE;
+import static org.primefaces.component.Literals.TBODY;
+import static org.primefaces.component.Literals.TITLE;
+import static org.primefaces.component.Literals.TYPE;
 import org.primefaces.component.column.Column;
 import org.primefaces.renderkit.CoreRenderer;
 import org.primefaces.util.HTML;
@@ -68,15 +79,15 @@ public class OrderListRenderer extends CoreRenderer {
             styleClass = styleClass + " ui-grid-responsive";
         }
 
-        writer.startElement("div", ol);
+        writer.startElement(DIV, ol);
         writer.writeAttribute("id", clientId, null);
-        writer.writeAttribute("class", styleClass, null);
+        writer.writeAttribute(CLASS, styleClass, null);
         if (style != null) {
-            writer.writeAttribute("style", style, null);
+            writer.writeAttribute(STYLE, style, null);
         }
 
-        writer.startElement("div", null);
-        writer.writeAttribute("class", "ui-g", null);
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, "ui-g", null);
 
         if (controlsLocation.equals("left")) {
             encodeControls(context, ol);
@@ -88,8 +99,8 @@ public class OrderListRenderer extends CoreRenderer {
             encodeControls(context, ol);
         }
 
-        writer.endElement("div");
-        writer.endElement("div");
+        writer.endElement(DIV);
+        writer.endElement(DIV);
     }
 
     protected void encodeList(FacesContext context, OrderList ol) throws IOException {
@@ -99,8 +110,8 @@ public class OrderListRenderer extends CoreRenderer {
         String listStyleClass = OrderList.LIST_CLASS;
         String columnGridClass = ol.getControlsLocation().equals("none") ? "ui-g-12 ui-md-12" : "ui-g-12 ui-md-10";
 
-        writer.startElement("div", null);
-        writer.writeAttribute("class", columnGridClass, null);
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, columnGridClass, null);
 
         if (caption != null) {
             encodeCaption(context, caption);
@@ -111,7 +122,7 @@ public class OrderListRenderer extends CoreRenderer {
         }
 
         writer.startElement("ul", null);
-        writer.writeAttribute("class", listStyleClass, null);
+        writer.writeAttribute(CLASS, listStyleClass, null);
 
         encodeOptions(context, ol, (List) ol.getValue());
 
@@ -119,32 +130,32 @@ public class OrderListRenderer extends CoreRenderer {
 
         encodeInput(context, clientId + "_values");
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeInput(FacesContext context, String clientId) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
 
-        writer.startElement("select", null);
+        writer.startElement(SELECT, null);
         writer.writeAttribute("id", clientId, null);
-        writer.writeAttribute("name", clientId, null);
+        writer.writeAttribute(NAME, clientId, null);
         writer.writeAttribute("multiple", "true", null);
-        writer.writeAttribute("class", "ui-helper-hidden", null);
+        writer.writeAttribute(CLASS, "ui-helper-hidden", null);
 
         //options generated at client side
-        writer.endElement("select");
+        writer.endElement(SELECT);
     }
 
     protected void encodeControls(FacesContext context, OrderList ol) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
 
-        writer.startElement("div", null);
-        writer.writeAttribute("class", OrderList.CONTROLS_CLASS, null);
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, OrderList.CONTROLS_CLASS, null);
         encodeButton(context, ol.getMoveUpLabel(), OrderList.MOVE_UP_BUTTON_CLASS, OrderList.MOVE_UP_BUTTON_ICON_CLASS);
         encodeButton(context, ol.getMoveTopLabel(), OrderList.MOVE_TOP_BUTTON_CLASS, OrderList.MOVE_TOP_BUTTON_ICON_CLASS);
         encodeButton(context, ol.getMoveDownLabel(), OrderList.MOVE_DOWN_BUTTON_CLASS, OrderList.MOVE_DOWN_BUTTON_ICON_CLASS);
         encodeButton(context, ol.getMoveBottomLabel(), OrderList.MOVE_BOTTOM_BUTTON_CLASS, OrderList.MOVE_BOTTOM_BUTTON_ICON_CLASS);
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     @SuppressWarnings("unchecked")
@@ -158,13 +169,13 @@ public class OrderListRenderer extends CoreRenderer {
             String value = converter != null ? converter.getAsString(context, old, old.getItemValue()) : old.getItemValue().toString();
 
             writer.startElement("li", null);
-            writer.writeAttribute("class", OrderList.ITEM_CLASS, null);
+            writer.writeAttribute(CLASS, OrderList.ITEM_CLASS, null);
             writer.writeAttribute("data-item-value", value, null);
 
             if (old.getChildCount() > 0) {
 
-                writer.startElement("table", null);
-                writer.startElement("tbody", null);
+                writer.startElement(TABLE, null);
+                writer.startElement(TBODY, null);
                 writer.startElement("tr", null);
 
                 for (UIComponent kid : old.getChildren()) {
@@ -172,8 +183,8 @@ public class OrderListRenderer extends CoreRenderer {
                         Column column = (Column) kid;
 
                         writer.startElement("td", null);
-                        if (column.getStyle() != null) writer.writeAttribute("style", column.getStyle(), null);
-                        if (column.getStyleClass() != null) writer.writeAttribute("class", column.getStyleClass(), null);
+                        if (column.getStyle() != null) writer.writeAttribute(STYLE, column.getStyle(), null);
+                        if (column.getStyleClass() != null) writer.writeAttribute(CLASS, column.getStyleClass(), null);
 
                         renderChildren(context, column);
                         writer.endElement("td");
@@ -181,8 +192,8 @@ public class OrderListRenderer extends CoreRenderer {
                 }
 
                 writer.endElement("tr");
-                writer.endElement("tbody");
-                writer.endElement("table");
+                writer.endElement(TBODY);
+                writer.endElement(TABLE);
             }
             else {
                 writer.writeText(old.getItemLabel(), null);
@@ -197,23 +208,23 @@ public class OrderListRenderer extends CoreRenderer {
     protected void encodeButton(FacesContext context, String title, String styleClass, String icon) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
 
-        writer.startElement("button", null);
-        writer.writeAttribute("type", "button", null);
-        writer.writeAttribute("class", HTML.BUTTON_ICON_ONLY_BUTTON_CLASS + " " + styleClass, null);
-        writer.writeAttribute("title", title, null);
+        writer.startElement(BUTTON, null);
+        writer.writeAttribute(TYPE, BUTTON, null);
+        writer.writeAttribute(CLASS, HTML.BUTTON_ICON_ONLY_BUTTON_CLASS + " " + styleClass, null);
+        writer.writeAttribute(TITLE, title, null);
 
         //icon
-        writer.startElement("span", null);
-        writer.writeAttribute("class", HTML.BUTTON_LEFT_ICON_CLASS + " " + icon, null);
-        writer.endElement("span");
+        writer.startElement(SPAN, null);
+        writer.writeAttribute(CLASS, HTML.BUTTON_LEFT_ICON_CLASS + " " + icon, null);
+        writer.endElement(SPAN);
 
         //text
-        writer.startElement("span", null);
-        writer.writeAttribute("class", HTML.BUTTON_TEXT_CLASS, null);
+        writer.startElement(SPAN, null);
+        writer.writeAttribute(CLASS, HTML.BUTTON_TEXT_CLASS, null);
         writer.write("ui-button");
-        writer.endElement("span");
+        writer.endElement(SPAN);
 
-        writer.endElement("button");
+        writer.endElement(BUTTON);
     }
 
     protected void encodeScript(FacesContext context, OrderList ol) throws IOException {
@@ -228,7 +239,8 @@ public class OrderListRenderer extends CoreRenderer {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked",
+        "PMD.AvoidCatchingGenericException"})
     public Object getConvertedValue(FacesContext context, UIComponent component, Object submittedValue) throws ConverterException {
         try {
             OrderList ol = (OrderList) component;
@@ -258,10 +270,10 @@ public class OrderListRenderer extends CoreRenderer {
     protected void encodeCaption(FacesContext context, UIComponent caption) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
 
-        writer.startElement("div", null);
-        writer.writeAttribute("class", OrderList.CAPTION_CLASS, null);
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, OrderList.CAPTION_CLASS, null);
         caption.encodeAll(context);
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     @Override

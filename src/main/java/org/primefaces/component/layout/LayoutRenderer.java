@@ -20,6 +20,9 @@ import java.io.IOException;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.STYLE;
 
 import org.primefaces.renderkit.CoreRenderer;
 import org.primefaces.util.ComponentUtils;
@@ -39,11 +42,11 @@ public class LayoutRenderer extends CoreRenderer {
         String clientId = layout.getClientId(context);
 
         if (layout.isElementLayout()) {
-            writer.startElement("div", layout);
+            writer.startElement(DIV, layout);
             writer.writeAttribute("id", clientId, "id");
 
-            if (layout.getStyle() != null) writer.writeAttribute("style", layout.getStyle(), "style");
-            if (layout.getStyleClass() != null) writer.writeAttribute("class", layout.getStyleClass(), "styleClass");
+            if (layout.getStyle() != null) writer.writeAttribute(STYLE, layout.getStyle(), STYLE);
+            if (layout.getStyleClass() != null) writer.writeAttribute(CLASS, layout.getStyleClass(), "styleClass");
         }
     }
 
@@ -53,7 +56,7 @@ public class LayoutRenderer extends CoreRenderer {
         Layout layout = (Layout) component;
 
         if (layout.isElementLayout()) {
-            writer.endElement("div");
+            writer.endElement(DIV);
         }
         
         encodeScript(context, layout);
@@ -85,8 +88,8 @@ public class LayoutRenderer extends CoreRenderer {
             if (child.isRendered() && child instanceof LayoutUnit) {
                 LayoutUnit unit = (LayoutUnit) child;
 
-                wb.append(",").append(unit.getPosition()).append(":{")
-                        .append("paneSelector:'#").append(ComponentUtils.escapeSelector(unit.getClientId(context))).append("'")
+                wb.append(',').append(unit.getPosition()).append(":{")
+                        .append("paneSelector:'#").append(ComponentUtils.escapeSelector(unit.getClientId(context))).append('\'')
                         .attr("size", unit.getSize())
                         .attr("resizable", unit.isResizable())
                         .attr("closable", unit.isCollapsible())

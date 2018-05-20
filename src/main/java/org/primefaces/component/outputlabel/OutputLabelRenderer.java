@@ -41,6 +41,10 @@ import org.primefaces.util.ComponentUtils;
 import org.primefaces.util.CompositeUtils;
 import org.primefaces.util.HTML;
 import org.primefaces.util.SharedStringBuilder;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.LABEL;
+import static org.primefaces.component.Literals.SPAN;
+import static org.primefaces.component.Literals.VALUE;
 
 public class OutputLabelRenderer extends CoreRenderer {
 
@@ -58,7 +62,7 @@ public class OutputLabelRenderer extends CoreRenderer {
         final StringBuilder styleClass = SharedStringBuilder.get(context, SB_STYLE_CLASS);
         styleClass.append(OutputLabel.STYLE_CLASS);
         if (label.getStyleClass() != null) {
-            styleClass.append(" ");
+            styleClass.append(' ');
             styleClass.append(label.getStyleClass());
         }
 
@@ -84,11 +88,11 @@ public class OutputLabelRenderer extends CoreRenderer {
                     if (target instanceof UIInput) {
                         UIInput input = (UIInput) target;
 
-                        if (value != null && (input.getAttributes().get("label") == null || input.getValueExpression("label") == null)) {
-                            ValueExpression ve = label.getValueExpression("value");
+                        if (value != null && (input.getAttributes().get(LABEL) == null || input.getValueExpression(LABEL) == null)) {
+                            ValueExpression ve = label.getValueExpression(VALUE);
 
                             if (ve != null) {
-                                input.setValueExpression("label", ve);
+                                input.setValueExpression(LABEL, ve);
                             }
                             else {
                                 String labelString = value;
@@ -98,7 +102,7 @@ public class OutputLabelRenderer extends CoreRenderer {
                                     labelString = labelString.substring(0, colonPos);
                                 }
 
-                                input.getAttributes().put("label", labelString);
+                                input.getAttributes().put(LABEL, labelString);
                             }
                         }
 
@@ -131,9 +135,9 @@ public class OutputLabelRenderer extends CoreRenderer {
             }
         }
 
-        writer.startElement("label", label);
+        writer.startElement(LABEL, label);
         writer.writeAttribute("id", clientId, "id");
-        writer.writeAttribute("class", styleClass.toString(), "id");
+        writer.writeAttribute(CLASS, styleClass.toString(), "id");
         renderPassThruAttributes(context, label, HTML.LABEL_ATTRS);
 
         if (!isValueBlank(_for)) {
@@ -142,7 +146,7 @@ public class OutputLabelRenderer extends CoreRenderer {
 
         if (value != null) {
             if (label.isEscape()) {
-                writer.writeText(value, "value");
+                writer.writeText(value, VALUE);
             }
             else {
                 writer.write(value);
@@ -155,14 +159,14 @@ public class OutputLabelRenderer extends CoreRenderer {
             encodeRequiredIndicator(writer, label);
         }
 
-        writer.endElement("label");
+        writer.endElement(LABEL);
     }
 
     protected void encodeRequiredIndicator(ResponseWriter writer, OutputLabel label) throws IOException {
-        writer.startElement("span", label);
-        writer.writeAttribute("class", OutputLabel.REQUIRED_FIELD_INDICATOR_CLASS, null);
+        writer.startElement(SPAN, label);
+        writer.writeAttribute(CLASS, OutputLabel.REQUIRED_FIELD_INDICATOR_CLASS, null);
         writer.write("*");
-        writer.endElement("span");
+        writer.endElement(SPAN);
     }
 
     protected boolean isBeanValidationDefined(UIInput input, FacesContext context) {
@@ -170,7 +174,7 @@ public class OutputLabelRenderer extends CoreRenderer {
             PrimeApplicationContext applicationContext = PrimeApplicationContext.getCurrentInstance(context);
             Set<ConstraintDescriptor<?>> constraints = BeanValidationMetadataExtractor.extractDefaultConstraintDescriptors(context,
                     applicationContext,
-                    ValueExpressionAnalyzer.getExpression(context.getELContext(), input.getValueExpression("value")));
+                    ValueExpressionAnalyzer.getExpression(context.getELContext(), input.getValueExpression(VALUE)));
             if (constraints == null || constraints.isEmpty()) {
                 return false;
             }

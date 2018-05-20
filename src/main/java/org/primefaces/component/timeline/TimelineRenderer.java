@@ -34,8 +34,13 @@ import org.primefaces.util.ComponentUtils;
 import org.primefaces.util.DateUtils;
 import org.primefaces.util.FastStringWriter;
 import org.primefaces.util.WidgetBuilder;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.STYLE;
 
 public class TimelineRenderer extends CoreRenderer {
+
+    private static final String LITERAL0 = ",\"group\":\"";
 
     @Override
     public void decode(FacesContext context, UIComponent component) {
@@ -52,18 +57,18 @@ public class TimelineRenderer extends CoreRenderer {
     protected void encodeMarkup(FacesContext context, Timeline timeline) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
         String clientId = timeline.getClientId(context);
-        writer.startElement("div", timeline);
+        writer.startElement(DIV, timeline);
 
         writer.writeAttribute("id", clientId, "id");
         if (timeline.getStyle() != null) {
-            writer.writeAttribute("style", timeline.getStyle(), "style");
+            writer.writeAttribute(STYLE, timeline.getStyle(), STYLE);
         }
 
         if (timeline.getStyleClass() != null) {
-            writer.writeAttribute("class", timeline.getStyleClass(), "styleClass");
+            writer.writeAttribute(CLASS, timeline.getStyleClass(), "styleClass");
         }
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeScript(FacesContext context, Timeline timeline) throws IOException {
@@ -149,7 +154,7 @@ public class TimelineRenderer extends CoreRenderer {
 
         wb.attr("eventMargin", timeline.getEventMargin());
         wb.attr("eventMarginAxis", timeline.getEventMarginAxis());
-        wb.attr("style", timeline.getEventStyle());
+        wb.attr(STYLE, timeline.getEventStyle());
         wb.attr("groupsChangeable", timeline.isGroupsChangeable());
         wb.attr("groupsOnRight", timeline.isGroupsOnRight());
         wb.attr("groupsOrder", timeline.isGroupsOrder());
@@ -254,7 +259,7 @@ public class TimelineRenderer extends CoreRenderer {
                     String groupContent = groupsContent.get(foundGroup.getId());
                     if (groupContent != null) {
                         // content of this group was already rendered ==> reuse it
-                        fsw.write(",\"group\":\"" + groupContent + "\"");
+                        fsw.write(LITERAL0 + groupContent + "\"");
                     }
                     else {
                         Object data = foundGroup.getData();
@@ -271,12 +276,12 @@ public class TimelineRenderer extends CoreRenderer {
                         context.setResponseWriter(writer);
                         // extract the content of the group, first buffer and then render it
                         groupsContent.put(foundGroup.getId(), prefix + escapeText(fswHtml.toString()));
-                        fsw.write(",\"group\":\"" + groupsContent.get(foundGroup.getId()) + "\"");
+                        fsw.write(LITERAL0 + groupsContent.get(foundGroup.getId()) + "\"");
                         fswHtml.reset();
                     }
                 }
                 else if (foundGroup.getData() != null) {
-                    fsw.write(",\"group\":\"" + prefix + foundGroup.getData().toString() + "\"");
+                    fsw.write(LITERAL0 + prefix + foundGroup.getData().toString() + "\"");
                 }
             }
             else {
@@ -287,7 +292,7 @@ public class TimelineRenderer extends CoreRenderer {
         else {
             // group's content is coded in the event self
             if (event.getGroup() != null) {
-                fsw.write(",\"group\":\"" + event.getGroup() + "\"");
+                fsw.write(LITERAL0 + event.getGroup() + "\"");
             }
             else {
                 // no group for the event

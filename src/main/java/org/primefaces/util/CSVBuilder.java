@@ -25,12 +25,13 @@ import org.primefaces.expression.SearchExpressionHint;
  */
 public class CSVBuilder {
 
+    @SuppressWarnings("PMD.AvoidStringBufferField")
     protected StringBuilder buffer;
     protected FacesContext context;
 
     public CSVBuilder(FacesContext context) {
         this.context = context;
-        this.buffer = new StringBuilder();
+        this.buffer = new StringBuilder(1024);
     }
 
     public CSVBuilder init() {
@@ -40,10 +41,10 @@ public class CSVBuilder {
 
     public CSVBuilder source(String source) {
         if (source == null || source.equals("this")) {
-            buffer.append("s:").append("this");
+            buffer.append("s:this");
         }
         else {
-            buffer.append("s:").append("'").append(source).append("'");
+            buffer.append("s:\'").append(source).append('\'');
         }
 
         return this;
@@ -51,7 +52,7 @@ public class CSVBuilder {
 
     public CSVBuilder ajax(boolean value) {
         if (value) {
-            buffer.append(",a:").append("true");
+            buffer.append(",a:true");
         }
 
         return this;
@@ -60,7 +61,7 @@ public class CSVBuilder {
     public CSVBuilder process(UIComponent component, String expressions) {
         if (!ComponentUtils.isValueBlank(expressions)) {
             String resolvedExpressions = SearchExpressionFacade.resolveClientIds(context, component, expressions);
-            buffer.append(",p:'").append(resolvedExpressions).append("'");
+            buffer.append(",p:'").append(resolvedExpressions).append('\'');
         }
 
         return this;
@@ -70,14 +71,14 @@ public class CSVBuilder {
         if (!ComponentUtils.isValueBlank(expressions)) {
             String resolvedExpressions = SearchExpressionFacade.resolveClientIds(
                     context, component, expressions, SearchExpressionHint.VALIDATE_RENDERER);
-            buffer.append(",u:'").append(resolvedExpressions).append("'");
+            buffer.append(",u:'").append(resolvedExpressions).append('\'');
         }
 
         return this;
     }
 
     public CSVBuilder command(String command) {
-        buffer.append("})){").append(command).append("}");
+        buffer.append("})){").append(command).append('}');
 
         return this;
     }

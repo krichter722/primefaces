@@ -29,6 +29,7 @@ import javax.faces.view.facelets.FaceletException;
 import javax.faces.view.facelets.TagAttribute;
 import javax.faces.view.facelets.TagConfig;
 import javax.faces.view.facelets.TagHandler;
+import static org.primefaces.component.Literals.TYPE;
 
 public class DataExporterTagHandler extends TagHandler {
 
@@ -47,7 +48,7 @@ public class DataExporterTagHandler extends TagHandler {
     public DataExporterTagHandler(TagConfig tagConfig) {
         super(tagConfig);
         this.target = getRequiredAttribute("target");
-        this.type = getRequiredAttribute("type");
+        this.type = getRequiredAttribute(TYPE);
         this.fileName = getRequiredAttribute("fileName");
         this.pageOnly = getAttribute("pageOnly");
         this.selectionOnly = getAttribute("selectionOnly");

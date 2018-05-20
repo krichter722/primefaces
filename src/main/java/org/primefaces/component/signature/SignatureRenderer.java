@@ -22,6 +22,14 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import org.primefaces.renderkit.CoreRenderer;
 import org.primefaces.util.WidgetBuilder;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.INPUT;
+import static org.primefaces.component.Literals.NAME;
+import static org.primefaces.component.Literals.READONLY;
+import static org.primefaces.component.Literals.STYLE;
+import static org.primefaces.component.Literals.TYPE;
+import static org.primefaces.component.Literals.VALUE;
 
 public class SignatureRenderer extends CoreRenderer {
 
@@ -54,10 +62,10 @@ public class SignatureRenderer extends CoreRenderer {
         String defaultStyle = signature.resolveStyleClass();
         styleClass = styleClass == null ? defaultStyle : defaultStyle + " " + styleClass;
 
-        writer.startElement("div", null);
+        writer.startElement(DIV, null);
         writer.writeAttribute("id", clientId, null);
-        if (style != null) writer.writeAttribute("style", style, null);
-        if (styleClass != null) writer.writeAttribute("class", styleClass, null);
+        if (style != null) writer.writeAttribute(STYLE, style, null);
+        if (styleClass != null) writer.writeAttribute(CLASS, styleClass, null);
 
         encodeInputField(context, signature, clientId + "_value", signature.getValue());
 
@@ -65,7 +73,7 @@ public class SignatureRenderer extends CoreRenderer {
             encodeInputField(context, signature, clientId + "_base64", null);
         }
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeScript(FacesContext context, Signature signature) throws IOException {
@@ -75,7 +83,7 @@ public class SignatureRenderer extends CoreRenderer {
                 .attr("background", signature.getBackgroundColor(), null)
                 .attr("color", signature.getColor(), null)
                 .attr("thickness", signature.getThickness(), 2)
-                .attr("readonly", signature.isReadonly(), false)
+                .attr(READONLY, signature.isReadonly(), false)
                 .attr("guideline", signature.isGuideline(), false)
                 .attr("guidelineColor", signature.getGuidelineColor(), null)
                 .attr("guidelineOffset", signature.getGuidelineOffset(), 25)
@@ -92,14 +100,14 @@ public class SignatureRenderer extends CoreRenderer {
     protected void encodeInputField(FacesContext context, Signature signature, String name, Object value) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
 
-        writer.startElement("input", null);
-        writer.writeAttribute("type", "hidden", null);
+        writer.startElement(INPUT, null);
+        writer.writeAttribute(TYPE, "hidden", null);
         writer.writeAttribute("id", name, null);
-        writer.writeAttribute("name", name, null);
+        writer.writeAttribute(NAME, name, null);
         writer.writeAttribute("autocomplete", "off", null);
         if (value != null) {
-            writer.writeAttribute("value", value, null);
+            writer.writeAttribute(VALUE, value, null);
         }
-        writer.endElement("input");
+        writer.endElement(INPUT);
     }
 }

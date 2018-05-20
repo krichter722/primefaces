@@ -23,6 +23,10 @@ import java.util.Locale;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.SPAN;
+import static org.primefaces.component.Literals.VALUE;
 import org.primefaces.PrimeFaces;
 import org.primefaces.renderkit.CoreRenderer;
 import org.primefaces.util.WidgetBuilder;
@@ -52,16 +56,16 @@ public class ClockRenderer extends CoreRenderer {
         String clientId = clock.getClientId(context);
 
         if (clock.getDisplayMode().equals("analog")) {
-            writer.startElement("div", clock);
+            writer.startElement(DIV, clock);
             writer.writeAttribute("id", clientId, null);
-            writer.writeAttribute("class", Clock.ANALOG_STYLE_CLASS, null);
-            writer.endElement("div");
+            writer.writeAttribute(CLASS, Clock.ANALOG_STYLE_CLASS, null);
+            writer.endElement(DIV);
         }
         else {
-            writer.startElement("span", clock);
+            writer.startElement(SPAN, clock);
             writer.writeAttribute("id", clientId, null);
-            writer.writeAttribute("class", Clock.STYLE_CLASS, null);
-            writer.endElement("span");
+            writer.writeAttribute(CLASS, Clock.STYLE_CLASS, null);
+            writer.endElement(SPAN);
         }
     }
 
@@ -77,7 +81,7 @@ public class ClockRenderer extends CoreRenderer {
                 .attr("locale", context.getViewRoot().getLocale().toString());
 
         if (mode.equals("server")) {
-            wb.attr("value", getValueWithTimeZone(context, clock));
+            wb.attr(VALUE, getValueWithTimeZone(context, clock));
 
             if (clock.isAutoSync()) {
                 wb.attr("autoSync", true).attr("syncInterval", clock.getSyncInterval());

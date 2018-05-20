@@ -29,6 +29,7 @@ import javax.faces.view.facelets.FaceletContext;
 import javax.faces.view.facelets.TagAttribute;
 import javax.faces.view.facelets.TagConfig;
 import javax.faces.view.facelets.TagHandler;
+import static org.primefaces.component.Literals.TYPE;
 import org.primefaces.context.PrimeApplicationContext;
 
 /**
@@ -42,7 +43,7 @@ public class ImportConstantsTagHandler extends TagHandler {
     public ImportConstantsTagHandler(TagConfig config) {
         super(config);
 
-        typeTagAttribute = super.getRequiredAttribute("type");
+        typeTagAttribute = super.getRequiredAttribute(TYPE);
         varTagAttribute = super.getAttribute("var");
     }
 
@@ -118,6 +119,7 @@ public class ImportConstantsTagHandler extends TagHandler {
      * @param type The class which includes the constants.
      * @return A {@link Map} with the found constants.
      */
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     protected Map<String, Object> collectConstants(Class<?> type) {
         Map<String, Object> constants = new ConstantsHashMap<>(type);
 

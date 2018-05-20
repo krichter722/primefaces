@@ -28,6 +28,7 @@ import javax.faces.view.facelets.FaceletException;
 import javax.faces.view.facelets.TagAttribute;
 import javax.faces.view.facelets.TagConfig;
 import javax.faces.view.facelets.TagHandler;
+import static org.primefaces.component.Literals.VALUE;
 
 public class FileDownloadTagHandler extends TagHandler {
 
@@ -37,7 +38,7 @@ public class FileDownloadTagHandler extends TagHandler {
 
     public FileDownloadTagHandler(TagConfig tagConfig) {
         super(tagConfig);
-        this.value = getRequiredAttribute("value");
+        this.value = getRequiredAttribute(VALUE);
         this.contentDisposition = getAttribute("contentDisposition");
         this.monitorKey = getAttribute("monitorKey");
     }

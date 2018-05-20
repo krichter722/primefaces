@@ -19,6 +19,10 @@ import java.io.IOException;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.SPAN;
+import static org.primefaces.component.Literals.STYLE;
+import static org.primefaces.component.Literals.VALUE;
 import org.primefaces.renderkit.OutcomeTargetRenderer;
 import org.primefaces.util.HTML;
 import org.primefaces.util.WidgetBuilder;
@@ -44,19 +48,19 @@ public class LinkButtonRenderer extends OutcomeTargetRenderer {
         String styleClass = linkButton.getStyleClass();
         styleClass = (styleClass == null) ? defaultStyleClass : defaultStyleClass + " " + styleClass;
         
-        writer.startElement("span", linkButton);
+        writer.startElement(SPAN, linkButton);
         writer.writeAttribute("id", linkButton.getClientId(context), "id");
-        writer.writeAttribute("class", styleClass, "styleClass");
+        writer.writeAttribute(CLASS, styleClass, "styleClass");
         if (style != null) {
-            writer.writeAttribute("style", style, "style");
+            writer.writeAttribute(STYLE, style, STYLE);
         }
         
         if (disabled) {
-            writer.startElement("span", null);
-            writer.writeAttribute("class", HTML.BUTTON_TEXT_CLASS, null);
+            writer.startElement(SPAN, null);
+            writer.writeAttribute(CLASS, HTML.BUTTON_TEXT_CLASS, null);
 
             renderContent(context, linkButton);
-            writer.endElement("span");
+            writer.endElement(SPAN);
         }
         else {
             String targetURL = getTargetURL(context, linkButton);
@@ -65,7 +69,7 @@ public class LinkButtonRenderer extends OutcomeTargetRenderer {
             }
 
             writer.startElement("a", null);
-            writer.writeAttribute("class", HTML.BUTTON_TEXT_CLASS, null);
+            writer.writeAttribute(CLASS, HTML.BUTTON_TEXT_CLASS, null);
             writer.writeAttribute("href", targetURL, null);
             renderPassThruAttributes(context, linkButton, HTML.LINK_ATTRS_WITHOUT_EVENTS);
             renderDomEvents(context, linkButton, HTML.OUTPUT_EVENTS);
@@ -73,7 +77,7 @@ public class LinkButtonRenderer extends OutcomeTargetRenderer {
             writer.endElement("a");
         }
         
-        writer.endElement("span");
+        writer.endElement(SPAN);
     }
     
     protected void encodeScript(FacesContext context, LinkButton button) throws IOException {
@@ -90,7 +94,7 @@ public class LinkButtonRenderer extends OutcomeTargetRenderer {
 
         if (value != null) {
             if (linkButton.isEscape()) {
-                writer.writeText(value, "value");
+                writer.writeText(value, VALUE);
             }
             else {
                 writer.write(value.toString());

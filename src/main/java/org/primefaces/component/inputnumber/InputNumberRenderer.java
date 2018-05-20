@@ -28,6 +28,15 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DISABLED;
+import static org.primefaces.component.Literals.INPUT;
+import static org.primefaces.component.Literals.NAME;
+import static org.primefaces.component.Literals.READONLY;
+import static org.primefaces.component.Literals.SPAN;
+import static org.primefaces.component.Literals.STYLE;
+import static org.primefaces.component.Literals.TYPE;
+import static org.primefaces.component.Literals.VALUE;
 
 import org.primefaces.component.inputtext.InputText;
 import org.primefaces.context.PrimeApplicationContext;
@@ -37,6 +46,8 @@ import org.primefaces.util.HTML;
 import org.primefaces.util.WidgetBuilder;
 
 public class InputNumberRenderer extends InputRenderer {
+
+    private static final String LITERAL0 = "\",";
 
     @Override
     public Object getConvertedValue(FacesContext context, UIComponent component, Object submittedValue)
@@ -71,7 +82,7 @@ public class InputNumberRenderer extends InputRenderer {
 
         try {
             if (ComponentUtils.isValueBlank(submittedValue)) {
-                ValueExpression valueExpression = inputNumber.getValueExpression("value");
+                ValueExpression valueExpression = inputNumber.getValueExpression(VALUE);
                 if (valueExpression != null) {
                     Class<?> type = valueExpression.getType(context.getELContext());
                     if (type != null && type.isPrimitive() && !ComponentUtils.isValueBlank(inputNumber.getMinValue())) {
@@ -132,28 +143,28 @@ public class InputNumberRenderer extends InputRenderer {
         String styleClass = inputNumber.getStyleClass();
         styleClass = styleClass == null ? InputNumber.STYLE_CLASS : InputNumber.STYLE_CLASS + " " + styleClass;
 
-        writer.startElement("span", inputNumber);
+        writer.startElement(SPAN, inputNumber);
         writer.writeAttribute("id", clientId, null);
-        writer.writeAttribute("class", styleClass, "styleClass");
+        writer.writeAttribute(CLASS, styleClass, "styleClass");
 
         if (inputNumber.getStyle() != null) {
-            writer.writeAttribute("style", inputNumber.getStyle(), "style");
+            writer.writeAttribute(STYLE, inputNumber.getStyle(), STYLE);
         }
 
         encodeInput(context, inputNumber, clientId, valueToRender);
         encodeHiddenInput(context, inputNumber, clientId);
 
-        writer.endElement("span");
+        writer.endElement(SPAN);
     }
 
     protected void encodeHiddenInput(FacesContext context, InputNumber inputNumber, String clientId) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
         String inputId = clientId + "_hinput";
 
-        writer.startElement("input", null);
+        writer.startElement(INPUT, null);
         writer.writeAttribute("id", inputId, null);
-        writer.writeAttribute("name", inputId, null);
-        writer.writeAttribute("type", "hidden", null);
+        writer.writeAttribute(NAME, inputId, null);
+        writer.writeAttribute(TYPE, "hidden", null);
         writer.writeAttribute("autocomplete", "off", null);
 
         if (inputNumber.getOnchange() != null) {
@@ -172,7 +183,7 @@ public class InputNumberRenderer extends InputRenderer {
             renderValidationMetadata(context, inputNumber);
         }
 
-        writer.endElement("input");
+        writer.endElement(INPUT);
 
     }
 
@@ -194,41 +205,41 @@ public class InputNumberRenderer extends InputRenderer {
             styleClass += " " + inputStyleClass;
         }
 
-        writer.startElement("input", null);
+        writer.startElement(INPUT, null);
         writer.writeAttribute("id", inputId, null);
-        writer.writeAttribute("name", inputId, null);
-        writer.writeAttribute("type", inputNumber.getType(), null);
-        writer.writeAttribute("value", valueToRender, null);
+        writer.writeAttribute(NAME, inputId, null);
+        writer.writeAttribute(TYPE, inputNumber.getType(), null);
+        writer.writeAttribute(VALUE, valueToRender, null);
 
         renderPassThruAttributes(context, inputNumber, HTML.INPUT_TEXT_ATTRS_WITHOUT_EVENTS);
         renderDomEvents(context, inputNumber, HTML.INPUT_TEXT_EVENTS);
 
         if (inputNumber.isReadonly()) {
-            writer.writeAttribute("readonly", "readonly", "readonly");
+            writer.writeAttribute(READONLY, READONLY, READONLY);
         }
         if (inputNumber.isDisabled()) {
-            writer.writeAttribute("disabled", "disabled", "disabled");
+            writer.writeAttribute(DISABLED, DISABLED, DISABLED);
         }
 
         if (!isValueBlank(style)) {
-            writer.writeAttribute("style", style, null);
+            writer.writeAttribute(STYLE, style, null);
         }
 
-        writer.writeAttribute("class", styleClass, null);
+        writer.writeAttribute(CLASS, styleClass, null);
 
         if (PrimeApplicationContext.getCurrentInstance(context).getConfig().isClientSideValidationEnabled()) {
             renderValidationMetadata(context, inputNumber);
         }
 
-        writer.endElement("input");
+        writer.endElement(INPUT);
     }
 
     protected void encodeScript(FacesContext context, InputNumber inputNumber, Object value, String valueToRender)
             throws IOException {
         WidgetBuilder wb = getWidgetBuilder(context);
         wb.init(InputNumber.class.getSimpleName(), inputNumber.resolveWidgetVar(), inputNumber.getClientId());
-        wb.attr("disabled", inputNumber.isDisabled())
-                .attr("valueToRender", formatForPlugin(valueToRender, inputNumber, value));
+        wb.attr(DISABLED, inputNumber.isDisabled())
+                .attr("valueToRender", formatForPlugin(valueToRender, value));
 
         String metaOptions = getOptions(inputNumber);
         if (!metaOptions.isEmpty()) {
@@ -253,17 +264,17 @@ public class InputNumberRenderer extends InputRenderer {
         boolean padControl = inputNumber.isPadControl();
 
         String options = "";
-        options += isValueBlank(decimalSeparator) ? "" : "aDec:\"" + escapeText(decimalSeparator) + "\",";
+        options += isValueBlank(decimalSeparator) ? "" : "aDec:\"" + escapeText(decimalSeparator) + LITERAL0;
         //empty thousandSeparator must be explicity defined.
-        options += isValueBlank(thousandSeparator) ? "aSep:''," : "aSep:\"" + escapeText(thousandSeparator) + "\",";
-        options += isValueBlank(symbol) ? "" : "aSign:\"" + escapeText(symbol) + "\",";
-        options += isValueBlank(symbolPosition) ? "" : "pSign:\"" + escapeText(symbolPosition) + "\",";
-        options += isValueBlank(minValue) ? "" : "vMin:\"" + escapeText(minValue) + "\",";
-        options += isValueBlank(maxValue) ? "" : "vMax:\"" + escapeText(maxValue) + "\",";
-        options += isValueBlank(roundMethod) ? "" : "mRound:\"" + escapeText(roundMethod) + "\",";
-        options += isValueBlank(decimalPlaces) ? "" : "mDec:\"" + escapeText(decimalPlaces) + "\",";
-        options += "wEmpty:\"" + escapeText(emptyValue) + "\",";
-        options += "lZero:\"" + escapeText(lZero) + "\",";
+        options += isValueBlank(thousandSeparator) ? "aSep:''," : "aSep:\"" + escapeText(thousandSeparator) + LITERAL0;
+        options += isValueBlank(symbol) ? "" : "aSign:\"" + escapeText(symbol) + LITERAL0;
+        options += isValueBlank(symbolPosition) ? "" : "pSign:\"" + escapeText(symbolPosition) + LITERAL0;
+        options += isValueBlank(minValue) ? "" : "vMin:\"" + escapeText(minValue) + LITERAL0;
+        options += isValueBlank(maxValue) ? "" : "vMax:\"" + escapeText(maxValue) + LITERAL0;
+        options += isValueBlank(roundMethod) ? "" : "mRound:\"" + escapeText(roundMethod) + LITERAL0;
+        options += isValueBlank(decimalPlaces) ? "" : "mDec:\"" + escapeText(decimalPlaces) + LITERAL0;
+        options += "wEmpty:\"" + escapeText(emptyValue) + LITERAL0;
+        options += "lZero:\"" + escapeText(lZero) + LITERAL0;
         options += "aPad:" + padControl + ",";
 
         //if all options are empty return empty
@@ -280,7 +291,8 @@ public class InputNumberRenderer extends InputRenderer {
 
     }
 
-    private String formatForPlugin(String valueToRender, InputNumber inputNumber, Object value) {
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
+    private String formatForPlugin(String valueToRender, Object value) {
 
         if (isValueBlank(valueToRender)) {
             return "";

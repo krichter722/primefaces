@@ -30,6 +30,18 @@ import org.primefaces.renderkit.SelectOneRenderer;
 import org.primefaces.util.ComponentUtils;
 import org.primefaces.util.HTML;
 import org.primefaces.util.WidgetBuilder;
+import static org.primefaces.component.Literals.CHECKED;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DISABLED;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.INPUT;
+import static org.primefaces.component.Literals.NAME;
+import static org.primefaces.component.Literals.SPAN;
+import static org.primefaces.component.Literals.STYLE;
+import static org.primefaces.component.Literals.TABINDEX;
+import static org.primefaces.component.Literals.TITLE;
+import static org.primefaces.component.Literals.TYPE;
+import static org.primefaces.component.Literals.VALUE;
 
 public class SelectOneButtonRenderer extends SelectOneRenderer {
 
@@ -62,16 +74,16 @@ public class SelectOneButtonRenderer extends SelectOneRenderer {
         styleClass = styleClass + " ui-buttonset-" + selectItemsSize;
         styleClass = !button.isValid() ? styleClass + " ui-state-error" : styleClass;
 
-        writer.startElement("div", button);
+        writer.startElement(DIV, button);
         writer.writeAttribute("id", clientId, "id");
-        writer.writeAttribute("class", styleClass, "styleClass");
+        writer.writeAttribute(CLASS, styleClass, "styleClass");
         if (style != null) {
-            writer.writeAttribute("style", style, "style");
+            writer.writeAttribute(STYLE, style, STYLE);
         }
 
         encodeSelectItems(context, button, selectItems);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeSelectItems(FacesContext context, SelectOneButton button, List<SelectItem> selectItems) throws IOException {
@@ -124,28 +136,28 @@ public class SelectOneButtonRenderer extends SelectOneRenderer {
         buttonStyle = disabled ? buttonStyle + " ui-state-disabled" : buttonStyle;
 
         //button
-        writer.startElement("div", null);
-        writer.writeAttribute("class", buttonStyle, null);
-        writer.writeAttribute("tabindex", button.getTabindex(), null);
-        if (option.getDescription() != null) writer.writeAttribute("title", option.getDescription(), null);
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, buttonStyle, null);
+        writer.writeAttribute(TABINDEX, button.getTabindex(), null);
+        if (option.getDescription() != null) writer.writeAttribute(TITLE, option.getDescription(), null);
 
         //input
-        writer.startElement("input", null);
+        writer.startElement(INPUT, null);
         writer.writeAttribute("id", id, null);
-        writer.writeAttribute("name", name, null);
-        writer.writeAttribute("type", "radio", null);
-        writer.writeAttribute("value", itemValueAsString, null);
-        writer.writeAttribute("class", "ui-helper-hidden-accessible", null);
-        writer.writeAttribute("tabindex", "-1", null);
+        writer.writeAttribute(NAME, name, null);
+        writer.writeAttribute(TYPE, "radio", null);
+        writer.writeAttribute(VALUE, itemValueAsString, null);
+        writer.writeAttribute(CLASS, "ui-helper-hidden-accessible", null);
+        writer.writeAttribute(TABINDEX, "-1", null);
 
-        if (selected) writer.writeAttribute("checked", "checked", null);
-        if (disabled) writer.writeAttribute("disabled", "disabled", null);
+        if (selected) writer.writeAttribute(CHECKED, CHECKED, null);
+        if (disabled) writer.writeAttribute(DISABLED, DISABLED, null);
 
-        writer.endElement("input");
+        writer.endElement(INPUT);
 
         //item label
-        writer.startElement("span", null);
-        writer.writeAttribute("class", HTML.BUTTON_TEXT_CLASS, null);
+        writer.startElement(SPAN, null);
+        writer.writeAttribute(CLASS, HTML.BUTTON_TEXT_CLASS, null);
         
         if (option.isEscape()) {
             writer.writeText(option.getLabel(), "itemLabel");
@@ -154,9 +166,9 @@ public class SelectOneButtonRenderer extends SelectOneRenderer {
             writer.write(option.getLabel());
         }
         
-        writer.endElement("span");
+        writer.endElement(SPAN);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeScript(FacesContext context, SelectOneButton button) throws IOException {

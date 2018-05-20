@@ -23,6 +23,10 @@ import javax.faces.context.ResponseWriter;
 import org.primefaces.component.tabview.Tab;
 import org.primefaces.renderkit.CoreRenderer;
 import org.primefaces.util.WidgetBuilder;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.ROLE;
+import static org.primefaces.component.Literals.STYLE;
 
 public class RibbonRenderer extends CoreRenderer {
 
@@ -58,17 +62,17 @@ public class RibbonRenderer extends CoreRenderer {
         String styleClass = ribbon.getStyleClass();
         styleClass = (styleClass == null) ? Ribbon.CONTAINER_CLASS : Ribbon.CONTAINER_CLASS + " " + styleClass;
 
-        writer.startElement("div", ribbon);
+        writer.startElement(DIV, ribbon);
         writer.writeAttribute("id", clientId, "id");
-        writer.writeAttribute("class", styleClass, "styleClass");
+        writer.writeAttribute(CLASS, styleClass, "styleClass");
         if (style != null) {
-            writer.writeAttribute("class", style, "style");
+            writer.writeAttribute(CLASS, style, STYLE);
         }
 
         encodeTabHeaders(context, ribbon);
         encodeTabContents(context, ribbon);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeTabHeaders(FacesContext context, Ribbon ribbon) throws IOException {
@@ -77,8 +81,8 @@ public class RibbonRenderer extends CoreRenderer {
         int childCount = ribbon.getChildCount();
 
         writer.startElement("ul", ribbon);
-        writer.writeAttribute("class", Ribbon.NAVIGATOR_CLASS, null);
-        writer.writeAttribute("role", "tablist", null);
+        writer.writeAttribute(CLASS, Ribbon.NAVIGATOR_CLASS, null);
+        writer.writeAttribute(ROLE, "tablist", null);
 
         if (childCount > 0) {
             List<UIComponent> children = ribbon.getChildren();
@@ -93,8 +97,8 @@ public class RibbonRenderer extends CoreRenderer {
 
                     // header container
                     writer.startElement("li", null);
-                    writer.writeAttribute("class", headerClass, null);
-                    writer.writeAttribute("role", "tab", null);
+                    writer.writeAttribute(CLASS, headerClass, null);
+                    writer.writeAttribute(ROLE, "tab", null);
                     writer.writeAttribute("aria-expanded", String.valueOf(active), null);
 
                     writer.startElement("a", null);
@@ -116,8 +120,8 @@ public class RibbonRenderer extends CoreRenderer {
         int activeIndex = ribbon.getActiveIndex();
         int childCount = ribbon.getChildCount();
 
-        writer.startElement("div", ribbon);
-        writer.writeAttribute("class", Ribbon.PANELS_CLASS, null);
+        writer.startElement(DIV, ribbon);
+        writer.writeAttribute(CLASS, Ribbon.PANELS_CLASS, null);
 
         if (childCount > 0) {
             List<UIComponent> children = ribbon.getChildren();
@@ -131,7 +135,7 @@ public class RibbonRenderer extends CoreRenderer {
             }
         }
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeTabContent(FacesContext context, Ribbon ribbon, Tab tab, boolean active) throws IOException {
@@ -139,13 +143,13 @@ public class RibbonRenderer extends CoreRenderer {
         String contentClass = active ? Ribbon.ACTIVE_TAB_CONTENT_CLASS : Ribbon.INACTIVE_TAB_CONTENT_CLASS;
         int childCount = tab.getChildCount();
 
-        writer.startElement("div", ribbon);
+        writer.startElement(DIV, ribbon);
         writer.writeAttribute("id", tab.getClientId(context), null);
-        writer.writeAttribute("class", contentClass, null);
+        writer.writeAttribute(CLASS, contentClass, null);
 
         if (childCount > 0) {
             writer.startElement("ul", ribbon);
-            writer.writeAttribute("class", Ribbon.GROUPS_CLASS, null);
+            writer.writeAttribute(CLASS, Ribbon.GROUPS_CLASS, null);
 
             List<UIComponent> children = tab.getChildren();
             for (int i = 0; i < childCount; i++) {
@@ -160,7 +164,7 @@ public class RibbonRenderer extends CoreRenderer {
             writer.endElement("ul");
         }
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     @Override

@@ -25,6 +25,9 @@ import org.primefaces.PrimeFaces;
 
 import org.primefaces.renderkit.CoreRenderer;
 import org.primefaces.util.WidgetBuilder;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.STYLE;
 
 public class ProgressBarRenderer extends CoreRenderer {
 
@@ -66,31 +69,31 @@ public class ProgressBarRenderer extends CoreRenderer {
             styleClass = styleClass + " ui-state-disabled";
         }
 
-        writer.startElement("div", progressBar);
+        writer.startElement(DIV, progressBar);
         writer.writeAttribute("id", progressBar.getClientId(context), "id");
-        writer.writeAttribute("class", styleClass, "styleClass");
+        writer.writeAttribute(CLASS, styleClass, "styleClass");
         if (style != null) {
-            writer.writeAttribute("style", style, "style");
+            writer.writeAttribute(STYLE, style, STYLE);
         }
 
         //value
-        writer.startElement("div", progressBar);
-        writer.writeAttribute("class", ProgressBar.VALUE_CLASS, null);
+        writer.startElement(DIV, progressBar);
+        writer.writeAttribute(CLASS, ProgressBar.VALUE_CLASS, null);
         if (value != 0) {
-            writer.writeAttribute("style", "display:block;width:" + value + "%", style);
+            writer.writeAttribute(STYLE, "display:block;width:" + value + "%", style);
         }
-        writer.endElement("div");
+        writer.endElement(DIV);
 
         //label
-        writer.startElement("div", progressBar);
-        writer.writeAttribute("class", ProgressBar.LABEL_CLASS, null);
+        writer.startElement(DIV, progressBar);
+        writer.writeAttribute(CLASS, ProgressBar.LABEL_CLASS, null);
         if (labelTemplate != null) {
-            writer.writeAttribute("style", "display:block", style);
+            writer.writeAttribute(STYLE, "display:block", style);
             writer.writeText(labelTemplate.replaceAll("\\{value\\}", String.valueOf(value)), null);
         }
-        writer.endElement("div");
+        writer.endElement(DIV);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeScript(FacesContext context, ProgressBar progressBar) throws IOException {

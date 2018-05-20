@@ -25,6 +25,7 @@ import org.primefaces.expression.SearchExpressionFacade;
 import org.primefaces.expression.SearchExpressionHint;
 import org.primefaces.renderkit.CoreRenderer;
 import org.primefaces.util.WidgetBuilder;
+import static org.primefaces.component.Literals.GRID;
 
 public class ResizableRenderer extends CoreRenderer {
 
@@ -68,7 +69,7 @@ public class ResizableRenderer extends CoreRenderer {
         }
 
         wb.attr("handles", resizable.getHandles(), null)
-                .attr("grid", resizable.getGrid(), 1)
+                .attr(GRID, resizable.getGrid(), 1)
                 .attr("aspectRatio", resizable.isAspectRatio(), false)
                 .attr("ghost", resizable.isGhost(), false);
 

@@ -35,6 +35,22 @@ import org.primefaces.util.ComponentUtils;
 import org.primefaces.util.GridLayoutUtils;
 import org.primefaces.util.HTML;
 import org.primefaces.util.WidgetBuilder;
+import static org.primefaces.component.Literals.CHECKED;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DISABLED;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.GRID;
+import static org.primefaces.component.Literals.INPUT;
+import static org.primefaces.component.Literals.LABEL;
+import static org.primefaces.component.Literals.NAME;
+import static org.primefaces.component.Literals.ROLE;
+import static org.primefaces.component.Literals.SPAN;
+import static org.primefaces.component.Literals.STYLE;
+import static org.primefaces.component.Literals.TABINDEX;
+import static org.primefaces.component.Literals.TABLE;
+import static org.primefaces.component.Literals.TITLE;
+import static org.primefaces.component.Literals.TYPE;
+import static org.primefaces.component.Literals.VALUE;
 
 public class SelectManyCheckboxRenderer extends SelectManyRenderer {
 
@@ -65,11 +81,11 @@ public class SelectManyCheckboxRenderer extends SelectManyRenderer {
         boolean custom = (layout.equals("custom"));
 
         if (custom) {
-            writer.startElement("span", checkbox);
+            writer.startElement(SPAN, checkbox);
             writer.writeAttribute("id", checkbox.getClientId(context), "id");
-            writer.writeAttribute("class", "ui-helper-hidden", null);
+            writer.writeAttribute(CLASS, "ui-helper-hidden", null);
             encodeCustomLayout(context, checkbox);
-            writer.endElement("span");
+            writer.endElement(SPAN);
         }
         else if (layout.equals("responsive")) {
             encodeResponsiveLayout(context, checkbox);
@@ -102,11 +118,11 @@ public class SelectManyCheckboxRenderer extends SelectManyRenderer {
             throw new FacesException("The value of columns attribute must be greater than zero.");
         }
 
-        writer.startElement("div", checkbox);
+        writer.startElement(DIV, checkbox);
         writer.writeAttribute("id", clientId, "id");
-        writer.writeAttribute("class", styleClass, "styleClass");
+        writer.writeAttribute(CLASS, styleClass, "styleClass");
         if (style != null) {
-            writer.writeAttribute("style", style, "style");
+            writer.writeAttribute(STYLE, style, STYLE);
         }
 
         List<SelectItem> selectItems = getSelectItems(context, checkbox);
@@ -117,35 +133,35 @@ public class SelectManyCheckboxRenderer extends SelectManyRenderer {
         for (int i = 0; i < selectItems.size(); i++) {
             SelectItem selectItem = selectItems.get(i);
             if (selectItem instanceof SelectItemGroup) {
-                writer.startElement("div", null);
-                writer.writeAttribute("class", "ui-selectmanycheckbox-responsive-group", null);
+                writer.startElement(DIV, null);
+                writer.writeAttribute(CLASS, "ui-selectmanycheckbox-responsive-group", null);
                 encodeGroupLabel(context, checkbox, (SelectItemGroup) selectItem);
-                writer.endElement("div");
+                writer.endElement(DIV);
 
                 for (SelectItem childSelectItem : ((SelectItemGroup) selectItem).getSelectItems()) {
                     colMod = idx % columns;
                     if (colMod == 0) {
-                        writer.startElement("div", null);
-                        writer.writeAttribute("class", "ui-g", null);
+                        writer.startElement(DIV, null);
+                        writer.writeAttribute(CLASS, "ui-g", null);
                     }
 
                     groupIdx++;
 
-                    writer.startElement("div", null);
-                    writer.writeAttribute("class", GridLayoutUtils.getColumnClass(columns), null);
+                    writer.startElement(DIV, null);
+                    writer.writeAttribute(CLASS, GridLayoutUtils.getColumnClass(columns), null);
                     encodeOption(context, checkbox, values, submittedValues, converter, childSelectItem, groupIdx);
-                    writer.endElement("div");
+                    writer.endElement(DIV);
 
                     idx++;
                     colMod = idx % columns;
 
                     if (colMod == 0) {
-                        writer.endElement("div");
+                        writer.endElement(DIV);
                     }
                 }
 
                 if (idx != 0 && (idx % columns) != 0) {
-                    writer.endElement("div");
+                    writer.endElement(DIV);
                 }
 
                 idx = 0;
@@ -153,29 +169,29 @@ public class SelectManyCheckboxRenderer extends SelectManyRenderer {
             else {
                 colMod = idx % columns;
                 if (colMod == 0) {
-                    writer.startElement("div", null);
-                    writer.writeAttribute("class", "ui-g", null);
+                    writer.startElement(DIV, null);
+                    writer.writeAttribute(CLASS, "ui-g", null);
                 }
 
-                writer.startElement("div", null);
-                writer.writeAttribute("class", GridLayoutUtils.getColumnClass(columns), null);
+                writer.startElement(DIV, null);
+                writer.writeAttribute(CLASS, GridLayoutUtils.getColumnClass(columns), null);
                 encodeOption(context, checkbox, values, submittedValues, converter, selectItem, idx);
-                writer.endElement("div");
+                writer.endElement(DIV);
 
                 idx++;
                 colMod = idx % columns;
 
                 if (colMod == 0) {
-                    writer.endElement("div");
+                    writer.endElement(DIV);
                 }
             }
         }
 
         if (idx != 0 && (idx % columns) != 0) {
-            writer.endElement("div");
+            writer.endElement(DIV);
         }
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeTabularLayout(FacesContext context, SelectManyCheckbox checkbox, String layout) throws IOException {
@@ -185,17 +201,17 @@ public class SelectManyCheckboxRenderer extends SelectManyRenderer {
         String styleClass = checkbox.getStyleClass();
         styleClass = styleClass == null ? SelectManyCheckbox.STYLE_CLASS : SelectManyCheckbox.STYLE_CLASS + " " + styleClass;
 
-        writer.startElement("table", checkbox);
+        writer.startElement(TABLE, checkbox);
         writer.writeAttribute("id", clientId, "id");
-        writer.writeAttribute("role", "presentation", null);
-        writer.writeAttribute("class", styleClass, "styleClass");
+        writer.writeAttribute(ROLE, "presentation", null);
+        writer.writeAttribute(CLASS, styleClass, "styleClass");
         if (style != null) {
-            writer.writeAttribute("style", style, "style");
+            writer.writeAttribute(STYLE, style, STYLE);
         }
 
         encodeSelectItems(context, checkbox, layout);
 
-        writer.endElement("table");
+        writer.endElement(TABLE);
     }
 
     protected void encodeOptionInput(FacesContext context, SelectManyCheckbox checkbox, String id, String name, boolean checked,
@@ -204,30 +220,30 @@ public class SelectManyCheckboxRenderer extends SelectManyRenderer {
         ResponseWriter writer = context.getResponseWriter();
         String tabindex = checkbox.getTabindex();
 
-        writer.startElement("div", null);
-        writer.writeAttribute("class", "ui-helper-hidden-accessible", null);
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, "ui-helper-hidden-accessible", null);
 
-        writer.startElement("input", null);
+        writer.startElement(INPUT, null);
         writer.writeAttribute("id", id, null);
-        writer.writeAttribute("name", name, null);
-        writer.writeAttribute("type", "checkbox", null);
-        writer.writeAttribute("value", value, null);
+        writer.writeAttribute(NAME, name, null);
+        writer.writeAttribute(TYPE, "checkbox", null);
+        writer.writeAttribute(VALUE, value, null);
         if (tabindex != null) {
-            writer.writeAttribute("tabindex", tabindex, null);
+            writer.writeAttribute(TABINDEX, tabindex, null);
         }
 
         renderOnchange(context, checkbox);
 
-        if (checked) writer.writeAttribute("checked", "checked", null);
-        if (disabled) writer.writeAttribute("disabled", "disabled", null);
+        if (checked) writer.writeAttribute(CHECKED, CHECKED, null);
+        if (disabled) writer.writeAttribute(DISABLED, DISABLED, null);
 
         if (PrimeApplicationContext.getCurrentInstance(context).getConfig().isClientSideValidationEnabled()) {
             renderValidationMetadata(context, checkbox);
         }
 
-        writer.endElement("input");
+        writer.endElement(INPUT);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeOptionLabel(FacesContext context, SelectManyCheckbox checkbox, String containerClientId, SelectItem option,
@@ -235,15 +251,15 @@ public class SelectManyCheckboxRenderer extends SelectManyRenderer {
         
         ResponseWriter writer = context.getResponseWriter();
 
-        writer.startElement("label", null);
+        writer.startElement(LABEL, null);
         if (disabled) {
-            writer.writeAttribute("class", "ui-state-disabled", null);
+            writer.writeAttribute(CLASS, "ui-state-disabled", null);
         }
 
         writer.writeAttribute("for", containerClientId, null);
         
         if (option.getDescription() != null) {
-            writer.writeAttribute("title", option.getDescription(), null);
+            writer.writeAttribute(TITLE, option.getDescription(), null);
         }
 
         if (option.isEscape()) {
@@ -253,14 +269,14 @@ public class SelectManyCheckboxRenderer extends SelectManyRenderer {
             writer.write(option.getLabel());
         }
 
-        writer.endElement("label");
+        writer.endElement(LABEL);
     }
 
     protected void encodeGroupLabel(FacesContext context, SelectManyCheckbox checkbox, SelectItemGroup group) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
 
-        writer.startElement("span", null);
-        writer.writeAttribute("class", "ui-selectmanycheckbox-item-group", null);
+        writer.startElement(SPAN, null);
+        writer.writeAttribute(CLASS, "ui-selectmanycheckbox-item-group", null);
 
         if (group.isEscape()) {
             writer.writeText(group.getLabel(), null);
@@ -269,7 +285,7 @@ public class SelectManyCheckboxRenderer extends SelectManyRenderer {
             writer.write(group.getLabel());
         }
 
-        writer.endElement("span");
+        writer.endElement(SPAN);
     }
 
     protected void encodeOptionOutput(FacesContext context, SelectManyCheckbox checkbox, boolean checked, boolean disabled) throws IOException {
@@ -281,14 +297,14 @@ public class SelectManyCheckboxRenderer extends SelectManyRenderer {
 
         String iconClass = checked ? HTML.CHECKBOX_CHECKED_ICON_CLASS : HTML.CHECKBOX_UNCHECKED_ICON_CLASS;
 
-        writer.startElement("div", null);
-        writer.writeAttribute("class", boxClass, null);
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, boxClass, null);
 
-        writer.startElement("span", null);
-        writer.writeAttribute("class", iconClass, null);
-        writer.endElement("span");
+        writer.startElement(SPAN, null);
+        writer.writeAttribute(CLASS, iconClass, null);
+        writer.endElement(SPAN);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeSelectItems(FacesContext context, SelectManyCheckbox checkbox, String layout) throws IOException {
@@ -298,7 +314,7 @@ public class SelectManyCheckboxRenderer extends SelectManyRenderer {
         else if (layout.equals("pageDirection")) {
             encodePageLayout(context, checkbox);
         }
-        else if (layout.equals("grid")) {
+        else if (layout.equals(GRID)) {
             encodeGridLayout(context, checkbox);
         }
         else {
@@ -462,13 +478,13 @@ public class SelectManyCheckboxRenderer extends SelectManyRenderer {
             return;
         }
 
-        writer.startElement("div", null);
-        writer.writeAttribute("class", HTML.CHECKBOX_CLASS, null);
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, HTML.CHECKBOX_CLASS, null);
 
         encodeOptionInput(context, checkbox, id, name, selected, disabled, itemValueAsString);
         encodeOptionOutput(context, checkbox, selected, disabled);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
         encodeOptionLabel(context, checkbox, id, option, disabled);
     }
 

@@ -29,6 +29,7 @@ import javax.faces.component.UIViewRoot;
 import javax.faces.component.visit.VisitContext;
 import javax.faces.context.FacesContext;
 import javax.faces.context.PartialViewContext;
+import org.apache.commons.lang3.StringUtils;
 import org.primefaces.component.datatable.TableState;
 import org.primefaces.context.PrimeRequestContext;
 import org.primefaces.expression.ComponentNotFoundException;
@@ -116,7 +117,7 @@ public class PrimeFaces {
      * @param base the base component from which we will start to resolve the search expression.
      */
     public void focus(String expression, UIComponent base) {
-        if (expression == null || expression.trim().isEmpty()) {
+        if (expression == null || StringUtils.isBlank(expression)) {
             return;
         }
 

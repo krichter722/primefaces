@@ -41,8 +41,9 @@ public class TreeNodeComparator implements Comparator {
         this.locale = locale;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
+    @SuppressWarnings({"unchecked",
+        "PMD.AvoidCatchingGenericException"})
     public int compare(Object obj1, Object obj2) {
         try {
             FacesContext context = FacesContext.getCurrentInstance();

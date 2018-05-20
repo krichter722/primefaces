@@ -19,6 +19,14 @@ import java.io.IOException;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DISABLED;
+import static org.primefaces.component.Literals.INPUT;
+import static org.primefaces.component.Literals.NAME;
+import static org.primefaces.component.Literals.READONLY;
+import static org.primefaces.component.Literals.STYLE;
+import static org.primefaces.component.Literals.TYPE;
+import static org.primefaces.component.Literals.VALUE;
 import org.primefaces.context.PrimeApplicationContext;
 import org.primefaces.renderkit.InputRenderer;
 import org.primefaces.util.ComponentUtils;
@@ -63,32 +71,32 @@ public class InputTextRenderer extends InputRenderer {
         ResponseWriter writer = context.getResponseWriter();
         String clientId = inputText.getClientId(context);
 
-        writer.startElement("input", inputText);
+        writer.startElement(INPUT, inputText);
         writer.writeAttribute("id", clientId, null);
-        writer.writeAttribute("name", clientId, null);
-        writer.writeAttribute("type", inputText.getType(), null);
+        writer.writeAttribute(NAME, clientId, null);
+        writer.writeAttribute(TYPE, inputText.getType(), null);
 
         String valueToRender = ComponentUtils.getValueToRender(context, inputText);
         if (valueToRender != null) {
-            writer.writeAttribute("value", valueToRender, null);
+            writer.writeAttribute(VALUE, valueToRender, null);
         }
 
         renderRTLDirection(context, inputText);
         renderPassThruAttributes(context, inputText, HTML.INPUT_TEXT_ATTRS_WITHOUT_EVENTS);
         renderDomEvents(context, inputText, HTML.INPUT_TEXT_EVENTS);
 
-        if (inputText.isDisabled()) writer.writeAttribute("disabled", "disabled", null);
-        if (inputText.isReadonly()) writer.writeAttribute("readonly", "readonly", null);
-        if (inputText.getStyle() != null) writer.writeAttribute("style", inputText.getStyle(), null);
+        if (inputText.isDisabled()) writer.writeAttribute(DISABLED, DISABLED, null);
+        if (inputText.isReadonly()) writer.writeAttribute(READONLY, READONLY, null);
+        if (inputText.getStyle() != null) writer.writeAttribute(STYLE, inputText.getStyle(), null);
         if (inputText.isRequired()) writer.writeAttribute("aria-required", "true", null);
 
-        writer.writeAttribute("class", createStyleClass(inputText), "styleClass");
+        writer.writeAttribute(CLASS, createStyleClass(inputText), "styleClass");
 
         if (PrimeApplicationContext.getCurrentInstance(context).getConfig().isClientSideValidationEnabled()) {
             renderValidationMetadata(context, inputText);
         }
 
-        writer.endElement("input");
+        writer.endElement(INPUT);
     }
 
     protected String createStyleClass(InputText inputText) {

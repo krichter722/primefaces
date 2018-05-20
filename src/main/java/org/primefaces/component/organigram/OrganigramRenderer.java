@@ -23,6 +23,9 @@ import javax.faces.FacesException;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.STYLE;
 import org.primefaces.component.organigramnode.UIOrganigramNode;
 import org.primefaces.model.OrganigramNode;
 import org.primefaces.renderkit.CoreRenderer;
@@ -117,18 +120,18 @@ public class OrganigramRenderer extends CoreRenderer {
             styleClass += " " + organigram.getStyleClass();
         }
 
-        writer.startElement("div", organigram);
+        writer.startElement(DIV, organigram);
         writer.writeAttribute("id", clientId, null);
-        writer.writeAttribute("class", styleClass, null);
+        writer.writeAttribute(CLASS, styleClass, null);
         if (organigram.getStyle() != null) {
-            writer.writeAttribute("style", organigram.getStyle(), null);
+            writer.writeAttribute(STYLE, organigram.getStyle(), null);
         }
 
         // render target container
-        writer.startElement("div", null);
+        writer.startElement(DIV, null);
         writer.writeAttribute("id", clientId + "_target", null);
-        writer.writeAttribute("class", "target", null);
-        writer.endElement("div");
+        writer.writeAttribute(CLASS, "target", null);
+        writer.endElement(DIV);
 
         // render source container
         writer.startElement("ul", null);
@@ -137,7 +140,7 @@ public class OrganigramRenderer extends CoreRenderer {
         renderNode(context, writer, nodeMapping, organigram, root, selection, selectionEnabled);
 
         writer.endElement("ul");
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void renderNode(FacesContext context, ResponseWriter writer, Map<String, UIOrganigramNode> nodeMapping,
@@ -165,12 +168,12 @@ public class OrganigramRenderer extends CoreRenderer {
         }
 
         if (!isValueBlank(uiNode.getStyle())) {
-            writer.writeAttribute("style", uiNode.getStyle(), null);
+            writer.writeAttribute(STYLE, uiNode.getStyle(), null);
         }
 
         String styleClass = buildNodeStyleClass(node, uiNode, selectionEnabled, selection);
         if (!isValueBlank(styleClass)) {
-            writer.writeAttribute("class", styleClass, null);
+            writer.writeAttribute(CLASS, styleClass, null);
         }
 
         // encode expanded/collapsed icon
@@ -192,10 +195,10 @@ public class OrganigramRenderer extends CoreRenderer {
         }
 
         // encode node
-        writer.startElement("div", null);
-        writer.writeAttribute("class", "ui-organigram-node-content", null);
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, "ui-organigram-node-content", null);
         uiNode.encodeAll(context);
-        writer.endElement("div");
+        writer.endElement(DIV);
 
         // remove var
         requestMap.remove(organigram.getVar());

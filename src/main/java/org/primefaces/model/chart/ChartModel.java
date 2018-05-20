@@ -16,6 +16,7 @@
 package org.primefaces.model.chart;
 
 import java.io.Serializable;
+import static org.primefaces.component.Literals.VALUE;
 
 public class ChartModel implements Serializable {
 
@@ -31,7 +32,7 @@ public class ChartModel implements Serializable {
     private boolean mouseoverHighlight = true;
     private String extender;
     private boolean resetAxesOnResize = true;
-    private String dataRenderMode = "value";
+    private String dataRenderMode = VALUE;
     private String legendLabel;
 
     public String getTitle() {

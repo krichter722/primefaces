@@ -21,6 +21,12 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.convert.ConverterException;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DISABLED;
+import static org.primefaces.component.Literals.INPUT;
+import static org.primefaces.component.Literals.NAME;
+import static org.primefaces.component.Literals.TYPE;
+import static org.primefaces.component.Literals.VALUE;
 import org.primefaces.renderkit.CoreRenderer;
 import org.primefaces.util.WidgetBuilder;
 
@@ -49,11 +55,11 @@ public class KnobRenderer extends CoreRenderer {
 
         Object value = knob.getValue() != null ? knob.getValue() : 0;
 
-        writer.startElement("input", knob);
+        writer.startElement(INPUT, knob);
         writer.writeAttribute("id", knob.getClientId(), null);
-        writer.writeAttribute("name", knob.getClientId(), null);
-        writer.writeAttribute("disabled", true, null);
-        writer.writeAttribute("value", value.toString(), null);
+        writer.writeAttribute(NAME, knob.getClientId(), null);
+        writer.writeAttribute(DISABLED, true, null);
+        writer.writeAttribute(VALUE, value.toString(), null);
         writer.writeAttribute("data-min", knob.getMin(), null);
         writer.writeAttribute("data-step", knob.getStep(), null);
         writer.writeAttribute("data-max", knob.getMax(), null);
@@ -74,16 +80,16 @@ public class KnobRenderer extends CoreRenderer {
             writer.writeAttribute("data-height", knob.getHeight().toString(), null);
         }
 
-        writer.writeAttribute("class", "knob", null);
+        writer.writeAttribute(CLASS, "knob", null);
 
-        writer.endElement("input");
+        writer.endElement(INPUT);
 
-        writer.startElement("input", null);
+        writer.startElement(INPUT, null);
         writer.writeAttribute("id", knob.getClientId() + "_hidden", null);
-        writer.writeAttribute("name", knob.getClientId() + "_hidden", null);
-        writer.writeAttribute("type", "hidden", null);
-        writer.writeAttribute("value", value.toString(), null);
-        writer.endElement("input");
+        writer.writeAttribute(NAME, knob.getClientId() + "_hidden", null);
+        writer.writeAttribute(TYPE, "hidden", null);
+        writer.writeAttribute(VALUE, value.toString(), null);
+        writer.endElement(INPUT);
     }
 
     private void encodeScript(FacesContext context, Knob knob) throws IOException {

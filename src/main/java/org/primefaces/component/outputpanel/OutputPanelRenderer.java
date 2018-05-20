@@ -16,21 +16,22 @@
 package org.primefaces.component.outputpanel;
 
 import java.io.IOException;
-import java.util.logging.Logger;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.SPAN;
+import static org.primefaces.component.Literals.STYLE;
 
 import org.primefaces.renderkit.CoreRenderer;
 import org.primefaces.util.WidgetBuilder;
 
 public class OutputPanelRenderer extends CoreRenderer {
 
-    private final static String BLOCK = "div";
-    private final static String INLINE = "span";
-    
-    private final static Logger logger = Logger.getLogger(OutputPanelRenderer.class.getName());
+    private final static String BLOCK = DIV;
+    private final static String INLINE = SPAN;
 
     @Override
     public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
@@ -57,9 +58,9 @@ public class OutputPanelRenderer extends CoreRenderer {
 
         writer.startElement(tag, panel);
         writer.writeAttribute("id", clientId, "id");
-        writer.writeAttribute("class", styleClass, "styleClass");
+        writer.writeAttribute(CLASS, styleClass, "styleClass");
         if (style != null) {
-            writer.writeAttribute("style", panel.getStyle(), "style");
+            writer.writeAttribute(STYLE, panel.getStyle(), STYLE);
         }
 
         if (panel.isDeferred()) {
@@ -90,9 +91,9 @@ public class OutputPanelRenderer extends CoreRenderer {
     protected void renderLoading(FacesContext context, OutputPanel panel) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
 
-        writer.startElement("div", null);
-        writer.writeAttribute("class", OutputPanel.LOADING_CLASS, null);
-        writer.endElement("div");
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, OutputPanel.LOADING_CLASS, null);
+        writer.endElement(DIV);
     }
 
     @Override

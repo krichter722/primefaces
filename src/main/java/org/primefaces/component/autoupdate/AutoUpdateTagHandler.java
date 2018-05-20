@@ -26,6 +26,7 @@ import javax.faces.view.facelets.FaceletException;
 import javax.faces.view.facelets.TagAttribute;
 import javax.faces.view.facelets.TagConfig;
 import javax.faces.view.facelets.TagHandler;
+import static org.primefaces.component.Literals.DISABLED;
 
 public class AutoUpdateTagHandler extends TagHandler {
     
@@ -37,7 +38,7 @@ public class AutoUpdateTagHandler extends TagHandler {
     public AutoUpdateTagHandler(TagConfig tagConfig) {
         super(tagConfig);
         
-        disabledAttribute = getAttribute("disabled");
+        disabledAttribute = getAttribute(DISABLED);
     }
 
     @Override

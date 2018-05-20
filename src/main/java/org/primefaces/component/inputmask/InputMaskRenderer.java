@@ -16,12 +16,19 @@
 package org.primefaces.component.inputmask;
 
 import java.io.IOException;
-import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DISABLED;
+import static org.primefaces.component.Literals.INPUT;
+import static org.primefaces.component.Literals.NAME;
+import static org.primefaces.component.Literals.READONLY;
+import static org.primefaces.component.Literals.STYLE;
+import static org.primefaces.component.Literals.TYPE;
+import static org.primefaces.component.Literals.VALUE;
 import org.primefaces.context.PrimeApplicationContext;
 
 import org.primefaces.renderkit.InputRenderer;
@@ -30,8 +37,6 @@ import org.primefaces.util.HTML;
 import org.primefaces.util.WidgetBuilder;
 
 public class InputMaskRenderer extends InputRenderer {
-
-    private final static Logger logger = Logger.getLogger(InputMaskRenderer.class.getName());
 
     private final static String REGEX_METACHARS = "<([{\\^-=$!|]})?*+.>".replaceAll(".", "\\\\$0");
     private final static Pattern REGEX_METACHARS_PATTERN = Pattern.compile("[" + REGEX_METACHARS + "]");
@@ -112,30 +117,30 @@ public class InputMaskRenderer extends InputRenderer {
         defaultClass = inputMask.isDisabled() ? defaultClass + " ui-state-disabled" : defaultClass;
         styleClass = styleClass == null ? defaultClass : defaultClass + " " + styleClass;
 
-        writer.startElement("input", null);
+        writer.startElement(INPUT, null);
         writer.writeAttribute("id", clientId, null);
-        writer.writeAttribute("name", clientId, null);
-        writer.writeAttribute("type", inputMask.getType(), "text");
+        writer.writeAttribute(NAME, clientId, null);
+        writer.writeAttribute(TYPE, inputMask.getType(), "text");
 
         String valueToRender = ComponentUtils.getValueToRender(context, inputMask);
         if (valueToRender != null) {
-            writer.writeAttribute("value", valueToRender, null);
+            writer.writeAttribute(VALUE, valueToRender, null);
         }
 
         renderPassThruAttributes(context, inputMask, HTML.INPUT_TEXT_ATTRS_WITHOUT_EVENTS);
         renderDomEvents(context, inputMask, HTML.INPUT_TEXT_EVENTS);
 
-        if (inputMask.isDisabled()) writer.writeAttribute("disabled", "disabled", "disabled");
-        if (inputMask.isReadonly()) writer.writeAttribute("readonly", "readonly", "readonly");
-        if (inputMask.getStyle() != null) writer.writeAttribute("style", inputMask.getStyle(), "style");
+        if (inputMask.isDisabled()) writer.writeAttribute(DISABLED, DISABLED, DISABLED);
+        if (inputMask.isReadonly()) writer.writeAttribute(READONLY, READONLY, READONLY);
+        if (inputMask.getStyle() != null) writer.writeAttribute(STYLE, inputMask.getStyle(), STYLE);
         if (inputMask.isRequired()) writer.writeAttribute("aria-required", "true", null);
 
-        writer.writeAttribute("class", styleClass, "styleClass");
+        writer.writeAttribute(CLASS, styleClass, "styleClass");
 
         if (PrimeApplicationContext.getCurrentInstance(context).getConfig().isClientSideValidationEnabled()) {
             renderValidationMetadata(context, inputMask);
         }
 
-        writer.endElement("input");
+        writer.endElement(INPUT);
     }
 }

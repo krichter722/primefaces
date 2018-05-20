@@ -25,6 +25,10 @@ import org.primefaces.expression.SearchExpressionFacade;
 import org.primefaces.renderkit.CoreRenderer;
 import org.primefaces.util.ComponentUtils;
 import org.primefaces.util.WidgetBuilder;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.STYLE;
+import static org.primefaces.component.Literals.VALUE;
 
 public class TooltipRenderer extends CoreRenderer {
 
@@ -46,20 +50,20 @@ public class TooltipRenderer extends CoreRenderer {
             styleClass = styleClass == null ? Tooltip.CONTAINER_CLASS : Tooltip.CONTAINER_CLASS + " " + styleClass;
             styleClass = styleClass + " ui-tooltip-" + tooltip.getPosition();
 
-            writer.startElement("div", tooltip);
+            writer.startElement(DIV, tooltip);
             writer.writeAttribute("id", tooltip.getClientId(context), null);
-            writer.writeAttribute("class", styleClass, "styleClass");
+            writer.writeAttribute(CLASS, styleClass, "styleClass");
 
             if (tooltip.getStyle() != null) {
-                writer.writeAttribute("style", tooltip.getStyle(), "style");
+                writer.writeAttribute(STYLE, tooltip.getStyle(), STYLE);
             }
 
-            writer.startElement("div", tooltip);
-            writer.writeAttribute("class", "ui-tooltip-arrow", null);
-            writer.endElement("div");
+            writer.startElement(DIV, tooltip);
+            writer.writeAttribute(CLASS, "ui-tooltip-arrow", null);
+            writer.endElement(DIV);
 
-            writer.startElement("div", tooltip);
-            writer.writeAttribute("class", "ui-tooltip-text ui-shadow ui-corner-all", null);
+            writer.startElement(DIV, tooltip);
+            writer.writeAttribute(CLASS, "ui-tooltip-text ui-shadow ui-corner-all", null);
 
             if (tooltip.getChildCount() > 0) {
                 renderChildren(context, tooltip);
@@ -68,7 +72,7 @@ public class TooltipRenderer extends CoreRenderer {
                 String valueToRender = ComponentUtils.getValueToRender(context, tooltip);
                 if (valueToRender != null) {
                     if (tooltip.isEscape()) {
-                        writer.writeText(valueToRender, "value");
+                        writer.writeText(valueToRender, VALUE);
                     }
                     else {
                         writer.write(valueToRender);
@@ -76,9 +80,9 @@ public class TooltipRenderer extends CoreRenderer {
                 }
             }
 
-            writer.endElement("div");
+            writer.endElement(DIV);
 
-            writer.endElement("div");
+            writer.endElement(DIV);
         }
     }
 

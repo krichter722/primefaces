@@ -27,6 +27,7 @@ import org.primefaces.component.api.UITree;
 import org.primefaces.component.celleditor.CellEditor;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.component.treetable.TreeTable;
+import static org.primefaces.component.Literals.INPUT;
 
 public class CellEditEvent extends AbstractAjaxBehaviorEvent {
 
@@ -96,7 +97,7 @@ public class CellEditEvent extends AbstractAjaxBehaviorEvent {
 
         for (UIComponent child : column.getChildren()) {
             if (child instanceof CellEditor) {
-                UIComponent inputFacet = child.getFacet("input");
+                UIComponent inputFacet = child.getFacet(INPUT);
 
                 //multiple
                 if (inputFacet instanceof UIPanel) {

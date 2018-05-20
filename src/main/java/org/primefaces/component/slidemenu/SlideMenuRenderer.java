@@ -19,6 +19,11 @@ import java.io.IOException;
 
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.ROLE;
+import static org.primefaces.component.Literals.SPAN;
+import static org.primefaces.component.Literals.STYLE;
 import org.primefaces.component.menu.AbstractMenu;
 import org.primefaces.component.menu.Menu;
 import org.primefaces.component.tieredmenu.TieredMenuRenderer;
@@ -51,45 +56,45 @@ public class SlideMenuRenderer extends TieredMenuRenderer {
         String defaultStyleClass = menu.isOverlay() ? SlideMenu.DYNAMIC_CONTAINER_CLASS : SlideMenu.STATIC_CONTAINER_CLASS;
         styleClass = styleClass == null ? defaultStyleClass : defaultStyleClass + " " + styleClass;
 
-        writer.startElement("div", menu);
+        writer.startElement(DIV, menu);
         writer.writeAttribute("id", menu.getClientId(context), "id");
-        writer.writeAttribute("class", styleClass, "styleClass");
+        writer.writeAttribute(CLASS, styleClass, "styleClass");
         if (style != null) {
-            writer.writeAttribute("style", style, "style");
+            writer.writeAttribute(STYLE, style, STYLE);
         }
-        writer.writeAttribute("role", "menu", null);
+        writer.writeAttribute(ROLE, "menu", null);
 
         //wrapper
-        writer.startElement("div", menu);
-        writer.writeAttribute("class", SlideMenu.WRAPPER_CLASS, "styleClass");
+        writer.startElement(DIV, menu);
+        writer.writeAttribute(CLASS, SlideMenu.WRAPPER_CLASS, "styleClass");
 
         //content
-        writer.startElement("div", menu);
-        writer.writeAttribute("class", SlideMenu.CONTENT_CLASS, "styleClass");
+        writer.startElement(DIV, menu);
+        writer.writeAttribute(CLASS, SlideMenu.CONTENT_CLASS, "styleClass");
 
         //root menu
         if (menu.getElementsCount() > 0) {
             writer.startElement("ul", null);
-            writer.writeAttribute("class", Menu.LIST_CLASS, null);
+            writer.writeAttribute(CLASS, Menu.LIST_CLASS, null);
             encodeElements(context, abstractMenu, menu.getElements());
             writer.endElement("ul");
         }
 
         //content
-        writer.endElement("div");
+        writer.endElement(DIV);
 
         //back navigator
-        writer.startElement("div", menu);
-        writer.writeAttribute("class", SlideMenu.BACKWARD_CLASS, null);
-        writer.startElement("span", menu);
-        writer.writeAttribute("class", SlideMenu.BACKWARD_ICON_CLASS, null);
-        writer.endElement("span");
+        writer.startElement(DIV, menu);
+        writer.writeAttribute(CLASS, SlideMenu.BACKWARD_CLASS, null);
+        writer.startElement(SPAN, menu);
+        writer.writeAttribute(CLASS, SlideMenu.BACKWARD_ICON_CLASS, null);
+        writer.endElement(SPAN);
         writer.writeText(menu.getBackLabel(), "backLabel");
-        writer.endElement("div");
+        writer.endElement(DIV);
 
         //wrapper
-        writer.endElement("div");
+        writer.endElement(DIV);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 }

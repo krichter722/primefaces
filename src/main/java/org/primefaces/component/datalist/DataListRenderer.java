@@ -20,6 +20,10 @@ import java.util.Map;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.STYLE;
+import static org.primefaces.component.Literals.TYPE;
 import org.primefaces.renderkit.DataRenderer;
 import org.primefaces.util.WidgetBuilder;
 
@@ -71,11 +75,11 @@ public class DataListRenderer extends DataRenderer {
             list.calculateFirst();
         }
 
-        writer.startElement("div", list);
+        writer.startElement(DIV, list);
         writer.writeAttribute("id", clientId, "id");
-        writer.writeAttribute("class", styleClass, "styleClass");
+        writer.writeAttribute(CLASS, styleClass, "styleClass");
         if (style != null) {
-            writer.writeAttribute("style", style, "style");
+            writer.writeAttribute(STYLE, style, STYLE);
         }
 
         encodeFacet(context, list, "header", DataList.HEADER_CLASS);
@@ -84,15 +88,15 @@ public class DataListRenderer extends DataRenderer {
             encodePaginatorMarkup(context, list, "top");
         }
 
-        writer.startElement("div", list);
+        writer.startElement(DIV, list);
         writer.writeAttribute("id", clientId + "_content", "id");
-        writer.writeAttribute("class", DataList.CONTENT_CLASS, "styleClass");
+        writer.writeAttribute(CLASS, DataList.CONTENT_CLASS, "styleClass");
 
         if (empty) {
-            writer.startElement("div", list);
-            writer.writeAttribute("class", DataList.DATALIST_EMPTYMESSAGE_CLASS, null);
+            writer.startElement(DIV, list);
+            writer.writeAttribute(CLASS, DataList.DATALIST_EMPTYMESSAGE_CLASS, null);
             writer.writeText(list.getEmptyMessage(), "emptyMessage");
-            writer.endElement("div");
+            writer.endElement(DIV);
         }
         else {
             if (list.getType().equals("none")) {
@@ -103,7 +107,7 @@ public class DataListRenderer extends DataRenderer {
             }
         }
 
-        writer.endElement("div");
+        writer.endElement(DIV);
 
         if (hasPaginator && !paginatorPosition.equalsIgnoreCase("top")) {
             encodePaginatorMarkup(context, list, "bottom");
@@ -111,7 +115,7 @@ public class DataListRenderer extends DataRenderer {
 
         encodeFacet(context, list, "footer", DataList.FOOTER_CLASS);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeScript(FacesContext context, DataList list) throws IOException {
@@ -161,9 +165,9 @@ public class DataListRenderer extends DataRenderer {
 
         writer.startElement(listTag, null);
         writer.writeAttribute("id", clientId + "_list", null);
-        writer.writeAttribute("class", listClass, null);
+        writer.writeAttribute(CLASS, listClass, null);
         if (list.getItemType() != null) {
-            writer.writeAttribute("type", list.getItemType(), null);
+            writer.writeAttribute(TYPE, list.getItemType(), null);
         }
 
         for (int i = first; i < pageSize; i++) {
@@ -182,7 +186,7 @@ public class DataListRenderer extends DataRenderer {
                 itemStyleClass = (itemStyleClass == null) ? DataList.LIST_ITEM_CLASS : DataList.LIST_ITEM_CLASS + " " + itemStyleClass;
 
                 writer.startElement(listItemTag, null);
-                writer.writeAttribute("class", itemStyleClass, null);
+                writer.writeAttribute(CLASS, itemStyleClass, null);
                 renderChildren(context, list);
                 writer.endElement(listItemTag);
 

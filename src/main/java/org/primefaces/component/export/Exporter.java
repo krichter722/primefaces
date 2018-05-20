@@ -35,6 +35,7 @@ import javax.faces.component.html.HtmlCommandLink;
 import javax.faces.component.html.HtmlGraphicImage;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
+import static org.primefaces.component.Literals.ALT;
 import org.primefaces.component.celleditor.CellEditor;
 
 import org.primefaces.component.datatable.DataTable;
@@ -174,7 +175,7 @@ public abstract class Exporter {
                         builder.append(converter.getAsString(context, component, object));
 
                         if (i < (collectionSize - 1)) {
-                            builder.append(",");
+                            builder.append(',');
                         }
                     }
 
@@ -195,7 +196,7 @@ public abstract class Exporter {
             return exportValue(context, ((CellEditor) component).getFacet("output"));
         }
         else if (component instanceof HtmlGraphicImage) {
-            return (String) component.getAttributes().get("alt");
+            return (String) component.getAttributes().get(ALT);
         }
         else if (component instanceof OverlayPanel) {
             return "";

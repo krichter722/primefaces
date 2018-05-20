@@ -19,12 +19,22 @@ import java.io.IOException;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DISABLED;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.INPUT;
+import static org.primefaces.component.Literals.NAME;
+import static org.primefaces.component.Literals.SPAN;
+import static org.primefaces.component.Literals.STYLE;
+import static org.primefaces.component.Literals.VALUE;
 import org.primefaces.renderkit.InputRenderer;
 import org.primefaces.util.ComponentUtils;
 import org.primefaces.util.HTML;
 import org.primefaces.util.WidgetBuilder;
 
 public class TriStateCheckboxRenderer extends InputRenderer {
+
+    private static final String LITERAL0 = "\",\"";
 
     @Override
     public void decode(final FacesContext context, final UIComponent component) {
@@ -69,18 +79,18 @@ public class TriStateCheckboxRenderer extends InputRenderer {
         String styleClass = checkbox.getStyleClass();
         styleClass = styleClass == null ? HTML.CHECKBOX_CLASS : HTML.CHECKBOX_CLASS + " " + styleClass;
 
-        writer.startElement("div", checkbox);
+        writer.startElement(DIV, checkbox);
         writer.writeAttribute("id", clientId, "id");
-        writer.writeAttribute("class", styleClass, "styleClass");
+        writer.writeAttribute(CLASS, styleClass, "styleClass");
         if (style != null) {
-            writer.writeAttribute("style", style, "style");
+            writer.writeAttribute(STYLE, style, STYLE);
         }
 
         encodeInput(context, checkbox, clientId, valCheck, disabled);
         encodeOutput(context, checkbox, valCheck, disabled);
         encodeItemLabel(context, checkbox);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeInput(final FacesContext context, final TriStateCheckbox checkbox, final String clientId,
@@ -88,26 +98,26 @@ public class TriStateCheckboxRenderer extends InputRenderer {
         ResponseWriter writer = context.getResponseWriter();
         String inputId = clientId + "_input";
 
-        writer.startElement("div", checkbox);
-        writer.writeAttribute("class", HTML.CHECKBOX_INPUT_WRAPPER_CLASS, null);
+        writer.startElement(DIV, checkbox);
+        writer.writeAttribute(CLASS, HTML.CHECKBOX_INPUT_WRAPPER_CLASS, null);
 
-        writer.startElement("input", null);
+        writer.startElement(INPUT, null);
         writer.writeAttribute("id", inputId, "id");
-        writer.writeAttribute("name", inputId, null);
+        writer.writeAttribute(NAME, inputId, null);
 
-        writer.writeAttribute("value", valCheck, null);
+        writer.writeAttribute(VALUE, valCheck, null);
 
         if (disabled) {
-            writer.writeAttribute("disabled", "disabled", null);
+            writer.writeAttribute(DISABLED, DISABLED, null);
         }
 
         if (checkbox.getOnchange() != null) {
             writer.writeAttribute("onchange", checkbox.getOnchange(), null);
         }
 
-        writer.endElement("input");
+        writer.endElement(INPUT);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeOutput(final FacesContext context, final TriStateCheckbox checkbox, final int valCheck,
@@ -128,14 +138,14 @@ public class TriStateCheckboxRenderer extends InputRenderer {
                 = checkbox.getStateThreeIcon() != null ? TriStateCheckbox.UI_ICON + checkbox.getStateThreeIcon()
                 : TriStateCheckbox.UI_ICON + "ui-icon-closethick";
 
-        String statesIconsClasses = "[\"" + stateOneIconClass + "\",\"" + stateTwoIconClass + "\",\"" + stataThreeIconClass + "\"]";
+        String statesIconsClasses = "[\"" + stateOneIconClass + LITERAL0 + stateTwoIconClass + LITERAL0 + stataThreeIconClass + "\"]";
 
         String stateOneTitle = checkbox.getStateOneTitle() == null ? "" : checkbox.getStateOneTitle();
         String stateTwoTitle = checkbox.getStateTwoTitle() == null ? "" : checkbox.getStateTwoTitle();
         String stateThreeTitle = checkbox.getStateThreeTitle() == null ? "" : checkbox.getStateThreeTitle();
 
-        String statesTitles = "[\"" + stateOneTitle + "\",\""
-                + stateTwoTitle + "\",\"" + stateThreeTitle + "\"]";
+        String statesTitles = "[\"" + stateOneTitle + LITERAL0
+                + stateTwoTitle + LITERAL0 + stateThreeTitle + "\"]";
 
         String iconClass = "ui-chkbox-icon ui-c"; //HTML.CHECKBOX_ICON_CLASS;
         String activeTitle = "";
@@ -178,10 +188,10 @@ public class TriStateCheckboxRenderer extends InputRenderer {
         if (label != null) {
             ResponseWriter writer = context.getResponseWriter();
 
-            writer.startElement("span", null);
-            writer.writeAttribute("class", HTML.CHECKBOX_LABEL_CLASS, null);
+            writer.startElement(SPAN, null);
+            writer.writeAttribute(CLASS, HTML.CHECKBOX_LABEL_CLASS, null);
             writer.writeText(label, "itemLabel");
-            writer.endElement("span");
+            writer.endElement(SPAN);
         }
     }
 

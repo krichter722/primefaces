@@ -26,6 +26,14 @@ import org.primefaces.renderkit.InputRenderer;
 import org.primefaces.util.ComponentUtils;
 import org.primefaces.util.HTML;
 import org.primefaces.util.WidgetBuilder;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DISABLED;
+import static org.primefaces.component.Literals.INPUT;
+import static org.primefaces.component.Literals.NAME;
+import static org.primefaces.component.Literals.READONLY;
+import static org.primefaces.component.Literals.STYLE;
+import static org.primefaces.component.Literals.TYPE;
+import static org.primefaces.component.Literals.VALUE;
 
 public class PasswordRenderer extends InputRenderer {
 
@@ -82,31 +90,31 @@ public class PasswordRenderer extends InputRenderer {
         inputClass = !disabled ? inputClass : inputClass + " ui-state-disabled";
         String styleClass = password.getStyleClass() == null ? inputClass : inputClass + " " + password.getStyleClass();
 
-        writer.startElement("input", password);
+        writer.startElement(INPUT, password);
         writer.writeAttribute("id", clientId, "id");
-        writer.writeAttribute("name", clientId, null);
-        writer.writeAttribute("type", "password", null);
-        writer.writeAttribute("class", styleClass, null);
+        writer.writeAttribute(NAME, clientId, null);
+        writer.writeAttribute(TYPE, "password", null);
+        writer.writeAttribute(CLASS, styleClass, null);
         if (password.getStyle() != null) {
-            writer.writeAttribute("style", password.getStyle(), null);
+            writer.writeAttribute(STYLE, password.getStyle(), null);
         }
 
         String valueToRender = ComponentUtils.getValueToRender(context, password);
         if (!ComponentUtils.isValueBlank(valueToRender) && password.isRedisplay()) {
-            writer.writeAttribute("value", valueToRender, null);
+            writer.writeAttribute(VALUE, valueToRender, null);
         }
 
         renderPassThruAttributes(context, password, HTML.INPUT_TEXT_ATTRS_WITHOUT_EVENTS);
         renderDomEvents(context, password, HTML.INPUT_TEXT_EVENTS);
 
-        if (disabled) writer.writeAttribute("disabled", "disabled", null);
-        if (password.isReadonly()) writer.writeAttribute("readonly", "readonly", null);
+        if (disabled) writer.writeAttribute(DISABLED, DISABLED, null);
+        if (password.isReadonly()) writer.writeAttribute(READONLY, READONLY, null);
         if (password.isRequired()) writer.writeAttribute("aria-required", "true", null);
 
         if (PrimeApplicationContext.getCurrentInstance(context).getConfig().isClientSideValidationEnabled()) {
             renderValidationMetadata(context, password);
         }
 
-        writer.endElement("input");
+        writer.endElement(INPUT);
     }
 }

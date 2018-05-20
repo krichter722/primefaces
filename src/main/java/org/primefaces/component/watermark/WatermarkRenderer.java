@@ -24,6 +24,7 @@ import javax.faces.context.FacesContext;
 import org.primefaces.expression.SearchExpressionFacade;
 import org.primefaces.renderkit.CoreRenderer;
 import org.primefaces.util.WidgetBuilder;
+import static org.primefaces.component.Literals.VALUE;
 
 public class WatermarkRenderer extends CoreRenderer {
 
@@ -42,7 +43,7 @@ public class WatermarkRenderer extends CoreRenderer {
 
         WidgetBuilder wb = getWidgetBuilder(context);
         wb.init("Watermark", watermark.resolveWidgetVar(), watermark.getClientId(context))
-                .attr("value", watermark.getValue())
+                .attr(VALUE, watermark.getValue())
                 .attr("target", target);
 
         wb.finish();

@@ -22,6 +22,10 @@ import javax.faces.context.ResponseWriter;
 import org.primefaces.expression.SearchExpressionFacade;
 import org.primefaces.renderkit.CoreRenderer;
 import org.primefaces.util.WidgetBuilder;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.SPAN;
+import static org.primefaces.component.Literals.STYLE;
 
 public class SidebarRenderer extends CoreRenderer {
 
@@ -41,18 +45,18 @@ public class SidebarRenderer extends CoreRenderer {
         styleClass = bar.isFullScreen() ? styleClass + " " + Sidebar.FULL_BAR_CLASS : styleClass;
         styleClass += " ui-sidebar-" + bar.getPosition();
 
-        writer.startElement("div", bar);
+        writer.startElement(DIV, bar);
         writer.writeAttribute("id", bar.getClientId(context), null);
-        writer.writeAttribute("class", styleClass, null);
+        writer.writeAttribute(CLASS, styleClass, null);
         if (style != null) {
-            writer.writeAttribute("style", style, null);
+            writer.writeAttribute(STYLE, style, null);
         }
 
         encodeCloseIcon(context);
 
         renderChildren(context, bar);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeCloseIcon(FacesContext context) throws IOException {
@@ -60,11 +64,11 @@ public class SidebarRenderer extends CoreRenderer {
 
         writer.startElement("a", null);
         writer.writeAttribute("href", "#", null);
-        writer.writeAttribute("class", Sidebar.TITLE_BAR_CLOSE_CLASS, null);
+        writer.writeAttribute(CLASS, Sidebar.TITLE_BAR_CLOSE_CLASS, null);
 
-        writer.startElement("span", null);
-        writer.writeAttribute("class", Sidebar.CLOSE_ICON_CLASS, null);
-        writer.endElement("span");
+        writer.startElement(SPAN, null);
+        writer.writeAttribute(CLASS, Sidebar.CLOSE_ICON_CLASS, null);
+        writer.endElement(SPAN);
 
         writer.endElement("a");
     }

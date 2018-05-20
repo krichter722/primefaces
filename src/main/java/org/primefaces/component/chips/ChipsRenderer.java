@@ -25,6 +25,19 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DISABLED;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.INPUT;
+import static org.primefaces.component.Literals.NAME;
+import static org.primefaces.component.Literals.OPTION;
+import static org.primefaces.component.Literals.READONLY;
+import static org.primefaces.component.Literals.SELECT;
+import static org.primefaces.component.Literals.SPAN;
+import static org.primefaces.component.Literals.STYLE;
+import static org.primefaces.component.Literals.TITLE;
+import static org.primefaces.component.Literals.TYPE;
+import static org.primefaces.component.Literals.VALUE;
 import org.primefaces.renderkit.InputRenderer;
 import org.primefaces.util.ArrayUtils;
 import org.primefaces.util.ComponentUtils;
@@ -90,20 +103,20 @@ public class ChipsRenderer extends InputRenderer {
         listClass = listClass + " " + inputStyleClass;
         listClass = chips.isValid() ? listClass : listClass + " ui-state-error";
 
-        writer.startElement("div", null);
+        writer.startElement(DIV, null);
         writer.writeAttribute("id", clientId, null);
-        writer.writeAttribute("class", styleClass, null);
+        writer.writeAttribute(CLASS, styleClass, null);
         if (style != null) {
-            writer.writeAttribute("style", style, null);
+            writer.writeAttribute(STYLE, style, null);
         }
         if (title != null) {
-            writer.writeAttribute("title", title, null);
+            writer.writeAttribute(TITLE, title, null);
         }
 
         writer.startElement("ul", null);
-        writer.writeAttribute("class", listClass, null);
+        writer.writeAttribute(CLASS, listClass, null);
         if (inputStyle != null) {
-            writer.writeAttribute("style", inputStyle, null);
+            writer.writeAttribute(STYLE, inputStyle, null);
         }
 
         if (values != null && !values.isEmpty()) {
@@ -116,16 +129,16 @@ public class ChipsRenderer extends InputRenderer {
 
                 writer.startElement("li", null);
                 writer.writeAttribute("data-token-value", tokenValue, null);
-                writer.writeAttribute("class", Chips.TOKEN_DISPLAY_CLASS, null);
+                writer.writeAttribute(CLASS, Chips.TOKEN_DISPLAY_CLASS, null);
 
-                writer.startElement("span", null);
-                writer.writeAttribute("class", Chips.TOKEN_LABEL_CLASS, null);
+                writer.startElement(SPAN, null);
+                writer.writeAttribute(CLASS, Chips.TOKEN_LABEL_CLASS, null);
                 writer.writeText(tokenValue, null);
-                writer.endElement("span");
+                writer.endElement(SPAN);
 
-                writer.startElement("span", null);
-                writer.writeAttribute("class", Chips.TOKEN_CLOSE_ICON_CLASS, null);
-                writer.endElement("span");
+                writer.startElement(SPAN, null);
+                writer.writeAttribute(CLASS, Chips.TOKEN_CLOSE_ICON_CLASS, null);
+                writer.endElement(SPAN);
 
                 writer.endElement("li");
 
@@ -134,51 +147,51 @@ public class ChipsRenderer extends InputRenderer {
         }
 
         writer.startElement("li", null);
-        writer.writeAttribute("class", Chips.TOKEN_INPUT_CLASS, null);
-        writer.startElement("input", null);
-        writer.writeAttribute("type", "text", null);
+        writer.writeAttribute(CLASS, Chips.TOKEN_INPUT_CLASS, null);
+        writer.startElement(INPUT, null);
+        writer.writeAttribute(TYPE, "text", null);
         writer.writeAttribute("id", inputId, null);
-        writer.writeAttribute("class", "ui-widget", null);
-        writer.writeAttribute("name", inputId, null);
+        writer.writeAttribute(CLASS, "ui-widget", null);
+        writer.writeAttribute(NAME, inputId, null);
         writer.writeAttribute("autocomplete", "off", null);
-        if (disabled) writer.writeAttribute("disabled", "disabled", "disabled");
-        if (chips.isReadonly()) writer.writeAttribute("readonly", "readonly", "readonly");
+        if (disabled) writer.writeAttribute(DISABLED, DISABLED, DISABLED);
+        if (chips.isReadonly()) writer.writeAttribute(READONLY, READONLY, READONLY);
 
         renderPassThruAttributes(context, chips, HTML.INPUT_TEXT_ATTRS_WITHOUT_EVENTS);
         renderDomEvents(context, chips, HTML.INPUT_TEXT_EVENTS);
 
-        writer.endElement("input");
+        writer.endElement(INPUT);
         writer.endElement("li");
 
         writer.endElement("ul");
 
         encodeHiddenSelect(context, chips, clientId, stringValues);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeHiddenSelect(FacesContext context, Chips chips, String clientId, List<String> values) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
         String id = clientId + "_hinput";
 
-        writer.startElement("select", null);
+        writer.startElement(SELECT, null);
         writer.writeAttribute("id", id, null);
-        writer.writeAttribute("name", id, null);
+        writer.writeAttribute(NAME, id, null);
         writer.writeAttribute("multiple", "multiple", null);
-        writer.writeAttribute("class", "ui-helper-hidden", null);
+        writer.writeAttribute(CLASS, "ui-helper-hidden", null);
 
         if (chips.isDisabled()) {
-            writer.writeAttribute("disabled", "disabled", "disabled");
+            writer.writeAttribute(DISABLED, DISABLED, DISABLED);
         }
 
         for (String value : values) {
-            writer.startElement("option", null);
-            writer.writeAttribute("value", value, null);
+            writer.startElement(OPTION, null);
+            writer.writeAttribute(VALUE, value, null);
             writer.writeAttribute("selected", "selected", null);
-            writer.endElement("option");
+            writer.endElement(OPTION);
         }
 
-        writer.endElement("select");
+        writer.endElement(SELECT);
     }
 
     protected void encodeScript(FacesContext context, Chips chips) throws IOException {

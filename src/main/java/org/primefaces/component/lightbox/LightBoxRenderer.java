@@ -20,6 +20,9 @@ import java.io.IOException;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.STYLE;
 
 import org.primefaces.renderkit.CoreRenderer;
 import org.primefaces.util.WidgetBuilder;
@@ -40,21 +43,21 @@ public class LightBoxRenderer extends CoreRenderer {
         String clientId = lb.getClientId(context);
         UIComponent inline = lb.getFacet("inline");
 
-        writer.startElement("div", lb);
+        writer.startElement(DIV, lb);
         writer.writeAttribute("id", clientId, "id");
-        if (lb.getStyle() != null) writer.writeAttribute("style", lb.getStyle(), null);
-        if (lb.getStyleClass() != null) writer.writeAttribute("class", lb.getStyleClass(), null);
+        if (lb.getStyle() != null) writer.writeAttribute(STYLE, lb.getStyle(), null);
+        if (lb.getStyleClass() != null) writer.writeAttribute(CLASS, lb.getStyleClass(), null);
 
         renderChildren(context, lb);
 
         if (inline != null) {
-            writer.startElement("div", null);
-            writer.writeAttribute("class", "ui-lightbox-inline ui-helper-hidden", null);
+            writer.startElement(DIV, null);
+            writer.writeAttribute(CLASS, "ui-lightbox-inline ui-helper-hidden", null);
             inline.encodeAll(context);
-            writer.endElement("div");
+            writer.endElement(DIV);
         }
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     public void encodeScript(FacesContext context, UIComponent component) throws IOException {

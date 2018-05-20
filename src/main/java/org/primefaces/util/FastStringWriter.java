@@ -20,6 +20,7 @@ import java.io.Writer;
 
 public class FastStringWriter extends Writer {
 
+    @SuppressWarnings("PMD.AvoidStringBufferField")
     protected StringBuilder builder;
 
     public FastStringWriter() {

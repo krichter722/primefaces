@@ -35,6 +35,7 @@ public class Jsf23WidgetVarSearchKeywordResolver extends SearchKeywordResolver {
     }
  
     @Override
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     public void resolve(SearchKeywordContext context, UIComponent current, String keyword) {
         try {
             Matcher matcher = PATTERN.matcher(keyword);

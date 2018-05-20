@@ -51,6 +51,7 @@ public abstract class UITree extends UIComponentBase implements NamingContainer 
 
     private static final String SB_GET_CONTAINER_CLIENT_ID = UITree.class.getName() + "#getContainerClientId";
     private static final String SB_GET_SELECTED_ROW_KEYS_AS_STRING = UITree.class.getName() + "#getSelectedRowKeysAsString";
+    private static final String SINGLE_SELECTION_MODE = "single";
 
     public final static String SEPARATOR = "_";
 
@@ -302,7 +303,7 @@ public abstract class UITree extends UIComponentBase implements NamingContainer 
             if (preselection != null) {
                 String selectionMode = this.getSelectionMode();
                 if (selectionMode != null) {
-                    if (selectionMode.equals("single")) {
+                    if (selectionMode.equals(SINGLE_SELECTION_MODE)) {
                         if (this.preselection.size() > 0) {
                             ve.setValue(FacesContext.getCurrentInstance().getELContext(), this.preselection.get(0));
                         }
@@ -347,7 +348,7 @@ public abstract class UITree extends UIComponentBase implements NamingContainer 
         String selectionMode = this.getSelectionMode();
 
         if (selection != null) {
-            if (selectionMode.equals("single")) {
+            if (selectionMode.equals(SINGLE_SELECTION_MODE)) {
                 TreeNode node = (TreeNode) selection;
                 value = node.getRowKey();
             }
@@ -358,7 +359,7 @@ public abstract class UITree extends UIComponentBase implements NamingContainer 
                 for (int i = 0; i < nodes.length; i++) {
                     builder.append(nodes[i].getRowKey());
                     if (i != (nodes.length - 1)) {
-                        builder.append(",");
+                        builder.append(',');
                     }
                 }
 
@@ -425,6 +426,7 @@ public abstract class UITree extends UIComponentBase implements NamingContainer 
     }
 
     @Override
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     public void processDecodes(FacesContext context) {
         if (!isRendered()) {
             return;
@@ -471,7 +473,7 @@ public abstract class UITree extends UIComponentBase implements NamingContainer 
             boolean valid = true;
             Object selection = this.getSelection();
 
-            if (selectionMode.equals("single")) {
+            if (selectionMode.equals(SINGLE_SELECTION_MODE)) {
                 if (selection == null) {
                     valid = false;
                 }
@@ -524,7 +526,7 @@ public abstract class UITree extends UIComponentBase implements NamingContainer 
             Object selection = this.getLocalSelectedNodes();
             Object previousSelection = selectionVE.getValue(context.getELContext());
 
-            if (selectionMode.equals("single")) {
+            if (selectionMode.equals(SINGLE_SELECTION_MODE)) {
                 if (previousSelection != null) {
                     ((TreeNode) previousSelection).setSelected(false);
                 }

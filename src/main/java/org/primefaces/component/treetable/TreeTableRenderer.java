@@ -31,6 +31,23 @@ import javax.faces.component.ValueHolder;
 import javax.faces.component.visit.VisitContext;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import org.apache.commons.lang3.StringUtils;
+import static org.primefaces.component.Literals.CHECKED;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.COLSPAN;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.FILTER;
+import static org.primefaces.component.Literals.GRID;
+import static org.primefaces.component.Literals.INPUT;
+import static org.primefaces.component.Literals.NAME;
+import static org.primefaces.component.Literals.ROLE;
+import static org.primefaces.component.Literals.SPAN;
+import static org.primefaces.component.Literals.STYLE;
+import static org.primefaces.component.Literals.TABINDEX;
+import static org.primefaces.component.Literals.TABLE;
+import static org.primefaces.component.Literals.TBODY;
+import static org.primefaces.component.Literals.TYPE;
+import static org.primefaces.component.Literals.VALUE;
 import org.primefaces.PrimeFaces;
 import org.primefaces.component.api.DynamicColumn;
 import org.primefaces.component.api.UIColumn;
@@ -64,6 +81,11 @@ import org.primefaces.visit.ResetInputVisitCallback;
 public class TreeTableRenderer extends DataRenderer {
 
     private static final String SB_DECODE_SELECTION = TreeTableRenderer.class.getName() + "#decodeSelection";
+    private static final String SORT_BY = "sortBy";
+    private static final String HEADER = "header";
+    private static final String TOP = "top";
+    private static final String BOTTOM = "bottom";
+    private static final String FOOTER = "footer";
 
     @Override
     public void decode(FacesContext context, UIComponent component) {
@@ -140,7 +162,7 @@ public class TreeTableRenderer extends DataRenderer {
             for (int i = 0; i < size; i++) {
                 sb.append(descendantRowKeys.get(i));
                 if (i != (size - 1)) {
-                    sb.append(",");
+                    sb.append(',');
                 }
             }
 
@@ -188,7 +210,7 @@ public class TreeTableRenderer extends DataRenderer {
             filter(context, tt, tt.getFilterMetadata(), globalFilterValue);
 
             //sort new filtered data to restore sort state
-            boolean sorted = (tt.getValueExpression("sortBy") != null || tt.getSortBy() != null);
+            boolean sorted = (tt.getValueExpression(SORT_BY) != null || tt.getSortBy() != null);
             if (sorted) {
                 sort(tt);
             }
@@ -251,7 +273,7 @@ public class TreeTableRenderer extends DataRenderer {
 
         //Filtering
         if (tt.isFilteringEnabled()) {
-            wb.attr("filter", true)
+            wb.attr(FILTER, true)
                     .attr("filterEvent", tt.getFilterEvent(), null)
                     .attr("filterDelay", tt.getFilterDelay(), Integer.MAX_VALUE);
         }
@@ -287,7 +309,7 @@ public class TreeTableRenderer extends DataRenderer {
         }
 
         //default sort
-        if (tt.getValueExpression("sortBy") != null && !tt.isDefaultSorted()) {
+        if (tt.getValueExpression(SORT_BY) != null && !tt.isDefaultSorted()) {
             sort(tt);
         }
 
@@ -296,11 +318,11 @@ public class TreeTableRenderer extends DataRenderer {
         containerClass = tt.getStyleClass() == null ? containerClass : containerClass + " " + tt.getStyleClass();
         containerClass = tt.isShowUnselectableCheckbox() ? containerClass + " ui-treetable-checkbox-all" : containerClass;
 
-        writer.startElement("div", null);
+        writer.startElement(DIV, null);
         writer.writeAttribute("id", clientId, "id");
-        writer.writeAttribute("class", containerClass, null);
+        writer.writeAttribute(CLASS, containerClass, null);
         if (tt.getStyle() != null) {
-            writer.writeAttribute("style", tt.getStyle(), null);
+            writer.writeAttribute(STYLE, tt.getStyle(), null);
         }
 
         if (scrollable) {
@@ -311,14 +333,14 @@ public class TreeTableRenderer extends DataRenderer {
         }
 
         if (tt.getSelectionMode() != null) {
-            encodeStateHolder(context, tt, clientId + "_selection", tt.getSelectedRowKeysAsString());
+            encodeStateHolder(context, clientId + "_selection", tt.getSelectedRowKeysAsString());
         }
 
         if (scrollable) {
-            encodeStateHolder(context, tt, clientId + "_scrollState", tt.getScrollState());
+            encodeStateHolder(context, clientId + "_scrollState", tt.getScrollState());
         }
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeScrollableMarkup(FacesContext context, TreeTable tt) throws IOException {
@@ -328,10 +350,10 @@ public class TreeTableRenderer extends DataRenderer {
         String paginatorPosition = tt.getPaginatorPosition();
 
         encodeScrollAreaStart(context, tt, TreeTable.SCROLLABLE_HEADER_CLASS, TreeTable.SCROLLABLE_HEADER_BOX_CLASS,
-                tableStyle, tableStyleClass, "header", TreeTable.HEADER_CLASS);
+                tableStyle, tableStyleClass, HEADER, TreeTable.HEADER_CLASS);
         
-        if (hasPaginator && !paginatorPosition.equalsIgnoreCase("top")) {
-            encodePaginatorMarkup(context, tt, "bottom");
+        if (hasPaginator && !paginatorPosition.equalsIgnoreCase(TOP)) {
+            encodePaginatorMarkup(context, tt, BOTTOM);
         }
         
         encodeThead(context, tt);
@@ -340,11 +362,11 @@ public class TreeTableRenderer extends DataRenderer {
         encodeScrollBody(context, tt, tableStyle, tableStyleClass);
 
         encodeScrollAreaStart(context, tt, TreeTable.SCROLLABLE_FOOTER_CLASS, TreeTable.SCROLLABLE_FOOTER_BOX_CLASS,
-                tableStyle, tableStyleClass, "footer", TreeTable.FOOTER_CLASS);
+                tableStyle, tableStyleClass, FOOTER, TreeTable.FOOTER_CLASS);
         encodeTfoot(context, tt);
         
-        if (hasPaginator && !paginatorPosition.equalsIgnoreCase("top")) {
-            encodePaginatorMarkup(context, tt, "bottom");
+        if (hasPaginator && !paginatorPosition.equalsIgnoreCase(TOP)) {
+            encodePaginatorMarkup(context, tt, BOTTOM);
         }
         encodeScrollAreaEnd(context);
     }
@@ -353,21 +375,21 @@ public class TreeTableRenderer extends DataRenderer {
         ResponseWriter writer = context.getResponseWriter();
         String scrollHeight = tt.getScrollHeight();
 
-        writer.startElement("div", null);
-        writer.writeAttribute("class", TreeTable.SCROLLABLE_BODY_CLASS, null);
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, TreeTable.SCROLLABLE_BODY_CLASS, null);
         if (scrollHeight != null && scrollHeight.indexOf('%') == -1) {
-            writer.writeAttribute("style", "height:" + scrollHeight + "px", null);
+            writer.writeAttribute(STYLE, "height:" + scrollHeight + "px", null);
         }
-        writer.startElement("table", null);
-        writer.writeAttribute("role", "grid", null);
+        writer.startElement(TABLE, null);
+        writer.writeAttribute(ROLE, GRID, null);
 
-        if (tableStyle != null) writer.writeAttribute("style", tableStyle, null);
-        if (tableStyleClass != null) writer.writeAttribute("class", tableStyleClass, null);
+        if (tableStyle != null) writer.writeAttribute(STYLE, tableStyle, null);
+        if (tableStyleClass != null) writer.writeAttribute(CLASS, tableStyleClass, null);
 
         encodeTbody(context, tt, false);
 
-        writer.endElement("table");
-        writer.endElement("div");
+        writer.endElement(TABLE);
+        writer.endElement(DIV);
     }
 
     protected void encodeScrollAreaStart(FacesContext context, TreeTable tt, String containerClass, String containerBoxClass,
@@ -375,26 +397,26 @@ public class TreeTableRenderer extends DataRenderer {
 
         ResponseWriter writer = context.getResponseWriter();
 
-        writer.startElement("div", null);
-        writer.writeAttribute("class", containerClass, null);
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, containerClass, null);
 
         encodeFacet(context, tt, tt.getFacet(facet), facetClass);
 
-        writer.startElement("div", null);
-        writer.writeAttribute("class", containerBoxClass, null);
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, containerBoxClass, null);
 
-        writer.startElement("table", null);
-        writer.writeAttribute("role", "grid", null);
-        if (tableStyle != null) writer.writeAttribute("style", tableStyle, null);
-        if (tableStyleClass != null) writer.writeAttribute("class", tableStyleClass, null);        
+        writer.startElement(TABLE, null);
+        writer.writeAttribute(ROLE, GRID, null);
+        if (tableStyle != null) writer.writeAttribute(STYLE, tableStyle, null);
+        if (tableStyleClass != null) writer.writeAttribute(CLASS, tableStyleClass, null);        
     }
 
     protected void encodeScrollAreaEnd(FacesContext context) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
 
-        writer.endElement("table");
-        writer.endElement("div");
-        writer.endElement("div");
+        writer.endElement(TABLE);
+        writer.endElement(DIV);
+        writer.endElement(DIV);
     }
 
     protected void encodeRegularMarkup(FacesContext context, TreeTable tt) throws IOException {
@@ -402,33 +424,33 @@ public class TreeTableRenderer extends DataRenderer {
         boolean hasPaginator = tt.isPaginator();
         String paginatorPosition = tt.getPaginatorPosition();
 
-        encodeFacet(context, tt, tt.getFacet("header"), TreeTable.HEADER_CLASS);
+        encodeFacet(context, tt, tt.getFacet(HEADER), TreeTable.HEADER_CLASS);
 
-        if (tt.isPaginator() && !paginatorPosition.equalsIgnoreCase("bottom")) {
-            encodePaginatorMarkup(context, tt, "top");
+        if (tt.isPaginator() && !paginatorPosition.equalsIgnoreCase(BOTTOM)) {
+            encodePaginatorMarkup(context, tt, TOP);
         }
 
-        writer.startElement("table", tt);
-        writer.writeAttribute("role", "treegrid", null);
-        if (tt.getTableStyle() != null) writer.writeAttribute("style", tt.getTableStyle(), null);
-        if (tt.getTableStyleClass() != null) writer.writeAttribute("class", tt.getTableStyleClass(), null);
+        writer.startElement(TABLE, tt);
+        writer.writeAttribute(ROLE, "treegrid", null);
+        if (tt.getTableStyle() != null) writer.writeAttribute(STYLE, tt.getTableStyle(), null);
+        if (tt.getTableStyleClass() != null) writer.writeAttribute(CLASS, tt.getTableStyleClass(), null);
 
         encodeThead(context, tt);
         encodeTfoot(context, tt);
         encodeTbody(context, tt, false);
 
-        writer.endElement("table");
+        writer.endElement(TABLE);
 
-        if (hasPaginator && !paginatorPosition.equalsIgnoreCase("top")) {
-            encodePaginatorMarkup(context, tt, "bottom");
+        if (hasPaginator && !paginatorPosition.equalsIgnoreCase(TOP)) {
+            encodePaginatorMarkup(context, tt, BOTTOM);
         }
 
-        encodeFacet(context, tt, tt.getFacet("footer"), TreeTable.FOOTER_CLASS);
+        encodeFacet(context, tt, tt.getFacet(FOOTER), TreeTable.FOOTER_CLASS);
     }
 
     protected void encodeThead(FacesContext context, TreeTable tt) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
-        ColumnGroup group = tt.getColumnGroup("header");
+        ColumnGroup group = tt.getColumnGroup(HEADER);
         String clientId = tt.getClientId(context);
 
         writer.startElement("thead", null);
@@ -442,8 +464,8 @@ public class TreeTableRenderer extends DataRenderer {
                     String rowStyle = headerRow.getStyle();
 
                     writer.startElement("tr", null);
-                    if (rowClass != null) writer.writeAttribute("class", rowClass, null);
-                    if (rowStyle != null) writer.writeAttribute("style", rowStyle, null);
+                    if (rowClass != null) writer.writeAttribute(CLASS, rowClass, null);
+                    if (rowStyle != null) writer.writeAttribute(STYLE, rowStyle, null);
 
                     for (UIComponent headerRowChild : headerRow.getChildren()) {
                         if (headerRowChild.isRendered() && headerRowChild instanceof Column) {
@@ -457,7 +479,7 @@ public class TreeTableRenderer extends DataRenderer {
         }
         else {
             writer.startElement("tr", null);
-            writer.writeAttribute("role", "row", null);
+            writer.writeAttribute(ROLE, "row", null);
 
             List<UIColumn> columns = tt.getColumns();
             for (int i = 0; i < columns.size(); i++) {
@@ -488,17 +510,17 @@ public class TreeTableRenderer extends DataRenderer {
         UIComponent emptyFacet = tt.getFacet("emptyMessage");
 
         if (!dataOnly) {
-            writer.startElement("tbody", null);
+            writer.startElement(TBODY, null);
             writer.writeAttribute("id", clientId + "_data", null);
-            writer.writeAttribute("class", TreeTable.DATA_CLASS, null);
+            writer.writeAttribute(CLASS, TreeTable.DATA_CLASS, null);
         }
 
         if (empty) {
             writer.startElement("tr", null);
-            writer.writeAttribute("class", TreeTable.EMPTY_MESSAGE_ROW_CLASS, null);
+            writer.writeAttribute(CLASS, TreeTable.EMPTY_MESSAGE_ROW_CLASS, null);
 
             writer.startElement("td", null);
-            writer.writeAttribute("colspan", tt.getColumnsCount(), null);
+            writer.writeAttribute(COLSPAN, tt.getColumnsCount(), null);
 
             if (emptyFacet != null) {
                 emptyFacet.encodeAll(context);
@@ -525,7 +547,7 @@ public class TreeTableRenderer extends DataRenderer {
         tt.setRowKey(null);
 
         if (!dataOnly) {
-            writer.endElement("tbody");
+            writer.endElement(TBODY);
         }
     }
 
@@ -564,8 +586,8 @@ public class TreeTableRenderer extends DataRenderer {
 
         writer.startElement("tr", null);
         writer.writeAttribute("id", tt.getClientId(context) + "_node_" + rowKey, null);
-        writer.writeAttribute("class", rowStyleClass, null);
-        writer.writeAttribute("role", "row", null);
+        writer.writeAttribute(CLASS, rowStyleClass, null);
+        writer.writeAttribute(ROLE, "row", null);
         writer.writeAttribute("aria-expanded", String.valueOf(treeNode.isExpanded()), null);
         writer.writeAttribute("data-rk", rowKey, null);
 
@@ -600,25 +622,25 @@ public class TreeTableRenderer extends DataRenderer {
                 }
 
                 writer.startElement("td", null);
-                writer.writeAttribute("role", "gridcell", null);
-                if (columnStyle != null) writer.writeAttribute("style", columnStyle, null);
-                if (columnStyleClass != null) writer.writeAttribute("class", columnStyleClass, null);
+                writer.writeAttribute(ROLE, "gridcell", null);
+                if (columnStyle != null) writer.writeAttribute(STYLE, columnStyle, null);
+                if (columnStyleClass != null) writer.writeAttribute(CLASS, columnStyleClass, null);
                 if (rowspan != 1) writer.writeAttribute("rowspan", rowspan, null);
-                if (colspan != 1) writer.writeAttribute("colspan", colspan, null);
+                if (colspan != 1) writer.writeAttribute(COLSPAN, colspan, null);
 
                 if (i == 0) {
                     for (int j = 0; j < depth; j++) {
-                        writer.startElement("span", null);
-                        writer.writeAttribute("class", TreeTable.INDENT_CLASS, null);
-                        writer.endElement("span");
+                        writer.startElement(SPAN, null);
+                        writer.writeAttribute(CLASS, TreeTable.INDENT_CLASS, null);
+                        writer.endElement(SPAN);
                     }
 
-                    writer.startElement("span", null);
-                    writer.writeAttribute("class", icon, null);
+                    writer.startElement(SPAN, null);
+                    writer.writeAttribute(CLASS, icon, null);
                     if (treeNode.isLeaf()) {
-                        writer.writeAttribute("style", "visibility:hidden", null);
+                        writer.writeAttribute(STYLE, "visibility:hidden", null);
                     }
-                    writer.endElement("span");
+                    writer.endElement(SPAN);
 
                     if (checkboxSelection) {
                         if (!nativeElements) {
@@ -649,11 +671,11 @@ public class TreeTableRenderer extends DataRenderer {
         }
 
         ResponseWriter writer = context.getResponseWriter();
-        UIComponent header = column.getFacet("header");
+        UIComponent header = column.getFacet(HEADER);
         String headerText = column.getHeaderText();
         int colspan = column.getColspan();
         int rowspan = column.getRowspan();
-        ValueExpression columnSortByVE = column.getValueExpression("sortBy");
+        ValueExpression columnSortByVE = column.getValueExpression(SORT_BY);
         boolean sortable = (columnSortByVE != null);
         boolean filterable = (column.getValueExpression("filterBy") != null && column.isFilterable());
         String sortIcon = null;
@@ -665,7 +687,7 @@ public class TreeTableRenderer extends DataRenderer {
         columnClass = filterable ? columnClass + " " + TreeTable.FILTER_COLUMN_CLASS : columnClass;
 
         if (sortable) {
-            ValueExpression tableSortByVE = tt.getValueExpression("sortBy");
+            ValueExpression tableSortByVE = tt.getValueExpression(SORT_BY);
             if (tableSortByVE != null) {
                 sortIcon = resolveSortIcon(columnSortByVE, tableSortByVE, tt.getSortOrder());
             }
@@ -685,14 +707,14 @@ public class TreeTableRenderer extends DataRenderer {
 
         writer.startElement("th", null);
         writer.writeAttribute("id", column.getContainerClientId(context), null);
-        writer.writeAttribute("class", columnClass, null);
-        writer.writeAttribute("role", "columnheader", null);
-        if (style != null) writer.writeAttribute("style", style, null);
+        writer.writeAttribute(CLASS, columnClass, null);
+        writer.writeAttribute(ROLE, "columnheader", null);
+        if (style != null) writer.writeAttribute(STYLE, style, null);
         if (rowspan != 1) writer.writeAttribute("rowspan", rowspan, null);
-        if (colspan != 1) writer.writeAttribute("colspan", colspan, null);
+        if (colspan != 1) writer.writeAttribute(COLSPAN, colspan, null);
 
-        writer.startElement("span", null);
-        writer.writeAttribute("class", "ui-column-title", null);
+        writer.startElement(SPAN, null);
+        writer.writeAttribute(CLASS, "ui-column-title", null);
 
         if (header != null) {
             header.encodeAll(context);
@@ -701,12 +723,12 @@ public class TreeTableRenderer extends DataRenderer {
             writer.writeText(headerText, null);
         }
 
-        writer.endElement("span");
+        writer.endElement(SPAN);
 
         if (sortable) {
-            writer.startElement("span", null);
-            writer.writeAttribute("class", sortIcon, null);
-            writer.endElement("span");
+            writer.startElement(SPAN, null);
+            writer.writeAttribute(CLASS, sortIcon, null);
+            writer.endElement(SPAN);
         }
 
         if (filterable) {
@@ -720,13 +742,13 @@ public class TreeTableRenderer extends DataRenderer {
     protected void encodeFilter(FacesContext context, TreeTable tt, UIColumn column) throws IOException {
         Map<String, String> params = context.getExternalContext().getRequestParameterMap();
         ResponseWriter writer = context.getResponseWriter();
-        UIComponent filterFacet = column.getFacet("filter");
+        UIComponent filterFacet = column.getFacet(FILTER);
 
         if (filterFacet == null) {
             String separator = String.valueOf(UINamingContainer.getSeparatorChar(context));
             boolean disableTabbing = tt.getScrollWidth() != null;
 
-            String filterId = column.getContainerClientId(context) + separator + "filter";
+            String filterId = column.getContainerClientId(context) + separator + FILTER;
             String filterStyleClass = column.getFilterStyleClass();
 
             Object filterValue = null;
@@ -740,32 +762,32 @@ public class TreeTableRenderer extends DataRenderer {
 
             filterStyleClass = filterStyleClass == null ? TreeTable.COLUMN_INPUT_FILTER_CLASS : TreeTable.COLUMN_INPUT_FILTER_CLASS + " " + filterStyleClass;
 
-            writer.startElement("input", null);
+            writer.startElement(INPUT, null);
             writer.writeAttribute("id", filterId, null);
-            writer.writeAttribute("name", filterId, null);
-            writer.writeAttribute("class", filterStyleClass, null);
-            writer.writeAttribute("value", filterValue, null);
+            writer.writeAttribute(NAME, filterId, null);
+            writer.writeAttribute(CLASS, filterStyleClass, null);
+            writer.writeAttribute(VALUE, filterValue, null);
             writer.writeAttribute("autocomplete", "off", null);
 
             if (disableTabbing) {
-                writer.writeAttribute("tabindex", "-1", null);
+                writer.writeAttribute(TABINDEX, "-1", null);
             }
 
             if (column.getFilterStyle() != null) {
-                writer.writeAttribute("style", column.getFilterStyle(), null);
+                writer.writeAttribute(STYLE, column.getFilterStyle(), null);
             }
 
             if (column.getFilterMaxLength() != Integer.MAX_VALUE) {
                 writer.writeAttribute("maxlength", column.getFilterMaxLength(), null);
             }
 
-            writer.endElement("input");
+            writer.endElement(INPUT);
         }
         else {
-            writer.startElement("div", null);
-            writer.writeAttribute("class", TreeTable.COLUMN_CUSTOM_FILTER_CLASS, null);
+            writer.startElement(DIV, null);
+            writer.writeAttribute(CLASS, TreeTable.COLUMN_CUSTOM_FILTER_CLASS, null);
             filterFacet.encodeAll(context);
-            writer.endElement("div");
+            writer.endElement(DIV);
         }
     }
 
@@ -796,17 +818,17 @@ public class TreeTableRenderer extends DataRenderer {
 
         ResponseWriter writer = context.getResponseWriter();
 
-        writer.startElement("div", null);
-        writer.writeAttribute("class", styleClass, null);
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, styleClass, null);
 
         facet.encodeAll(context);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeTfoot(FacesContext context, TreeTable tt) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
-        ColumnGroup group = tt.getColumnGroup("footer");
+        ColumnGroup group = tt.getColumnGroup(FOOTER);
 
         writer.startElement("tfoot", null);
 
@@ -818,8 +840,8 @@ public class TreeTableRenderer extends DataRenderer {
                     String rowStyle = footerRow.getStyle();
 
                     writer.startElement("tr", null);
-                    if (rowClass != null) writer.writeAttribute("class", rowClass, null);
-                    if (rowStyle != null) writer.writeAttribute("style", rowStyle, null);
+                    if (rowClass != null) writer.writeAttribute(CLASS, rowClass, null);
+                    if (rowStyle != null) writer.writeAttribute(STYLE, rowStyle, null);
 
                     for (UIComponent footerRowChild : footerRow.getChildren()) {
                         if (footerRowChild.isRendered() && footerRowChild instanceof Column) {
@@ -863,7 +885,7 @@ public class TreeTableRenderer extends DataRenderer {
         ResponseWriter writer = context.getResponseWriter();
         int colspan = column.getColspan();
         int rowspan = column.getRowspan();
-        UIComponent footerFacet = column.getFacet("footer");
+        UIComponent footerFacet = column.getFacet(FOOTER);
         String footerText = column.getFooterText();
 
         String style = column.getStyle();
@@ -876,10 +898,10 @@ public class TreeTableRenderer extends DataRenderer {
         }
 
         writer.startElement("td", null);
-        writer.writeAttribute("class", columnStyleClass, null);
-        if (style != null) writer.writeAttribute("style", style, null);
+        writer.writeAttribute(CLASS, columnStyleClass, null);
+        if (style != null) writer.writeAttribute(STYLE, style, null);
         if (rowspan != 1) writer.writeAttribute("rowspan", rowspan, null);
-        if (colspan != 1) writer.writeAttribute("colspan", colspan, null);
+        if (colspan != 1) writer.writeAttribute(COLSPAN, colspan, null);
 
         if (footerFacet != null) {
             footerFacet.encodeAll(context);
@@ -901,15 +923,15 @@ public class TreeTableRenderer extends DataRenderer {
         return true;
     }
 
-    private void encodeStateHolder(FacesContext context, TreeTable tt, String name, String value) throws IOException {
+    private void encodeStateHolder(FacesContext context, String name, String value) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
 
-        writer.startElement("input", null);
+        writer.startElement(INPUT, null);
         writer.writeAttribute("id", name, null);
-        writer.writeAttribute("name", name, null);
-        writer.writeAttribute("type", "hidden", null);
-        writer.writeAttribute("value", value, null);
-        writer.endElement("input");
+        writer.writeAttribute(NAME, name, null);
+        writer.writeAttribute(TYPE, "hidden", null);
+        writer.writeAttribute(VALUE, value, null);
+        writer.endElement(INPUT);
     }
 
     protected String resolveSortIcon(ValueExpression columnSortBy, ValueExpression ttSortBy, String sortOrder) {
@@ -936,8 +958,8 @@ public class TreeTableRenderer extends DataRenderer {
         String sortDir = params.get(clientId + "_sortDir");
 
         UIColumn sortColumn = tt.findColumn(sortKey);
-        ValueExpression sortByVE = sortColumn.getValueExpression("sortBy");
-        tt.setValueExpression("sortBy", sortByVE);
+        ValueExpression sortByVE = sortColumn.getValueExpression(SORT_BY);
+        tt.setValueExpression(SORT_BY, sortByVE);
         tt.setSortColumn(sortColumn);
         tt.setSortFunction(sortColumn.getSortFunction());
         tt.setSortOrder(sortDir);
@@ -960,7 +982,7 @@ public class TreeTableRenderer extends DataRenderer {
             ((DynamicColumn) sortColumn).applyStatelessModel();
         }
 
-        ValueExpression sortByVE = tt.getValueExpression("sortBy");
+        ValueExpression sortByVE = tt.getValueExpression(SORT_BY);
         SortOrder sortOrder = SortOrder.valueOf(tt.getSortOrder().toUpperCase(Locale.ENGLISH));
         TreeUtils.sortNode(root, new TreeNodeComparator(sortByVE, tt.getVar(), sortOrder, tt.getSortFunction(),
                 tt.isCaseSensitiveSort(), tt.resolveDataLocale()));
@@ -975,19 +997,19 @@ public class TreeTableRenderer extends DataRenderer {
     protected void renderNativeCheckbox(FacesContext context, TreeTable tt, boolean checked, boolean partialSelected) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
 
-        writer.startElement("input", null);
-        writer.writeAttribute("type", "checkbox", null);
-        writer.writeAttribute("name", tt.getContainerClientId(context) + "_checkbox", null);
+        writer.startElement(INPUT, null);
+        writer.writeAttribute(TYPE, "checkbox", null);
+        writer.writeAttribute(NAME, tt.getContainerClientId(context) + "_checkbox", null);
 
         if (checked) {
-            writer.writeAttribute("checked", "checked", null);
+            writer.writeAttribute(CHECKED, CHECKED, null);
         }
 
         if (partialSelected) {
-            writer.writeAttribute("class", "ui-treetable-indeterminate", null);
+            writer.writeAttribute(CLASS, "ui-treetable-indeterminate", null);
         }
 
-        writer.endElement("input");
+        writer.endElement(INPUT);
     }
 
     public void encodeRowEdit(FacesContext context, TreeTable tt) throws IOException {
@@ -1005,7 +1027,7 @@ public class TreeTableRenderer extends DataRenderer {
             for (UIColumn column : tt.getColumns()) {
                 for (UIComponent grandkid : column.getChildren()) {
                     if (grandkid instanceof CellEditor) {
-                        UIComponent inputFacet = grandkid.getFacet("input");
+                        UIComponent inputFacet = grandkid.getFacet(INPUT);
 
                         if (inputFacet instanceof EditableValueHolder) {
                             ((EditableValueHolder) inputFacet).resetValue();
@@ -1051,7 +1073,7 @@ public class TreeTableRenderer extends DataRenderer {
         }
         
         if (tt.isCellEditCancelRequest(context) || tt.isCellEditInitRequest(context)) {
-            column.getCellEditor().getFacet("input").encodeAll(context);
+            column.getCellEditor().getFacet(INPUT).encodeAll(context);
         } 
         else {
             column.getCellEditor().getFacet("output").encodeAll(context);
@@ -1071,19 +1093,19 @@ public class TreeTableRenderer extends DataRenderer {
             ValueExpression columnFilterByVE = column.getValueExpression("filterBy");
 
             if (columnFilterByVE != null) {
-                UIComponent filterFacet = column.getFacet("filter");
+                UIComponent filterFacet = column.getFacet(FILTER);
                 ValueExpression filterByVE = columnFilterByVE;
                 Object filterValue = null;
                 String filterId = null;
 
                 if (column instanceof Column) {
-                    filterId = column.getClientId(context) + separator + "filter";
+                    filterId = column.getClientId(context) + separator + FILTER;
                     filterValue = (filterFacet == null) ? params.get(filterId) : ((ValueHolder) filterFacet).getLocalValue();
                 }
                 else if (column instanceof DynamicColumn) {
                     DynamicColumn dynamicColumn = (DynamicColumn) column;
                     dynamicColumn.applyModel();
-                    filterId = dynamicColumn.getContainerClientId(context) + separator + "filter";
+                    filterId = dynamicColumn.getContainerClientId(context) + separator + FILTER;
                     filterValue = (filterFacet == null) ? params.get(filterId) : ((ValueHolder) filterFacet).getLocalValue();
                     dynamicColumn.cleanModel();
                 }
@@ -1125,7 +1147,7 @@ public class TreeTableRenderer extends DataRenderer {
     protected void findFilteredRowKeys(FacesContext context, TreeTable tt, TreeNode node, List<FilterMeta> filterMetadata, Locale filterLocale,
             String globalFilterValue) throws IOException {
         int childCount = node.getChildCount();
-        boolean hasGlobalFilter = globalFilterValue != null && globalFilterValue.trim().length() > 0;
+        boolean hasGlobalFilter = globalFilterValue != null && !StringUtils.isBlank(globalFilterValue);
         GlobalFilterConstraint globalFilterConstraint = (GlobalFilterConstraint) FILTER_CONSTRAINTS.get(GLOBAL_MODE);
         ELContext elContext = context.getELContext();
 

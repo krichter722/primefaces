@@ -631,6 +631,7 @@ public class SearchExpressionFacadeTest {
     }
 
     @Test
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     public void resolveComponent_NotNestablePasstrough() {
 
         UIComponent source = new UICommand();
@@ -654,6 +655,7 @@ public class SearchExpressionFacadeTest {
     }
 
     @Test
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     public void resolveClientId_NotNestablePasstrough() {
 
         UIComponent source = new UICommand();
@@ -946,6 +948,7 @@ public class SearchExpressionFacadeTest {
     }
 
     @Test
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     public void resolveComponent_AbsoluteKeywordStart() {
 
         UIComponent source = new UICommand();
@@ -961,6 +964,7 @@ public class SearchExpressionFacadeTest {
     }
 
     @Test
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     public void resolveClientId_AbsoluteKeywordStart() {
 
         UIComponent source = new UICommand();
@@ -1201,6 +1205,7 @@ public class SearchExpressionFacadeTest {
     }
 
     @Test
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     public void resolveClientId_NonCombineableAllAndNone() {
 
         UIComponent source = new UICommand();
@@ -1257,6 +1262,7 @@ public class SearchExpressionFacadeTest {
     }
 
     @Test
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     public void resolveComponent_Next() {
 
         UIComponent root = new UIPanel();
@@ -1287,6 +1293,7 @@ public class SearchExpressionFacadeTest {
     }
 
     @Test
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     public void resolveComponent_NextNext() {
 
         UIComponent root = new UIPanel();
@@ -1324,6 +1331,7 @@ public class SearchExpressionFacadeTest {
     }
 
     @Test
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     public void resolveComponent_Previous() {
 
         UIComponent root = new UIPanel();
@@ -1354,6 +1362,7 @@ public class SearchExpressionFacadeTest {
     }
 
     @Test
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     public void resolveComponent_PreviousPrevious() {
 
         UIComponent root = new UIPanel();
@@ -1412,6 +1421,7 @@ public class SearchExpressionFacadeTest {
     }
 
     @Test
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     public void resolveComponent_NoResult() {
         UIForm root = new UIForm();
         root.setId("form");

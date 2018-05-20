@@ -20,6 +20,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import org.primefaces.component.api.Pageable;
 import org.primefaces.component.api.UIData;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.SPAN;
 
 public class CurrentPageReportRenderer implements PaginatorElementRenderer {
 
@@ -39,9 +41,9 @@ public class CurrentPageReportRenderer implements PaginatorElementRenderer {
                 .replaceAll("\\{startRecord\\}", Integer.toString(Math.min(pageable.getFirst() + 1, pageable.getRowCount())))
                 .replaceAll("\\{endRecord}", Integer.toString(Math.min(pageable.getFirst() + pageable.getRowsToRender(), pageable.getRowCount())));
 
-        writer.startElement("span", null);
-        writer.writeAttribute("class", UIData.PAGINATOR_CURRENT_CLASS, null);
+        writer.startElement(SPAN, null);
+        writer.writeAttribute(CLASS, UIData.PAGINATOR_CURRENT_CLASS, null);
         writer.writeText(output, null);
-        writer.endElement("span");
+        writer.endElement(SPAN);
     }
 }

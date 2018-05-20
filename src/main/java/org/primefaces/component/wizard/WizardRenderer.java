@@ -32,6 +32,15 @@ import org.primefaces.renderkit.CoreRenderer;
 import org.primefaces.util.ComponentTraversalUtils;
 import org.primefaces.util.HTML;
 import org.primefaces.util.WidgetBuilder;
+import static org.primefaces.component.Literals.BUTTON;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.NAME;
+import static org.primefaces.component.Literals.SPAN;
+import static org.primefaces.component.Literals.STYLE;
+import static org.primefaces.component.Literals.TITLE;
+import static org.primefaces.component.Literals.TYPE;
+import static org.primefaces.component.Literals.VALUE;
 
 public class WizardRenderer extends CoreRenderer {
 
@@ -145,11 +154,11 @@ public class WizardRenderer extends CoreRenderer {
         String clientId = wizard.getClientId(facesContext);
         String styleClass = wizard.getStyleClass() == null ? "ui-wizard ui-widget" : "ui-wizard ui-widget " + wizard.getStyleClass();
 
-        writer.startElement("div", wizard);
+        writer.startElement(DIV, wizard);
         writer.writeAttribute("id", clientId, "id");
-        writer.writeAttribute("class", styleClass, "styleClass");
+        writer.writeAttribute(CLASS, styleClass, "styleClass");
         if (wizard.getStyle() != null) {
-            writer.writeAttribute("style", wizard.getStyle(), "style");
+            writer.writeAttribute(STYLE, wizard.getStyle(), STYLE);
         }
 
         if (wizard.isShowStepStatus()) {
@@ -162,7 +171,7 @@ public class WizardRenderer extends CoreRenderer {
             encodeNavigators(facesContext, wizard);
         }
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeCurrentStep(FacesContext facesContext, Wizard wizard) throws IOException {
@@ -183,26 +192,26 @@ public class WizardRenderer extends CoreRenderer {
         ResponseWriter writer = facesContext.getResponseWriter();
         String clientId = wizard.getClientId(facesContext);
 
-        writer.startElement("div", null);
-        writer.writeAttribute("class", "ui-wizard-navbar ui-helper-clearfix", null);
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, "ui-wizard-navbar ui-helper-clearfix", null);
 
         encodeNavigator(facesContext, wizard, clientId + "_back", wizard.getBackLabel(), Wizard.BACK_BUTTON_CLASS, "ui-icon-arrowthick-1-w");
         encodeNavigator(facesContext, wizard, clientId + "_next", wizard.getNextLabel(), Wizard.NEXT_BUTTON_CLASS, "ui-icon-arrowthick-1-e");
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeContent(FacesContext facesContext, Wizard wizard) throws IOException {
         ResponseWriter writer = facesContext.getResponseWriter();
         String clientId = wizard.getClientId(facesContext);
 
-        writer.startElement("div", null);
+        writer.startElement(DIV, null);
         writer.writeAttribute("id", clientId + "_content", "id");
-        writer.writeAttribute("class", "ui-wizard-content", null);
+        writer.writeAttribute(CLASS, "ui-wizard-content", null);
 
         encodeCurrentStep(facesContext, wizard);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeStepStatus(FacesContext context, Wizard wizard) throws IOException {
@@ -211,13 +220,13 @@ public class WizardRenderer extends CoreRenderer {
         boolean currentFound = false;
 
         writer.startElement("ul", null);
-        writer.writeAttribute("class", Wizard.STEP_STATUS_CLASS, null);
+        writer.writeAttribute(CLASS, Wizard.STEP_STATUS_CLASS, null);
 
         for (UIComponent child : wizard.getChildren()) {
             if (child instanceof Tab && child.isRendered()) {
                 Tab tab = (Tab) child;
                 String title = tab.getTitle();
-                UIComponent titleFacet = tab.getFacet("title");
+                UIComponent titleFacet = tab.getFacet(TITLE);
                 boolean active = (!currentFound) && (currentStep == null || tab.getId().equals(currentStep));
                 String titleStyleClass = active ? Wizard.ACTIVE_STEP_CLASS : Wizard.STEP_CLASS;
                 if (tab.getTitleStyleClass() != null) {
@@ -229,9 +238,9 @@ public class WizardRenderer extends CoreRenderer {
                 }
 
                 writer.startElement("li", null);
-                writer.writeAttribute("class", titleStyleClass, null);
-                if (tab.getTitleStyle() != null) writer.writeAttribute("style", tab.getTitleStyle(), null);
-                if (tab.getTitletip() != null) writer.writeAttribute("title", tab.getTitletip(), null);
+                writer.writeAttribute(CLASS, titleStyleClass, null);
+                if (tab.getTitleStyle() != null) writer.writeAttribute(STYLE, tab.getTitleStyle(), null);
+                if (tab.getTitletip() != null) writer.writeAttribute(TITLE, tab.getTitletip(), null);
 
                 if (titleFacet != null) {
                     titleFacet.encodeAll(context);
@@ -250,25 +259,25 @@ public class WizardRenderer extends CoreRenderer {
     protected void encodeNavigator(FacesContext facesContext, Wizard wizard, String id, String label, String buttonClass, String icon) throws IOException {
         ResponseWriter writer = facesContext.getResponseWriter();
 
-        writer.startElement("button", null);
+        writer.startElement(BUTTON, null);
         writer.writeAttribute("id", id, null);
-        writer.writeAttribute("name", id, null);
-        writer.writeAttribute("type", "button", null);
-        writer.writeAttribute("class", HTML.BUTTON_TEXT_ICON_LEFT_BUTTON_CLASS + " " + buttonClass, null);
+        writer.writeAttribute(NAME, id, null);
+        writer.writeAttribute(TYPE, BUTTON, null);
+        writer.writeAttribute(CLASS, HTML.BUTTON_TEXT_ICON_LEFT_BUTTON_CLASS + " " + buttonClass, null);
 
         //button icon
         String iconClass = HTML.BUTTON_LEFT_ICON_CLASS + " " + icon;
-        writer.startElement("span", null);
-        writer.writeAttribute("class", iconClass, null);
-        writer.endElement("span");
+        writer.startElement(SPAN, null);
+        writer.writeAttribute(CLASS, iconClass, null);
+        writer.endElement(SPAN);
 
         //text
-        writer.startElement("span", null);
-        writer.writeAttribute("class", HTML.BUTTON_TEXT_CLASS, null);
-        writer.writeText(label, "value");
-        writer.endElement("span");
+        writer.startElement(SPAN, null);
+        writer.writeAttribute(CLASS, HTML.BUTTON_TEXT_CLASS, null);
+        writer.writeText(label, VALUE);
+        writer.endElement(SPAN);
 
-        writer.endElement("button");
+        writer.endElement(BUTTON);
     }
 
     @Override

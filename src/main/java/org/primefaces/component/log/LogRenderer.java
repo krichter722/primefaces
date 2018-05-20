@@ -19,6 +19,10 @@ import java.io.IOException;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.SPAN;
+import static org.primefaces.component.Literals.TITLE;
 import org.primefaces.renderkit.CoreRenderer;
 import org.primefaces.util.WidgetBuilder;
 
@@ -36,30 +40,30 @@ public class LogRenderer extends CoreRenderer {
         ResponseWriter writer = context.getResponseWriter();
 
         //container
-        writer.startElement("div", log);
+        writer.startElement(DIV, log);
         writer.writeAttribute("id", log.getClientId(context), "id");
-        writer.writeAttribute("class", Log.CONTAINER_CLASS, null);
+        writer.writeAttribute(CLASS, Log.CONTAINER_CLASS, null);
 
         //header
-        writer.startElement("div", null);
-        writer.writeAttribute("class", Log.HEADER_CLASS, null);
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, Log.HEADER_CLASS, null);
         encodeIcon(context, Log.CLEAR_BUTTON_CLASS, "ui-icon ui-icon-trash", "Clear");
         encodeIcon(context, Log.ALL_BUTTON_CLASS, "ui-icon ui-icon-note", "All");
         encodeIcon(context, Log.INFO_BUTTON_CLASS, "ui-icon ui-icon-info", "Info");
         encodeIcon(context, Log.WARN_BUTTON_CLASS, "ui-icon ui-icon-notice", "Warn");
         encodeIcon(context, Log.DEBUG_BUTTON_CLASS, "ui-icon ui-icon-search", "Debug");
         encodeIcon(context, Log.ERROR_BUTTON_CLASS, "ui-icon ui-icon-alert", "Error");
-        writer.endElement("div");
+        writer.endElement(DIV);
 
         //content
-        writer.startElement("div", log);
-        writer.writeAttribute("class", Log.CONTENT_CLASS, null);
+        writer.startElement(DIV, log);
+        writer.writeAttribute(CLASS, Log.CONTENT_CLASS, null);
         writer.startElement("ul", null);
-        writer.writeAttribute("class", Log.ITEMS_CLASS, null);
+        writer.writeAttribute(CLASS, Log.ITEMS_CLASS, null);
         writer.endElement("ul");
-        writer.endElement("div");
+        writer.endElement(DIV);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeIcon(FacesContext context, String anchorClass, String iconClass, String title) throws IOException {
@@ -67,12 +71,12 @@ public class LogRenderer extends CoreRenderer {
 
         writer.startElement("a", null);
         writer.writeAttribute("href", "#", null);
-        writer.writeAttribute("class", anchorClass, null);
-        writer.writeAttribute("title", title, null);
+        writer.writeAttribute(CLASS, anchorClass, null);
+        writer.writeAttribute(TITLE, title, null);
 
-        writer.startElement("span", null);
-        writer.writeAttribute("class", iconClass, null);
-        writer.endElement("span");
+        writer.startElement(SPAN, null);
+        writer.writeAttribute(CLASS, iconClass, null);
+        writer.endElement(SPAN);
 
         writer.endElement("a");
     }

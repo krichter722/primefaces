@@ -20,6 +20,9 @@ import javax.faces.context.ResponseWriter;
 import javax.faces.context.ResponseWriterWrapper;
 import java.io.IOException;
 import java.io.Writer;
+import org.apache.commons.lang3.StringUtils;
+import static org.primefaces.component.Literals.SCRIPT;
+import static org.primefaces.component.Literals.TYPE;
 
 public class MoveScriptsToBottomResponseWriter extends ResponseWriterWrapper {
 
@@ -27,7 +30,9 @@ public class MoveScriptsToBottomResponseWriter extends ResponseWriterWrapper {
     private final MoveScriptsToBottomState state;
 
     private boolean inScript;
+    @SuppressWarnings("PMD.AvoidStringBufferField")
     private StringBuilder include;
+    @SuppressWarnings("PMD.AvoidStringBufferField")
     private StringBuilder inline;
     private boolean scriptsRendered;
 
@@ -102,7 +107,7 @@ public class MoveScriptsToBottomResponseWriter extends ResponseWriterWrapper {
         if (inScript) {
             if ("src".equals(name)) {
                 String strValue = (String) value;
-                if (strValue != null && !strValue.trim().isEmpty()) {
+                if (strValue != null && !StringUtils.isBlank(strValue)) {
                     include.append(strValue);
                 }
             }
@@ -117,7 +122,7 @@ public class MoveScriptsToBottomResponseWriter extends ResponseWriterWrapper {
         if (inScript) {
             if ("src".equals(name)) {
                 String strValue = (String) value;
-                if (strValue != null && !strValue.trim().isEmpty()) {
+                if (strValue != null && !StringUtils.isBlank(strValue)) {
                     include.append(strValue);
                 }
             }
@@ -129,7 +134,7 @@ public class MoveScriptsToBottomResponseWriter extends ResponseWriterWrapper {
 
     @Override
     public void startElement(String name, UIComponent component) throws IOException {
-        if ("script".equals(name)) {
+        if (SCRIPT.equals(name)) {
             inScript = true;
         }
         else {
@@ -139,7 +144,7 @@ public class MoveScriptsToBottomResponseWriter extends ResponseWriterWrapper {
 
     @Override
     public void endElement(String name) throws IOException {
-        if ("script".equals(name)) {
+        if (SCRIPT.equals(name)) {
             inScript = false;
 
             state.addInline(inline);
@@ -152,18 +157,18 @@ public class MoveScriptsToBottomResponseWriter extends ResponseWriterWrapper {
             for (int i = 0; i < state.getIncludes().size(); i++) {
                 String src = state.getIncludes().get(i);
                 if (src != null && !src.isEmpty()) {
-                    getWrapped().startElement("script", null);
-                    getWrapped().writeAttribute("type", "text/javascript", null);
+                    getWrapped().startElement(SCRIPT, null);
+                    getWrapped().writeAttribute(TYPE, "text/javascript", null);
                     getWrapped().writeAttribute("src", src, null);
-                    getWrapped().endElement("script");
+                    getWrapped().endElement(SCRIPT);
                 }
             }
 
-            getWrapped().startElement("script", null);
-            getWrapped().writeAttribute("type", "text/javascript", null);
+            getWrapped().startElement(SCRIPT, null);
+            getWrapped().writeAttribute(TYPE, "text/javascript", null);
             
             getWrapped().write(mergeAndMinimizeInlineScripts());
-            getWrapped().endElement("script");
+            getWrapped().endElement(SCRIPT);
 
             getWrapped().endElement(name);
 

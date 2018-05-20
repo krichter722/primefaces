@@ -26,6 +26,12 @@ import org.primefaces.model.menu.MenuElement;
 import org.primefaces.model.menu.MenuItem;
 import org.primefaces.model.menu.Submenu;
 import org.primefaces.util.WidgetBuilder;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.ROLE;
+import static org.primefaces.component.Literals.SPAN;
+import static org.primefaces.component.Literals.STYLE;
+import static org.primefaces.component.Literals.TABINDEX;
 
 public class PanelMenuRenderer extends BaseMenuRenderer {
 
@@ -48,13 +54,13 @@ public class PanelMenuRenderer extends BaseMenuRenderer {
         String styleClass = menu.getStyleClass();
         styleClass = styleClass == null ? PanelMenu.CONTAINER_CLASS : PanelMenu.CONTAINER_CLASS + " " + styleClass;
 
-        writer.startElement("div", menu);
+        writer.startElement(DIV, menu);
         writer.writeAttribute("id", clientId, "id");
-        writer.writeAttribute("class", styleClass, "styleClass");
+        writer.writeAttribute(CLASS, styleClass, "styleClass");
         if (style != null) {
-            writer.writeAttribute("style", style, "style");
+            writer.writeAttribute(STYLE, style, STYLE);
         }
-        writer.writeAttribute("role", "menu", null);
+        writer.writeAttribute(ROLE, "menu", null);
 
         if (menu.getElementsCount() > 0) {
             List<MenuElement> elements = menu.getElements();
@@ -66,7 +72,7 @@ public class PanelMenuRenderer extends BaseMenuRenderer {
             }
         }
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeRootSubmenu(FacesContext context, PanelMenu menu, Submenu submenu) throws IOException {
@@ -80,43 +86,43 @@ public class PanelMenuRenderer extends BaseMenuRenderer {
         String contentClass = expanded ? PanelMenu.ACTIVE_ROOT_SUBMENU_CONTENT : PanelMenu.INACTIVE_ROOT_SUBMENU_CONTENT;
 
         //wrapper
-        writer.startElement("div", null);
-        writer.writeAttribute("class", styleClass, null);
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, styleClass, null);
         if (style != null) {
-            writer.writeAttribute("style", style, null);
+            writer.writeAttribute(STYLE, style, null);
         }
 
         //header
         writer.startElement("h3", null);
-        writer.writeAttribute("class", headerClass, null);
-        writer.writeAttribute("role", "tab", null);
-        writer.writeAttribute("tabindex", "0", null);
+        writer.writeAttribute(CLASS, headerClass, null);
+        writer.writeAttribute(ROLE, "tab", null);
+        writer.writeAttribute(TABINDEX, "0", null);
 
         //icon
-        writer.startElement("span", null);
-        writer.writeAttribute("class", headerIconClass, null);
-        writer.endElement("span");
+        writer.startElement(SPAN, null);
+        writer.writeAttribute(CLASS, headerIconClass, null);
+        writer.endElement(SPAN);
 
         writer.startElement("a", null);
         writer.writeAttribute("href", "#", null);
-        writer.writeAttribute("tabindex", "-1", null);
+        writer.writeAttribute(TABINDEX, "-1", null);
         writer.writeText(submenu.getLabel(), null);
         writer.endElement("a");
 
         writer.endElement("h3");
 
         //content
-        writer.startElement("div", null);
-        writer.writeAttribute("class", contentClass, null);
-        writer.writeAttribute("role", "tabpanel", null);
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, contentClass, null);
+        writer.writeAttribute(ROLE, "tabpanel", null);
         writer.writeAttribute("id", menu.getClientId(context) + "_" + submenu.getId(), null);
-        writer.writeAttribute("tabindex", "0", null);
+        writer.writeAttribute(TABINDEX, "0", null);
 
         if (submenu.getElementsCount() > 0) {
             List<MenuElement> elements = submenu.getElements();
 
             writer.startElement("ul", null);
-            writer.writeAttribute("class", PanelMenu.LIST_CLASS, null);
+            writer.writeAttribute(CLASS, PanelMenu.LIST_CLASS, null);
 
             for (MenuElement element : elements) {
                 if (element.isRendered()) {
@@ -127,9 +133,9 @@ public class PanelMenuRenderer extends BaseMenuRenderer {
                         containerStyleClass = (containerStyleClass == null) ? Menu.MENUITEM_CLASS : Menu.MENUITEM_CLASS + " " + containerStyleClass;
 
                         writer.startElement("li", null);
-                        writer.writeAttribute("class", containerStyleClass, null);
+                        writer.writeAttribute(CLASS, containerStyleClass, null);
                         if (containerStyle != null) {
-                            writer.writeAttribute("style", containerStyle, null);
+                            writer.writeAttribute(STYLE, containerStyle, null);
                         }
                         encodeMenuItem(context, menu, menuItem);
                         writer.endElement("li");
@@ -143,9 +149,9 @@ public class PanelMenuRenderer extends BaseMenuRenderer {
             writer.endElement("ul");
         }
 
-        writer.endElement("div");   //content
+        writer.endElement(DIV);   //content
 
-        writer.endElement("div");   //wrapper
+        writer.endElement(DIV);   //wrapper
     }
 
     protected void encodeDescendantSubmenu(FacesContext context, PanelMenu menu, Submenu submenu) throws IOException {
@@ -162,31 +168,31 @@ public class PanelMenuRenderer extends BaseMenuRenderer {
 
         writer.startElement("li", null);
         writer.writeAttribute("id", submenu.getClientId(), null);
-        writer.writeAttribute("class", styleClass, null);
+        writer.writeAttribute(CLASS, styleClass, null);
         if (style != null) {
-            writer.writeAttribute("style", style, null);
+            writer.writeAttribute(STYLE, style, null);
         }
 
         writer.startElement("a", null);
-        writer.writeAttribute("class", linkClass, null);
+        writer.writeAttribute(CLASS, linkClass, null);
 
         //toggle icon
-        writer.startElement("span", null);
-        writer.writeAttribute("class", toggleIconClass, null);
-        writer.endElement("span");
+        writer.startElement(SPAN, null);
+        writer.writeAttribute(CLASS, toggleIconClass, null);
+        writer.endElement(SPAN);
 
         //user icon
         if (hasIcon) {
-            writer.startElement("span", null);
-            writer.writeAttribute("class", "ui-icon " + icon, null);
-            writer.endElement("span");
+            writer.startElement(SPAN, null);
+            writer.writeAttribute(CLASS, "ui-icon " + icon, null);
+            writer.endElement(SPAN);
         }
 
         //submenu label
-        writer.startElement("span", null);
-        writer.writeAttribute("class", PanelMenu.MENUITEM_TEXT_CLASS, null);
+        writer.startElement(SPAN, null);
+        writer.writeAttribute(CLASS, PanelMenu.MENUITEM_TEXT_CLASS, null);
         writer.writeText(submenu.getLabel(), null);
-        writer.endElement("span");
+        writer.endElement(SPAN);
 
         writer.endElement("a");
 
@@ -195,13 +201,13 @@ public class PanelMenuRenderer extends BaseMenuRenderer {
             List<MenuElement> elements = submenu.getElements();
 
             writer.startElement("ul", null);
-            writer.writeAttribute("class", listClass, null);
+            writer.writeAttribute(CLASS, listClass, null);
 
             for (MenuElement element : elements) {
                 if (element.isRendered()) {
                     if (element instanceof MenuItem) {
                         writer.startElement("li", null);
-                        writer.writeAttribute("class", Menu.MENUITEM_CLASS, null);
+                        writer.writeAttribute(CLASS, Menu.MENUITEM_CLASS, null);
                         encodeMenuItem(context, menu, (MenuItem) element);
                         writer.endElement("li");
                     }

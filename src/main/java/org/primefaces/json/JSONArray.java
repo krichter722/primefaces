@@ -95,6 +95,7 @@ import java.util.Map;
  */
 public class JSONArray implements Iterable<Object> {
 
+    private static final String LITERAL0 = "JSONArray[";
     /**
      * The arrayList where the JSONArray's properties are kept.
      */
@@ -211,7 +212,7 @@ public class JSONArray implements Iterable<Object> {
     public Object get(int index) throws JSONException {
         Object object = this.opt(index);
         if (object == null) {
-            throw new JSONException("JSONArray[" + index + "] not found.");
+            throw new JSONException(LITERAL0 + index + "] not found.");
         }
         return object;
     }
@@ -238,7 +239,7 @@ public class JSONArray implements Iterable<Object> {
                         .equalsIgnoreCase("true"))) {
             return true;
         }
-        throw new JSONException("JSONArray[" + index + "] is not a boolean.");
+        throw new JSONException(LITERAL0 + index + "] is not a boolean.");
     }
 
     /**
@@ -251,13 +252,14 @@ public class JSONArray implements Iterable<Object> {
      *             If the key is not found or if the value cannot be converted
      *             to a number.
      */
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     public double getDouble(int index) throws JSONException {
         Object object = this.get(index);
         try {
             return object instanceof Number ? ((Number) object).doubleValue()
                     : Double.parseDouble((String) object);
         } catch (Exception e) {
-            throw new JSONException("JSONArray[" + index + "] is not a number.");
+            throw new JSONException(LITERAL0 + index + "] is not a number.");
         }
     }
 
@@ -296,12 +298,13 @@ public class JSONArray implements Iterable<Object> {
      *             If the key is not found or if the value cannot be converted
      *             to a BigDecimal.
      */
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     public BigDecimal getBigDecimal (int index) throws JSONException {
         Object object = this.get(index);
         try {
             return new BigDecimal(object.toString());
         } catch (Exception e) {
-            throw new JSONException("JSONArray[" + index +
+            throw new JSONException(LITERAL0 + index +
                     "] could not convert to BigDecimal.");
         }
     }
@@ -316,12 +319,13 @@ public class JSONArray implements Iterable<Object> {
      *             If the key is not found or if the value cannot be converted
      *             to a BigInteger.
      */
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     public BigInteger getBigInteger (int index) throws JSONException {
         Object object = this.get(index);
         try {
             return new BigInteger(object.toString());
         } catch (Exception e) {
-            throw new JSONException("JSONArray[" + index +
+            throw new JSONException(LITERAL0 + index +
                     "] could not convert to BigInteger.");
         }
     }
@@ -335,13 +339,14 @@ public class JSONArray implements Iterable<Object> {
      * @throws JSONException
      *             If the key is not found or if the value is not a number.
      */
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     public int getInt(int index) throws JSONException {
         Object object = this.get(index);
         try {
             return object instanceof Number ? ((Number) object).intValue()
                     : Integer.parseInt((String) object);
         } catch (Exception e) {
-            throw new JSONException("JSONArray[" + index + "] is not a number.");
+            throw new JSONException(LITERAL0 + index + "] is not a number.");
         }
     }
 
@@ -360,7 +365,7 @@ public class JSONArray implements Iterable<Object> {
         if (object instanceof JSONArray) {
             return (JSONArray) object;
         }
-        throw new JSONException("JSONArray[" + index + "] is not a JSONArray.");
+        throw new JSONException(LITERAL0 + index + "] is not a JSONArray.");
     }
 
     /**
@@ -378,7 +383,7 @@ public class JSONArray implements Iterable<Object> {
         if (object instanceof JSONObject) {
             return (JSONObject) object;
         }
-        throw new JSONException("JSONArray[" + index + "] is not a JSONObject.");
+        throw new JSONException(LITERAL0 + index + "] is not a JSONObject.");
     }
 
     /**
@@ -391,13 +396,14 @@ public class JSONArray implements Iterable<Object> {
      *             If the key is not found or if the value cannot be converted
      *             to a number.
      */
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     public long getLong(int index) throws JSONException {
         Object object = this.get(index);
         try {
             return object instanceof Number ? ((Number) object).longValue()
                     : Long.parseLong((String) object);
         } catch (Exception e) {
-            throw new JSONException("JSONArray[" + index + "] is not a number.");
+            throw new JSONException(LITERAL0 + index + "] is not a number.");
         }
     }
 
@@ -415,7 +421,7 @@ public class JSONArray implements Iterable<Object> {
         if (object instanceof String) {
             return (String) object;
         }
-        throw new JSONException("JSONArray[" + index + "] not a string.");
+        throw new JSONException(LITERAL0 + index + "] not a string.");
     }
 
     /**
@@ -498,6 +504,7 @@ public class JSONArray implements Iterable<Object> {
      *            A boolean default.
      * @return The truth.
      */
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     public boolean optBoolean(int index, boolean defaultValue) {
         try {
             return this.getBoolean(index);
@@ -530,6 +537,7 @@ public class JSONArray implements Iterable<Object> {
      *            The default value.
      * @return The value.
      */
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     public double optDouble(int index, double defaultValue) {
         try {
             return this.getDouble(index);
@@ -562,6 +570,7 @@ public class JSONArray implements Iterable<Object> {
      *            The default value.
      * @return The value.
      */
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     public int optInt(int index, int defaultValue) {
         try {
             return this.getInt(index);
@@ -595,6 +604,8 @@ public class JSONArray implements Iterable<Object> {
      * @return The enum value at the index location or defaultValue if
      *            the value is not found or cannot be assigned to clazz
      */
+    @SuppressWarnings({"PMD.AvoidCatchingNPE",
+            "PMD.AvoidCatchingGenericException"})
     public <E extends Enum<E>> E optEnum(Class<E> clazz, int index, E defaultValue) {
         try {
             Object val = this.opt(index);
@@ -628,6 +639,7 @@ public class JSONArray implements Iterable<Object> {
      *            The default value.
      * @return The value.
      */
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     public BigInteger optBigInteger(int index, BigInteger defaultValue) {
         try {
             return this.getBigInteger(index);
@@ -647,6 +659,7 @@ public class JSONArray implements Iterable<Object> {
      *            The default value.
      * @return The value.
      */
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     public BigDecimal optBigDecimal(int index, BigDecimal defaultValue) {
         try {
             return this.getBigDecimal(index);
@@ -706,6 +719,7 @@ public class JSONArray implements Iterable<Object> {
      *            The default value.
      * @return The value.
      */
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     public long optLong(int index, long defaultValue) {
         try {
             return this.getLong(index);
@@ -961,7 +975,7 @@ public class JSONArray implements Iterable<Object> {
     public JSONArray put(int index, Object value) throws JSONException {
         JSONObject.testValidity(value);
         if (index < 0) {
-            throw new JSONException("JSONArray[" + index + "] not found.");
+            throw new JSONException(LITERAL0 + index + "] not found.");
         }
         if (index < this.length()) {
             this.myArrayList.set(index, value);
@@ -1056,6 +1070,7 @@ public class JSONArray implements Iterable<Object> {
      *         array.
      */
     @Override
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     public String toString() {
         try {
             return this.toString(0);

@@ -16,6 +16,7 @@
 package org.primefaces.component.graphicimage;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 import javax.faces.application.Resource;
 import javax.faces.application.ResourceHandler;
@@ -23,6 +24,9 @@ import javax.faces.component.UIComponent;
 
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import static org.primefaces.component.Literals.ALT;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.IMG;
 import org.primefaces.application.resource.DynamicContentType;
 
 import org.primefaces.renderkit.CoreRenderer;
@@ -32,6 +36,7 @@ import org.primefaces.util.HTML;
 public class GraphicImageRenderer extends CoreRenderer {
 
     @Override
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
         GraphicImage image = (GraphicImage) component;
@@ -44,19 +49,19 @@ public class GraphicImageRenderer extends CoreRenderer {
             throw new IOException(ex);
         }
 
-        writer.startElement("img", image);
+        writer.startElement(IMG, image);
         writer.writeAttribute("id", clientId, "id");
         writer.writeAttribute("src", imageSrc, null);
 
-        if (image.getAlt() == null) writer.writeAttribute("alt", "", null);
-        if (image.getStyleClass() != null) writer.writeAttribute("class", image.getStyleClass(), "styleClass");
+        if (image.getAlt() == null) writer.writeAttribute(ALT, "", null);
+        if (image.getStyleClass() != null) writer.writeAttribute(CLASS, image.getStyleClass(), "styleClass");
 
         renderPassThruAttributes(context, image, HTML.IMG_ATTRS);
 
-        writer.endElement("img");
+        writer.endElement(IMG);
     }
 
-    protected String getImageSrc(FacesContext context, GraphicImage image) throws Exception {
+    protected String getImageSrc(FacesContext context, GraphicImage image) throws UnsupportedEncodingException {
         String name = image.getName();
 
         if (name != null) {

@@ -39,10 +39,25 @@ import org.primefaces.util.ComponentUtils;
 import org.primefaces.util.HTML;
 import org.primefaces.util.SharedStringBuilder;
 import org.primefaces.util.WidgetBuilder;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DISABLED;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.FILTER;
+import static org.primefaces.component.Literals.INPUT;
+import static org.primefaces.component.Literals.NAME;
+import static org.primefaces.component.Literals.ROLE;
+import static org.primefaces.component.Literals.SPAN;
+import static org.primefaces.component.Literals.STYLE;
+import static org.primefaces.component.Literals.TABINDEX;
+import static org.primefaces.component.Literals.TABLE;
+import static org.primefaces.component.Literals.TBODY;
+import static org.primefaces.component.Literals.TYPE;
+import static org.primefaces.component.Literals.VALUE;
 
 public class TreeRenderer extends CoreRenderer {
 
     private static final String SB_DECODE_SELECTION = TreeRenderer.class.getName() + "#decodeSelection";
+    private static final String ROOT = "root";
 
     protected enum NodeOrder {
         FIRST,
@@ -117,7 +132,7 @@ public class TreeRenderer extends CoreRenderer {
             for (int i = 0; i < size; i++) {
                 sb.append(descendantRowKeys.get(i));
                 if (i != (size - 1)) {
-                    sb.append(",");
+                    sb.append(',');
                 }
             }
 
@@ -198,7 +213,7 @@ public class TreeRenderer extends CoreRenderer {
             Map<String, String> params = context.getExternalContext().getRequestParameterMap();
             String rowKey = params.get(clientId + "_expandNode");
 
-            if (!vertical && rowKey.equals("root")) {
+            if (!vertical && rowKey.equals(ROOT)) {
                 encodeHorizontalTreeNodeChildren(context, tree, tree.getValue(), tree.getClientId(context), null, tree.isDynamic(),
                         tree.isCheckboxSelection());
             }
@@ -229,7 +244,7 @@ public class TreeRenderer extends CoreRenderer {
             TreeNode root = (TreeNode) tree.getValue();
 
             if (root != null && root.getRowKey() == null) {
-                root.setRowKey("root");
+                root.setRowKey(ROOT);
                 tree.buildRowKeys(root);
                 tree.initPreselection();
             }
@@ -283,7 +298,7 @@ public class TreeRenderer extends CoreRenderer {
                 .attr("droppable", tree.isDroppable(), false)
                 .attr("cache", tree.isCache() && dynamic)
                 .attr("dragdropScope", tree.getDragdropScope(), null)
-                .attr("disabled", tree.isDisabled(), false)
+                .attr(DISABLED, tree.isDisabled(), false)
                 .callback("onNodeClick", "function(node, event)", tree.getOnNodeClick());
 
         //selection
@@ -306,7 +321,7 @@ public class TreeRenderer extends CoreRenderer {
         }
 
         if (filter) {
-            wb.attr("filter", true);
+            wb.attr(FILTER, true);
         }
 
         encodeIconStates(context, tree, wb);
@@ -320,7 +335,7 @@ public class TreeRenderer extends CoreRenderer {
         TreeNode root = (TreeNode) tree.getValue();
 
         if (root != null && root.getRowKey() == null) {
-            root.setRowKey("root");
+            root.setRowKey(ROOT);
             tree.buildRowKeys(root);
             tree.initPreselection();
         }
@@ -346,7 +361,7 @@ public class TreeRenderer extends CoreRenderer {
         boolean isDisabled = tree.isDisabled();
 
         if (root != null && root.getRowKey() == null) {
-            root.setRowKey("root");
+            root.setRowKey(ROOT);
             tree.buildRowKeys(root);
             tree.initPreselection();
         }
@@ -366,17 +381,17 @@ public class TreeRenderer extends CoreRenderer {
             containerClass = containerClass + " ui-tree-checkbox-all";
         }
 
-        writer.startElement("div", tree);
+        writer.startElement(DIV, tree);
         writer.writeAttribute("id", clientId, null);
-        writer.writeAttribute("class", containerClass, null);
-        writer.writeAttribute("role", "tree", null);
+        writer.writeAttribute(CLASS, containerClass, null);
+        writer.writeAttribute(ROLE, "tree", null);
         if (!isDisabled) {
-            writer.writeAttribute("tabindex", tree.getTabindex(), null);
+            writer.writeAttribute(TABINDEX, tree.getTabindex(), null);
         }
         
         writer.writeAttribute("aria-multiselectable", String.valueOf(multiselectable), null);
         if (tree.getStyle() != null) {
-            writer.writeAttribute("style", tree.getStyle(), null);
+            writer.writeAttribute(STYLE, tree.getStyle(), null);
         }
 
         if (filter) {
@@ -384,7 +399,7 @@ public class TreeRenderer extends CoreRenderer {
         }
 
         writer.startElement("ul", null);
-        writer.writeAttribute("class", Tree.ROOT_NODES_CLASS, null);
+        writer.writeAttribute(CLASS, Tree.ROOT_NODES_CLASS, null);
 
         if (root != null) {
             encodeTreeNodeChildren(context, tree, root, clientId, dynamic, checkbox, droppable);
@@ -398,28 +413,28 @@ public class TreeRenderer extends CoreRenderer {
         
         encodeStateHolder(context, tree, clientId + "_scrollState", tree.getScrollState());
         
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeFilter(FacesContext context, Tree tree, String name) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
 
-        writer.startElement("div", null);
-        writer.writeAttribute("class", Tree.FILTER_CONTAINER, null);
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, Tree.FILTER_CONTAINER, null);
 
-        writer.startElement("input", null);
+        writer.startElement(INPUT, null);
         writer.writeAttribute("id", name, null);
-        writer.writeAttribute("name", name, null);
-        writer.writeAttribute("type", "text", null);
+        writer.writeAttribute(NAME, name, null);
+        writer.writeAttribute(TYPE, "text", null);
         writer.writeAttribute("autocomplete", "off", null);
-        writer.writeAttribute("class", Tree.FILTER_CLASS, null);
-        writer.endElement("input");
+        writer.writeAttribute(CLASS, Tree.FILTER_CLASS, null);
+        writer.endElement(INPUT);
 
-        writer.startElement("span", null);
-        writer.writeAttribute("class", "ui-icon ui-icon-search", null);
-        writer.endElement("span");
+        writer.startElement(SPAN, null);
+        writer.writeAttribute(CLASS, "ui-icon ui-icon-search", null);
+        writer.endElement(SPAN);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeHorizontalTree(FacesContext context, Tree tree, TreeNode root) throws IOException {
@@ -437,10 +452,10 @@ public class TreeRenderer extends CoreRenderer {
             containerClass = containerClass + " ui-tree-checkbox-all";
         }
 
-        writer.startElement("div", tree);
+        writer.startElement(DIV, tree);
         writer.writeAttribute("id", clientId, null);
-        writer.writeAttribute("class", containerClass, null);
-        writer.writeAttribute("role", "tree", null);
+        writer.writeAttribute(CLASS, containerClass, null);
+        writer.writeAttribute(ROLE, "tree", null);
 
         if (root != null) {
             encodeHorizontalTreeNode(context, tree, root, clientId, null, NodeOrder.NONE, dynamic, checkbox);
@@ -450,7 +465,7 @@ public class TreeRenderer extends CoreRenderer {
             encodeStateHolder(context, tree, clientId + "_selection", tree.getSelectedRowKeysAsString());
         }
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeHorizontalTreeNode(FacesContext context, Tree tree, TreeNode node, String clientId, String rowKey,
@@ -483,8 +498,8 @@ public class TreeRenderer extends CoreRenderer {
             nodeClass += " ui-treenode-unselected";
         }
 
-        writer.startElement("table", tree);
-        writer.startElement("tbody", null);
+        writer.startElement(TABLE, tree);
+        writer.startElement(TBODY, null);
         writer.startElement("tr", null);
 
         //connector
@@ -502,25 +517,25 @@ public class TreeRenderer extends CoreRenderer {
         }
         else {
             context.getExternalContext().getRequestMap().put(tree.getVar(), tree.getValue().getData());
-            writer.writeAttribute("data-rowkey", "root", null);
+            writer.writeAttribute("data-rowkey", ROOT, null);
         }
 
         nodeClass = uiTreeNode.getStyleClass() == null ? nodeClass : nodeClass + " " + uiTreeNode.getStyleClass();
-        writer.writeAttribute("class", nodeClass, null);
+        writer.writeAttribute(CLASS, nodeClass, null);
         
         String nodeContentClass = (tree.getSelectionMode() != null && node.isSelectable()) ? Tree.SELECTABLE_NODE_CONTENT_CLASS_H : Tree.NODE_CONTENT_CLASS_H;
         if (selected) {
             nodeContentClass += " ui-state-highlight";
         }
-        writer.startElement("div", null);
-        writer.writeAttribute("class", nodeContentClass, null);
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, nodeContentClass, null);
 
         //toggler
         if (!leaf) {
             String toggleIcon = expanded ? Tree.EXPANDED_ICON_CLASS_H : Tree.COLLAPSED_ICON_CLASS_H;
-            writer.startElement("span", null);
-            writer.writeAttribute("class", toggleIcon, null);
-            writer.endElement("span");
+            writer.startElement(SPAN, null);
+            writer.writeAttribute(CLASS, toggleIcon, null);
+            writer.endElement(SPAN);
         }
 
         //checkbox
@@ -532,32 +547,32 @@ public class TreeRenderer extends CoreRenderer {
         encodeIcon(context, uiTreeNode, expanded);
 
         uiTreeNode.encodeAll(context);
-        writer.endElement("div");
+        writer.endElement(DIV);
         writer.endElement("td");
 
         //children
         if (!leaf) {
             writer.startElement("td", null);
-            writer.writeAttribute("class", "ui-treenode-children-container", null);
+            writer.writeAttribute(CLASS, "ui-treenode-children-container", null);
 
             if (!expanded) {
-                writer.writeAttribute("style", "display:none", null);
+                writer.writeAttribute(STYLE, "display:none", null);
             }
 
-            writer.startElement("div", null);
-            writer.writeAttribute("class", Tree.CHILDREN_NODES_CLASS, null);
+            writer.startElement(DIV, null);
+            writer.writeAttribute(CLASS, Tree.CHILDREN_NODES_CLASS, null);
 
             if ((dynamic && expanded) || !dynamic) {
                 encodeHorizontalTreeNodeChildren(context, tree, node, clientId, rowKey, dynamic, checkbox);
             }
 
-            writer.endElement("div");
+            writer.endElement(DIV);
             writer.endElement("td");
         }
 
         writer.endElement("tr");
-        writer.endElement("tbody");
-        writer.endElement("table");
+        writer.endElement(TBODY);
+        writer.endElement(TABLE);
     }
 
     protected void encodeHorizontalTreeNodeChildren(FacesContext context, Tree tree, TreeNode node, String clientId, String rowKey,
@@ -591,16 +606,16 @@ public class TreeRenderer extends CoreRenderer {
         ResponseWriter writer = context.getResponseWriter();
 
         writer.startElement("td", null);
-        writer.writeAttribute("class", "ui-treenode-connector", null);
+        writer.writeAttribute(CLASS, "ui-treenode-connector", null);
 
-        writer.startElement("table", null);
-        writer.writeAttribute("class", "ui-treenode-connector-table", null);
-        writer.startElement("tbody", null);
+        writer.startElement(TABLE, null);
+        writer.writeAttribute(CLASS, "ui-treenode-connector-table", null);
+        writer.startElement(TBODY, null);
 
         writer.startElement("tr", null);
         writer.startElement("td", null);
         if (!nodeOrder.equals(NodeOrder.FIRST)) {
-            writer.writeAttribute("class", "ui-treenode-connector-line", null);
+            writer.writeAttribute(CLASS, "ui-treenode-connector-line", null);
         }
         writer.endElement("td");
         writer.endElement("tr");
@@ -608,13 +623,13 @@ public class TreeRenderer extends CoreRenderer {
         writer.startElement("tr", null);
         writer.startElement("td", null);
         if (!nodeOrder.equals(NodeOrder.LAST)) {
-            writer.writeAttribute("class", "ui-treenode-connector-line", null);
+            writer.writeAttribute(CLASS, "ui-treenode-connector-line", null);
         }
         writer.endElement("td");
         writer.endElement("tr");
 
-        writer.endElement("tbody");
-        writer.endElement("table");
+        writer.endElement(TBODY);
+        writer.endElement(TABLE);
 
         writer.endElement("td");
     }
@@ -684,7 +699,7 @@ public class TreeRenderer extends CoreRenderer {
         writer.writeAttribute("id", nodeId, null);
         writer.writeAttribute("data-rowkey", rowKey, null);
         writer.writeAttribute("data-nodetype", uiTreeNode.getType(), null);
-        writer.writeAttribute("class", containerClass, null);
+        writer.writeAttribute(CLASS, containerClass, null);
 
         if (datakey != null) {
             writer.writeAttribute("data-datakey", datakey, null);
@@ -696,9 +711,9 @@ public class TreeRenderer extends CoreRenderer {
             contentClass += " ui-treenode-droppable";
         }
 
-        writer.startElement("span", null);
-        writer.writeAttribute("class", contentClass, null);
-        writer.writeAttribute("role", "treeitem", null);
+        writer.startElement(SPAN, null);
+        writer.writeAttribute(CLASS, contentClass, null);
+        writer.writeAttribute(ROLE, "treeitem", null);
         writer.writeAttribute("aria-expanded", String.valueOf(expanded), null);
         writer.writeAttribute("aria-selected", String.valueOf(selected), null);
         if (checkbox) {
@@ -706,9 +721,9 @@ public class TreeRenderer extends CoreRenderer {
         }
 
         //state icon
-        writer.startElement("span", null);
-        writer.writeAttribute("class", stateIcon, null);
-        writer.endElement("span");
+        writer.startElement(SPAN, null);
+        writer.writeAttribute(CLASS, stateIcon, null);
+        writer.endElement(SPAN);
 
         //checkbox
         if (checkbox) {
@@ -721,26 +736,26 @@ public class TreeRenderer extends CoreRenderer {
         //label
         String nodeLabelClass = selected ? Tree.NODE_LABEL_CLASS + " ui-state-highlight" : Tree.NODE_LABEL_CLASS;
 
-        writer.startElement("span", null);
-        writer.writeAttribute("class", nodeLabelClass, null);
+        writer.startElement(SPAN, null);
+        writer.writeAttribute(CLASS, nodeLabelClass, null);
         if (!tree.isDisabled()) {
-            writer.writeAttribute("tabindex", "-1", null);
+            writer.writeAttribute(TABINDEX, "-1", null);
         }
         
-        writer.writeAttribute("role", "treeitem", null);
+        writer.writeAttribute(ROLE, "treeitem", null);
         writer.writeAttribute("aria-label", uiTreeNode.getAriaLabel(), null);
         uiTreeNode.encodeAll(context);
-        writer.endElement("span");
+        writer.endElement(SPAN);
 
-        writer.endElement("span");
+        writer.endElement(SPAN);
 
         //children nodes                
         writer.startElement("ul", null);
-        writer.writeAttribute("class", Tree.CHILDREN_NODES_CLASS, null);
-        writer.writeAttribute("role", "group", null);
+        writer.writeAttribute(CLASS, Tree.CHILDREN_NODES_CLASS, null);
+        writer.writeAttribute(ROLE, "group", null);
 
         if (!expanded) {
-            writer.writeAttribute("style", "display:none", null);
+            writer.writeAttribute(STYLE, "display:none", null);
         }
 
         if ((dynamic && expanded) || !dynamic) {
@@ -775,7 +790,7 @@ public class TreeRenderer extends CoreRenderer {
         ResponseWriter writer = context.getResponseWriter();
 
         writer.startElement("li", null);
-        writer.writeAttribute("class", "ui-tree-droppoint", null);
+        writer.writeAttribute(CLASS, "ui-tree-droppoint", null);
         writer.endElement("li");
     }
 
@@ -793,7 +808,7 @@ public class TreeRenderer extends CoreRenderer {
 
             if (expandedIcon != null && collapsedIcon != null) {
                 if (firstWritten) {
-                    wb.append(",");
+                    wb.append(',');
                 }
 
                 wb.append("'" + node.getType() + "' : {");
@@ -810,43 +825,43 @@ public class TreeRenderer extends CoreRenderer {
 
     protected void encodeIcon(FacesContext context, UITreeNode uiTreeNode, boolean expanded) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
-        writer.startElement("span", null);
+        writer.startElement(SPAN, null);
         String icon = uiTreeNode.getIconToRender(expanded);
         if (icon != null) {
-            writer.writeAttribute("class", Tree.NODE_ICON_CLASS + " " + icon, null);
+            writer.writeAttribute(CLASS, Tree.NODE_ICON_CLASS + " " + icon, null);
         }
-        writer.endElement("span");
+        writer.endElement(SPAN);
     }
 
     protected void encodeStateHolder(FacesContext context, Tree tree, String id, String value) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
 
-        writer.startElement("input", null);
-        writer.writeAttribute("type", "hidden", null);
+        writer.startElement(INPUT, null);
+        writer.writeAttribute(TYPE, "hidden", null);
         writer.writeAttribute("id", id, null);
-        writer.writeAttribute("name", id, null);
+        writer.writeAttribute(NAME, id, null);
         writer.writeAttribute("autocomplete", "off", null);
-        writer.writeAttribute("value", value, null);
-        writer.endElement("input");
+        writer.writeAttribute(VALUE, value, null);
+        writer.endElement(INPUT);
     }
 
     protected void encodeCheckbox(FacesContext context, Tree tree, TreeNode node, boolean selected) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
         String iconClass = selected ? HTML.CHECKBOX_CHECKED_ICON_CLASS : HTML.CHECKBOX_UNCHECKED_ICON_CLASS;
 
-        writer.startElement("div", null);
-        writer.writeAttribute("class", HTML.CHECKBOX_CLASS, null);
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, HTML.CHECKBOX_CLASS, null);
 
-        writer.startElement("div", null);
-        writer.writeAttribute("class", HTML.CHECKBOX_BOX_CLASS, null);
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, HTML.CHECKBOX_BOX_CLASS, null);
 
-        writer.startElement("span", null);
-        writer.writeAttribute("class", iconClass, null);
-        writer.endElement("span");
+        writer.startElement(SPAN, null);
+        writer.writeAttribute(CLASS, iconClass, null);
+        writer.endElement(SPAN);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     @Override

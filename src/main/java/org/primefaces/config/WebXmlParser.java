@@ -27,8 +27,10 @@ import java.util.logging.Logger;
 import javax.faces.context.FacesContext;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 import org.primefaces.util.ComponentUtils;
 import org.w3c.dom.Document;
@@ -36,6 +38,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 public class WebXmlParser {
 
@@ -44,7 +47,7 @@ public class WebXmlParser {
     public static Map<String, String> getErrorPages(FacesContext context) {
 
         Map<String, String> webXmlErrorPages = getWebXmlErrorPages(context);
-        Map<String, String> webFragmentXmlsErrorPages = getWebFragmentXmlsErrorPages(context);
+        Map<String, String> webFragmentXmlsErrorPages = getWebFragmentXmlsErrorPages();
 
         Map<String, String> errorPages = webXmlErrorPages;
         if (errorPages == null) {
@@ -60,6 +63,7 @@ public class WebXmlParser {
         return errorPages;
     }
 
+    @SuppressWarnings("PMD.AvoidCatchingThrowable")
     private static Map<String, String> getWebXmlErrorPages(FacesContext context) {
         try {
             Document webXml = toDocument(context.getExternalContext().getResource("/WEB-INF/web.xml"));
@@ -74,7 +78,8 @@ public class WebXmlParser {
         return null;
     }
 
-    private static Map<String, String> getWebFragmentXmlsErrorPages(FacesContext context) {
+    @SuppressWarnings("PMD.AvoidCatchingThrowable")
+    private static Map<String, String> getWebFragmentXmlsErrorPages() {
         Map<String, String> webFragmentXmlsErrorPages = null;
 
         try {
@@ -110,7 +115,8 @@ public class WebXmlParser {
         return webFragmentXmlsErrorPages;
     }
 
-    private static Document toDocument(URL url) throws Exception {
+    @SuppressWarnings("PMD.AvoidCatchingThrowable")
+    private static Document toDocument(URL url) throws IOException, SAXException, ParserConfigurationException {
 
         InputStream is = null;
 
@@ -175,7 +181,7 @@ public class WebXmlParser {
         }
     }
 
-    private static Map<String, String> parseErrorPages(Element webXml) throws Exception {
+    private static Map<String, String> parseErrorPages(Element webXml) throws XPathExpressionException {
 
         Map<String, String> errorPages = new HashMap<>();
 

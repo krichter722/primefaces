@@ -20,6 +20,7 @@ import java.util.Map;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import static org.primefaces.component.Literals.DIV;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.component.datatable.TableState;
 import org.primefaces.expression.SearchExpressionFacade;
@@ -59,9 +60,9 @@ public class ColumnTogglerRenderer extends CoreRenderer {
         ResponseWriter writer = context.getResponseWriter();
         String clientId = columnToggler.getClientId(context);
 
-        writer.startElement("div", null);
+        writer.startElement(DIV, null);
         writer.writeAttribute("id", clientId, "id");
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeScript(FacesContext context, ColumnToggler columnToggler) throws IOException {

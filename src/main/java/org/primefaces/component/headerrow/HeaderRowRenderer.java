@@ -19,6 +19,10 @@ import java.io.IOException;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.COLSPAN;
+import static org.primefaces.component.Literals.SPAN;
+import static org.primefaces.component.Literals.STYLE;
 import org.primefaces.component.column.Column;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.renderkit.CoreRenderer;
@@ -34,7 +38,7 @@ public class HeaderRowRenderer extends CoreRenderer {
         boolean isExpandableRowGroups = table.isExpandableRowGroups();
 
         writer.startElement("tr", null);
-        writer.writeAttribute("class", DataTable.HEADER_ROW_CLASS, null);
+        writer.writeAttribute(CLASS, DataTable.HEADER_ROW_CLASS, null);
 
         boolean isFirstColumn = true;
         for (int i = 0; i < row.getChildCount(); i++) {
@@ -45,22 +49,22 @@ public class HeaderRowRenderer extends CoreRenderer {
                 String styleClass = column.getStyleClass();
 
                 writer.startElement("td", null);
-                if (style != null) writer.writeAttribute("style", style, null);
-                if (styleClass != null) writer.writeAttribute("class", styleClass, null);
+                if (style != null) writer.writeAttribute(STYLE, style, null);
+                if (styleClass != null) writer.writeAttribute(CLASS, styleClass, null);
                 if (column.getRowspan() != 1) writer.writeAttribute("rowspan", column.getRowspan(), null);
-                if (column.getColspan() != 1) writer.writeAttribute("colspan", column.getColspan(), null);
+                if (column.getColspan() != 1) writer.writeAttribute(COLSPAN, column.getColspan(), null);
 
                 if (isExpandableRowGroups && isFirstColumn) {
                     String ariaLabel = MessageFactory.getMessage(DataTable.ROW_GROUP_TOGGLER, null);
 
                     writer.startElement("a", null);
-                    writer.writeAttribute("class", DataTable.ROW_GROUP_TOGGLER_CLASS, null);
+                    writer.writeAttribute(CLASS, DataTable.ROW_GROUP_TOGGLER_CLASS, null);
                     writer.writeAttribute("aria-expanded", String.valueOf(true), null);
                     writer.writeAttribute("aria-label", ariaLabel, null);
                     writer.writeAttribute("href", "#", null);
-                    writer.startElement("span", null);
-                    writer.writeAttribute("class", DataTable.ROW_GROUP_TOGGLER_ICON_CLASS, null);
-                    writer.endElement("span");
+                    writer.startElement(SPAN, null);
+                    writer.writeAttribute(CLASS, DataTable.ROW_GROUP_TOGGLER_ICON_CLASS, null);
+                    writer.endElement(SPAN);
                     writer.endElement("a");
 
                     isFirstColumn = false;

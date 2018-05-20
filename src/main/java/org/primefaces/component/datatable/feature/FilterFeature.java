@@ -27,6 +27,8 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.UINamingContainer;
 import javax.faces.component.ValueHolder;
 import javax.faces.context.FacesContext;
+import org.apache.commons.lang3.StringUtils;
+import static org.primefaces.component.Literals.FILTER;
 import org.primefaces.PrimeFaces;
 import org.primefaces.component.api.DynamicColumn;
 import org.primefaces.component.column.Column;
@@ -176,7 +178,7 @@ public class FilterFeature implements DataTableFeature {
     public void filter(FacesContext context, DataTable table, List<FilterMeta> filterMetadata, String globalFilterValue) {
         List filteredData = new ArrayList();
         Locale filterLocale = table.resolveDataLocale();
-        boolean hasGlobalFilter = globalFilterValue != null && globalFilterValue.trim().length() > 0;
+        boolean hasGlobalFilter = globalFilterValue != null && !StringUtils.isBlank(globalFilterValue);
         GlobalFilterConstraint globalFilterConstraint = (GlobalFilterConstraint) FILTER_CONSTRAINTS.get(GLOBAL_MODE);
         ELContext elContext = context.getELContext();
 
@@ -343,9 +345,9 @@ public class FilterFeature implements DataTableFeature {
                         if (column.isRendered()) {
                             ValueExpression filterVE = column.getValueExpression(Column.PropertyKeys.filterBy.toString());
                             if (filterVE != null) {
-                                UIComponent filterFacet = column.getFacet("filter");
+                                UIComponent filterFacet = column.getFacet(FILTER);
                                 Object filterValue = (filterFacet == null)
-                                        ? params.get(column.getClientId(context) + separator + "filter")
+                                        ? params.get(column.getClientId(context) + separator + FILTER)
                                         : ((ValueHolder) filterFacet).getLocalValue();
 
                                 filterMetadata.add(new FilterMeta(column, filterVE, filterValue));
@@ -361,8 +363,8 @@ public class FilterFeature implements DataTableFeature {
                             if (dynaColumn.isRendered()) {
                                 ValueExpression filterVE = dynaColumn.getValueExpression(Column.PropertyKeys.filterBy.toString());
                                 if (filterVE != null) {
-                                    String filterId = dynaColumn.getContainerClientId(context) + separator + "filter";
-                                    UIComponent filterFacet = dynaColumn.getFacet("filter");
+                                    String filterId = dynaColumn.getContainerClientId(context) + separator + FILTER;
+                                    UIComponent filterFacet = dynaColumn.getFacet(FILTER);
                                     Object filterValue = (filterFacet == null) ? params.get(filterId) : ((ValueHolder) filterFacet).getLocalValue();
 
                                     filterMetadata.add(new FilterMeta(dynaColumn, filterVE, filterValue));
@@ -381,18 +383,18 @@ public class FilterFeature implements DataTableFeature {
         for (UIColumn column : table.getColumns()) {
             ValueExpression filterVE = column.getValueExpression(Column.PropertyKeys.filterBy.toString());
             if (filterVE != null) {
-                UIComponent filterFacet = column.getFacet("filter");
+                UIComponent filterFacet = column.getFacet(FILTER);
                 Object filterValue = null;
                 String filterId;
 
                 if (column instanceof Column) {
-                    filterId = column.getClientId(context) + separator + "filter";
+                    filterId = column.getClientId(context) + separator + FILTER;
                     filterValue = (filterFacet == null) ? params.get(filterId) : ((ValueHolder) filterFacet).getLocalValue();
                 }
                 else if (column instanceof DynamicColumn) {
                     DynamicColumn dynamicColumn = (DynamicColumn) column;
                     dynamicColumn.applyModel();
-                    filterId = dynamicColumn.getContainerClientId(context) + separator + "filter";
+                    filterId = dynamicColumn.getContainerClientId(context) + separator + FILTER;
                     filterValue = (filterFacet == null) ? params.get(filterId) : ((ValueHolder) filterFacet).getLocalValue();
                     dynamicColumn.cleanModel();
                 }

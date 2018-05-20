@@ -27,6 +27,19 @@ import org.primefaces.renderkit.InputRenderer;
 import org.primefaces.util.ComponentUtils;
 import org.primefaces.util.HTML;
 import org.primefaces.util.WidgetBuilder;
+import static org.primefaces.component.Literals.CHECKED;
+import static org.primefaces.component.Literals.BUTTON;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DISABLED;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.INPUT;
+import static org.primefaces.component.Literals.NAME;
+import static org.primefaces.component.Literals.SPAN;
+import static org.primefaces.component.Literals.STYLE;
+import static org.primefaces.component.Literals.TABINDEX;
+import static org.primefaces.component.Literals.TITLE;
+import static org.primefaces.component.Literals.TYPE;
+import static org.primefaces.component.Literals.VALUE;
 
 public class SelectBooleanButtonRenderer extends InputRenderer {
 
@@ -72,34 +85,34 @@ public class SelectBooleanButtonRenderer extends InputRenderer {
         String styleClass = "ui-selectbooleanbutton " + button.resolveStyleClass(checked, disabled);
 
         //button
-        writer.startElement("div", null);
+        writer.startElement(DIV, null);
         writer.writeAttribute("id", clientId, "id");
-        writer.writeAttribute("type", "button", null);
-        writer.writeAttribute("class",styleClass, null);
+        writer.writeAttribute(TYPE, BUTTON, null);
+        writer.writeAttribute(CLASS,styleClass, null);
         if (disabled) {
-            writer.writeAttribute("disabled", "disabled", null);
+            writer.writeAttribute(DISABLED, DISABLED, null);
         }
         if (title != null) {
-            writer.writeAttribute("title", title, null);
+            writer.writeAttribute(TITLE, title, null);
         }
         if (style != null) {
-            writer.writeAttribute("style", style, "style");
+            writer.writeAttribute(STYLE, style, STYLE);
         }
 
-        writer.startElement("div", null);
-        writer.writeAttribute("class", "ui-helper-hidden-accessible", null);
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, "ui-helper-hidden-accessible", null);
 
         //input
-        writer.startElement("input", null);
+        writer.startElement(INPUT, null);
         writer.writeAttribute("id", inputId, "id");
-        writer.writeAttribute("name", inputId, null);
-        writer.writeAttribute("type", "checkbox", null);
+        writer.writeAttribute(NAME, inputId, null);
+        writer.writeAttribute(TYPE, "checkbox", null);
 
         if (checked) {
-            writer.writeAttribute("checked", "checked", null);
+            writer.writeAttribute(CHECKED, CHECKED, null);
         }
         if (disabled) {
-            writer.writeAttribute("disabled", "disabled", null);
+            writer.writeAttribute(DISABLED, DISABLED, null);
         }
 
         if (PrimeApplicationContext.getCurrentInstance(context).getConfig().isClientSideValidationEnabled()) {
@@ -111,34 +124,34 @@ public class SelectBooleanButtonRenderer extends InputRenderer {
 
         // tabindex
         if (button.getTabindex() != null) {
-            writer.writeAttribute("tabindex", button.getTabindex(), null);
+            writer.writeAttribute(TABINDEX, button.getTabindex(), null);
         }
 
-        writer.endElement("input");
+        writer.endElement(INPUT);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
 
         //icon
         if (icon != null) {
-            writer.startElement("span", null);
-            writer.writeAttribute("class", HTML.BUTTON_LEFT_ICON_CLASS + " " + icon, null);
-            writer.endElement("span");
+            writer.startElement(SPAN, null);
+            writer.writeAttribute(CLASS, HTML.BUTTON_LEFT_ICON_CLASS + " " + icon, null);
+            writer.endElement(SPAN);
         }
 
         //label
-        writer.startElement("span", null);
-        writer.writeAttribute("class", HTML.BUTTON_TEXT_CLASS, null);
+        writer.startElement(SPAN, null);
+        writer.writeAttribute(CLASS, HTML.BUTTON_TEXT_CLASS, null);
 
         if (isValueBlank(label)) {
             writer.write("ui-button");
         }
         else {
-            writer.writeText(label, "value");
+            writer.writeText(label, VALUE);
         }
 
-        writer.endElement("span");
+        writer.endElement(SPAN);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeScript(FacesContext context, SelectBooleanButton button) throws IOException {

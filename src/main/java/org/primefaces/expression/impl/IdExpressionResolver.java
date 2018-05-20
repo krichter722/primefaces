@@ -42,6 +42,7 @@ public class IdExpressionResolver implements SearchExpressionResolver, MultiSear
                 components);
     }
 
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     protected String extractId(String expression) {
         try {
             Matcher matcher = PATTERN.matcher(expression);

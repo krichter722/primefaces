@@ -26,6 +26,14 @@ import javax.faces.convert.ConverterException;
 import javax.faces.model.SelectItem;
 import javax.faces.model.SelectItemGroup;
 import javax.faces.render.Renderer;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.INPUT;
+import static org.primefaces.component.Literals.NAME;
+import static org.primefaces.component.Literals.SPAN;
+import static org.primefaces.component.Literals.STYLE;
+import static org.primefaces.component.Literals.TYPE;
+import static org.primefaces.component.Literals.VALUE;
 import org.primefaces.renderkit.SelectOneRenderer;
 import org.primefaces.util.ComponentUtils;
 import org.primefaces.util.WidgetBuilder;
@@ -60,17 +68,17 @@ public class MultiSelectListboxRenderer extends SelectOneRenderer {
         styleClass = listbox.isDisabled() ? styleClass + " ui-state-disabled" : styleClass;
         styleClass = !listbox.isValid() ? styleClass + " ui-state-error" : styleClass;
 
-        writer.startElement("div", listbox);
+        writer.startElement(DIV, listbox);
         writer.writeAttribute("id", clientId, "id");
-        writer.writeAttribute("class", styleClass, "styleClass");
+        writer.writeAttribute(CLASS, styleClass, "styleClass");
         if (style != null) {
-            writer.writeAttribute("style", style, "style");
+            writer.writeAttribute(STYLE, style, STYLE);
         }
 
         encodeInput(context, listbox);
         encodeLists(context, listbox, selectItems);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeLists(FacesContext context, MultiSelectListbox listbox, List<SelectItem> itemList) throws IOException {
@@ -79,23 +87,23 @@ public class MultiSelectListboxRenderer extends SelectOneRenderer {
         String header = listbox.getHeader();
         String listStyleClass = MultiSelectListbox.LIST_CLASS;
 
-        writer.startElement("div", listbox);
-        writer.writeAttribute("class", MultiSelectListbox.LIST_CONTAINER_CLASS, null);
+        writer.startElement(DIV, listbox);
+        writer.writeAttribute(CLASS, MultiSelectListbox.LIST_CONTAINER_CLASS, null);
 
         if (header != null) {
             listStyleClass = listStyleClass + " ui-corner-bottom";
 
-            writer.startElement("div", listbox);
-            writer.writeAttribute("class", MultiSelectListbox.LIST_HEADER_CLASS, null);
+            writer.startElement(DIV, listbox);
+            writer.writeAttribute(CLASS, MultiSelectListbox.LIST_HEADER_CLASS, null);
             writer.writeText(header, null);
-            writer.endElement("div");
+            writer.endElement(DIV);
         } 
         else {
             listStyleClass = listStyleClass + " ui-corner-all";
         }
 
         writer.startElement("ul", listbox);
-        writer.writeAttribute("class", listStyleClass, null);
+        writer.writeAttribute(CLASS, listStyleClass, null);
 
         if (items != null) {
             encodeListItems(context, listbox, items);
@@ -103,7 +111,7 @@ public class MultiSelectListboxRenderer extends SelectOneRenderer {
 
         writer.endElement("ul");
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeListItems(FacesContext context, MultiSelectListbox listbox, SelectItem[] selectItems) throws IOException {
@@ -116,12 +124,12 @@ public class MultiSelectListboxRenderer extends SelectOneRenderer {
                 SelectItem selectItem = selectItems[i];
                 itemValue = converter != null ? converter.getAsString(context, listbox, selectItem.getValue()) : String.valueOf(selectItem.getValue());
                 writer.startElement("li", null);
-                writer.writeAttribute("class", MultiSelectListbox.ITEM_CLASS, null);
+                writer.writeAttribute(CLASS, MultiSelectListbox.ITEM_CLASS, null);
                 writer.writeAttribute("data-value", itemValue, null);
 
-                writer.startElement("span", listbox);
+                writer.startElement(SPAN, listbox);
                 writer.writeText(selectItem.getLabel(), null);
-                writer.endElement("span");
+                writer.endElement(SPAN);
 
                 if (selectItem instanceof SelectItemGroup) {
                     SelectItemGroup group = (SelectItemGroup) selectItem;
@@ -141,7 +149,7 @@ public class MultiSelectListboxRenderer extends SelectOneRenderer {
         ResponseWriter writer = context.getResponseWriter();
 
         writer.startElement("ul", listbox);
-        writer.writeAttribute("class", "ui-helper-hidden", null);
+        writer.writeAttribute(CLASS, "ui-helper-hidden", null);
         encodeListItems(context, listbox, selectItems);
         writer.endElement("ul");
     }
@@ -162,15 +170,15 @@ public class MultiSelectListboxRenderer extends SelectOneRenderer {
         String inputId = listbox.getClientId(context) + "_input";
         String valueToRender = ComponentUtils.getValueToRender(context, listbox);
 
-        writer.startElement("input", null);
-        writer.writeAttribute("type", "hidden", null);
+        writer.startElement(INPUT, null);
+        writer.writeAttribute(TYPE, "hidden", null);
         writer.writeAttribute("id", inputId, null);
-        writer.writeAttribute("name", inputId, null);
+        writer.writeAttribute(NAME, inputId, null);
         writer.writeAttribute("autocomplete", "off", null);
         if (valueToRender != null) {
-            writer.writeAttribute("value", valueToRender, null);
+            writer.writeAttribute(VALUE, valueToRender, null);
         }
-        writer.endElement("input");
+        writer.endElement(INPUT);
     }
 
     @Override

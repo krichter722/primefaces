@@ -43,6 +43,7 @@ public class PrimeExternalContext extends ExternalContextWrapper {
         return httpServletRequest.getRemoteAddr();
     }
 
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     protected void extractHttpServletRequest() {
         Object request = wrapped.getRequest();
         if (request instanceof HttpServletRequest) {

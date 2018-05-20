@@ -44,6 +44,7 @@ public class DefaultTimelineUpdater extends TimelineUpdater implements PhaseList
     private static final String PREVENT_RENDER = Boolean.TRUE.toString();
 
     private static final Logger LOG = Logger.getLogger(DefaultTimelineUpdater.class.getName());
+    private static final String PF = ";PF('";
 
     private String widgetVar;
     private List<CrudOperationData> crudOperationDatas;
@@ -98,7 +99,7 @@ public class DefaultTimelineUpdater extends TimelineUpdater implements PhaseList
         }
 
         FacesContext fc = event.getFacesContext();
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder(1024);
         FastStringWriter fsw = new FastStringWriter();
         FastStringWriter fswHtml = new FastStringWriter();
 
@@ -126,7 +127,7 @@ public class DefaultTimelineUpdater extends TimelineUpdater implements PhaseList
                 switch (crudOperationData.getCrudOperation()) {
                     case ADD:
 
-                        sb.append(";PF('");
+                        sb.append(PF);
                         sb.append(widgetVar);
                         sb.append("').addEvent(");
                         sb.append(timelineRenderer.encodeEvent(fc, fsw, fswHtml, timeline, browserTZ, targetTZ,
@@ -137,11 +138,11 @@ public class DefaultTimelineUpdater extends TimelineUpdater implements PhaseList
 
                     case UPDATE:
 
-                        sb.append(";PF('");
+                        sb.append(PF);
                         sb.append(widgetVar);
                         sb.append("').changeEvent(");
                         sb.append(crudOperationData.getIndex());
-                        sb.append(",");
+                        sb.append(',');
                         sb.append(timelineRenderer.encodeEvent(fc, fsw, fswHtml, timeline, browserTZ, targetTZ,
                                 groups, groupFacet, groupsContent, crudOperationData.getEvent()));
                         sb.append(", " + PREVENT_RENDER + ")");
@@ -150,7 +151,7 @@ public class DefaultTimelineUpdater extends TimelineUpdater implements PhaseList
 
                     case DELETE:
 
-                        sb.append(";PF('");
+                        sb.append(PF);
                         sb.append(widgetVar);
                         sb.append("').deleteEvent(");
                         sb.append(crudOperationData.getIndex());
@@ -160,16 +161,16 @@ public class DefaultTimelineUpdater extends TimelineUpdater implements PhaseList
 
                     case SELECT:
 
-                        sb.append(";PF('");
+                        sb.append(PF);
                         sb.append(widgetVar);
                         sb.append("').setSelection(");
                         sb.append(crudOperationData.getIndex());
-                        sb.append(")");
+                        sb.append(')');
                         break;
 
                     case CLEAR:
 
-                        sb.append(";PF('");
+                        sb.append(PF);
                         sb.append(widgetVar);
                         sb.append("').deleteAllEvents()");
                         break;
@@ -177,7 +178,7 @@ public class DefaultTimelineUpdater extends TimelineUpdater implements PhaseList
             }
 
             if (renderComponent) {
-                sb.append(";PF('");
+                sb.append(PF);
                 sb.append(widgetVar);
                 sb.append("').renderTimeline()");
             }

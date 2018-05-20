@@ -94,7 +94,7 @@ public abstract class BasePlotRenderer {
     }
     
     protected String escapeChartData(Object value) {
-        // default to "null" if null
+        // default to NULL if null
         String result = String.valueOf(value);
 
         // do NOT quote numbers but quote all other objects

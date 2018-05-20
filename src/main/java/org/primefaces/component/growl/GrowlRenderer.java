@@ -17,20 +17,19 @@ package org.primefaces.component.growl;
 
 import java.io.IOException;
 import java.util.Iterator;
-import java.util.logging.Logger;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.SPAN;
 import org.primefaces.context.PrimeApplicationContext;
 import org.primefaces.renderkit.UINotificationRenderer;
 import org.primefaces.util.HTML;
 import org.primefaces.util.WidgetBuilder;
 
 public class GrowlRenderer extends UINotificationRenderer {
-    
-    private final static Logger logger = Logger.getLogger(GrowlRenderer.class.getName());
 
     @Override
     public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
@@ -39,11 +38,11 @@ public class GrowlRenderer extends UINotificationRenderer {
         String clientId = growl.getClientId(context);
         String widgetVar = growl.resolveWidgetVar();
 
-        writer.startElement("span", growl);
+        writer.startElement(SPAN, growl);
         writer.writeAttribute("id", clientId, "id");
 
         if (PrimeApplicationContext.getCurrentInstance(context).getConfig().isClientSideValidationEnabled()) {
-            writer.writeAttribute("class", "ui-growl-pl", null);
+            writer.writeAttribute(CLASS, "ui-growl-pl", null);
             writer.writeAttribute(HTML.WIDGET_VAR, widgetVar, null);
             writer.writeAttribute("data-global", growl.isGlobalOnly(), null);
             writer.writeAttribute("data-summary", growl.isShowSummary(), null);
@@ -52,7 +51,7 @@ public class GrowlRenderer extends UINotificationRenderer {
             writer.writeAttribute("data-redisplay", String.valueOf(growl.isRedisplay()), null);
         }
 
-        writer.endElement("span");
+        writer.endElement(SPAN);
 
         WidgetBuilder wb = getWidgetBuilder(context);
         wb.init("Growl", growl.resolveWidgetVar(), clientId)

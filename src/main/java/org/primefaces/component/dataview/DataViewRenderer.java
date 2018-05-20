@@ -20,6 +20,17 @@ import java.util.Map;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import static org.primefaces.component.Literals.CHECKED;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.GRID;
+import static org.primefaces.component.Literals.INPUT;
+import static org.primefaces.component.Literals.NAME;
+import static org.primefaces.component.Literals.SPAN;
+import static org.primefaces.component.Literals.STYLE;
+import static org.primefaces.component.Literals.TABINDEX;
+import static org.primefaces.component.Literals.TYPE;
+import static org.primefaces.component.Literals.VALUE;
 import org.primefaces.renderkit.DataRenderer;
 import org.primefaces.util.GridLayoutUtils;
 import org.primefaces.util.HTML;
@@ -66,17 +77,17 @@ public class DataViewRenderer extends DataRenderer {
         String style = dataview.getStyle();
         String styleClass = dataview.getStyleClass();
         styleClass = (styleClass == null) ? DataView.DATAVIEW_CLASS : DataView.DATAVIEW_CLASS + " " + styleClass;
-        styleClass += " " + (layout.contains("grid") ? DataView.GRID_LAYOUT_CLASS : DataView.LIST_LAYOUT_CLASS);
+        styleClass += " " + (layout.contains(GRID) ? DataView.GRID_LAYOUT_CLASS : DataView.LIST_LAYOUT_CLASS);
 
         if (hasPaginator) {
             dataview.calculateFirst();
         }
         
-        writer.startElement("div", dataview);
+        writer.startElement(DIV, dataview);
         writer.writeAttribute("id", clientId, "id");
-        writer.writeAttribute("class", styleClass, null);
+        writer.writeAttribute(CLASS, styleClass, null);
         if (style != null) {
-            writer.writeAttribute("style", style, "style");
+            writer.writeAttribute(STYLE, style, STYLE);
         }
 
         encodeHeader(context, dataview);
@@ -93,15 +104,15 @@ public class DataViewRenderer extends DataRenderer {
         
         encodeFacet(context, dataview, "footer", DataView.FOOTER_CLASS);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
     
     protected void encodeHeader(FacesContext context, DataView dataview) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
         UIComponent fHeader = dataview.getFacet("header");
         
-        writer.startElement("div", dataview);
-        writer.writeAttribute("class", DataView.HEADER_CLASS, null);
+        writer.startElement(DIV, dataview);
+        writer.writeAttribute(CLASS, DataView.HEADER_CLASS, null);
 
         if (fHeader != null && fHeader.isRendered()) {
             fHeader.encodeAll(context);
@@ -109,19 +120,19 @@ public class DataViewRenderer extends DataRenderer {
         
         encodeLayoutOptions(context, dataview);
         
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
     
     protected void encodeContent(FacesContext context, DataView dataview) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
         String clientId = dataview.getClientId(context);
-        writer.startElement("div", dataview);
+        writer.startElement(DIV, dataview);
         writer.writeAttribute("id", clientId + "_content", null);
-        writer.writeAttribute("class", DataView.CONTENT_CLASS, null);
+        writer.writeAttribute(CLASS, DataView.CONTENT_CLASS, null);
 
         encodeLayout(context, dataview);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeLayoutOptions(FacesContext context, DataView dataview) throws IOException {
@@ -129,11 +140,11 @@ public class DataViewRenderer extends DataRenderer {
         boolean hasGridItem = (dataview.getGridItem() != null);
         boolean hasListItem = (dataview.getListItem() != null);
         String layout = dataview.getLayout();
-        boolean isGridLayout = layout.contains("grid");
+        boolean isGridLayout = layout.contains(GRID);
         String containerClass = DataView.BUTTON_CONTAINER_CLASS;
 
-        writer.startElement("div", null);
-        writer.writeAttribute("class", containerClass, null);
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, containerClass, null);
 
         if (hasListItem) {
             String listIcon = dataview.getListIcon() != null ? dataview.getListIcon() : "ui-icon-grip-dotted-horizontal";
@@ -144,10 +155,10 @@ public class DataViewRenderer extends DataRenderer {
         if (hasGridItem) {
             String gridIcon = dataview.getGridIcon() != null ? dataview.getGridIcon() : "ui-icon-grip-dotted-vertical";
             
-            encodeButton(context, dataview, "grid", gridIcon, isGridLayout);
+            encodeButton(context, dataview, GRID, gridIcon, isGridLayout);
         }
 
-        writer.endElement("div");
+        writer.endElement(DIV);
 
     }
 
@@ -157,43 +168,43 @@ public class DataViewRenderer extends DataRenderer {
         String buttonClass = isActive ? DataView.BUTTON_CLASS + " ui-state-active" : DataView.BUTTON_CLASS;
         
         //button
-        writer.startElement("div", null);
-        writer.writeAttribute("class", buttonClass, null);
-        writer.writeAttribute("tabindex", 0, null);
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, buttonClass, null);
+        writer.writeAttribute(TABINDEX, 0, null);
 
         //input
-        writer.startElement("input", null);
+        writer.startElement(INPUT, null);
         writer.writeAttribute("id", clientId + "_" + layout, null);
-        writer.writeAttribute("name", clientId, null);
-        writer.writeAttribute("type", "radio", null);
-        writer.writeAttribute("value", layout, null);
-        writer.writeAttribute("class", "ui-helper-hidden-accessible", null);
-        writer.writeAttribute("tabindex", "-1", null);
+        writer.writeAttribute(NAME, clientId, null);
+        writer.writeAttribute(TYPE, "radio", null);
+        writer.writeAttribute(VALUE, layout, null);
+        writer.writeAttribute(CLASS, "ui-helper-hidden-accessible", null);
+        writer.writeAttribute(TABINDEX, "-1", null);
         
-        if (isActive) writer.writeAttribute("checked", "checked", null);
+        if (isActive) writer.writeAttribute(CHECKED, CHECKED, null);
         
-        writer.endElement("input");
+        writer.endElement(INPUT);
 
         //icon
-        writer.startElement("span", null);
-        writer.writeAttribute("class", HTML.BUTTON_LEFT_ICON_CLASS + " " + icon, null);
+        writer.startElement(SPAN, null);
+        writer.writeAttribute(CLASS, HTML.BUTTON_LEFT_ICON_CLASS + " " + icon, null);
         
-        writer.endElement("span");
+        writer.endElement(SPAN);
         
         //label
-        writer.startElement("span", null);
-        writer.writeAttribute("class", HTML.BUTTON_TEXT_CLASS, null);
+        writer.startElement(SPAN, null);
+        writer.writeAttribute(CLASS, HTML.BUTTON_TEXT_CLASS, null);
         writer.write("ui-button");
 
-        writer.endElement("span");
+        writer.endElement(SPAN);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
     
     protected void encodeLayout(FacesContext context, DataView dataview) throws IOException {
         String layout = dataview.getLayout();
         
-        if (layout.contains("grid")) {
+        if (layout.contains(GRID)) {
             encodeGridLayout(context, dataview);
         } 
         else {
@@ -220,12 +231,12 @@ public class DataViewRenderer extends DataRenderer {
                     break;
                 }
 
-                writer.startElement("div", null);
-                writer.writeAttribute("class", DataView.GRID_LAYOUT_ROW_CLASS, null);
+                writer.startElement(DIV, null);
+                writer.writeAttribute(CLASS, DataView.GRID_LAYOUT_ROW_CLASS, null);
 
                 for (int j = 0; j < columns; j++) {
-                    writer.startElement("div", null);
-                    writer.writeAttribute("class", columnClass, null);
+                    writer.startElement(DIV, null);
+                    writer.writeAttribute(CLASS, columnClass, null);
 
                     dataview.setRowIndex(rowIndex);
                     if (dataview.isRowAvailable()) {
@@ -233,10 +244,10 @@ public class DataViewRenderer extends DataRenderer {
                     }
                     rowIndex++;
 
-                    writer.endElement("div");
+                    writer.endElement(DIV);
                 }
 
-                writer.endElement("div");
+                writer.endElement(DIV);
             }
 
             dataview.setRowIndex(-1); //cleanup
@@ -254,7 +265,7 @@ public class DataViewRenderer extends DataRenderer {
             int pageSize = first + rows;
 
             writer.startElement("ul", null);
-            writer.writeAttribute("class", DataView.LIST_LAYOUT_CONTAINER_CLASS, null);
+            writer.writeAttribute(CLASS, DataView.LIST_LAYOUT_CONTAINER_CLASS, null);
 
             for (int i = first; i < pageSize; i++) {
                 dataview.setRowIndex(i);
@@ -264,7 +275,7 @@ public class DataViewRenderer extends DataRenderer {
                 }
 
                 writer.startElement("li", null);
-                writer.writeAttribute("class", DataView.ROW_CLASS, null);
+                writer.writeAttribute(CLASS, DataView.ROW_CLASS, null);
 
                 dataview.setRowIndex(i);
                 if (dataview.isRowAvailable()) {

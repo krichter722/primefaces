@@ -21,6 +21,9 @@ import java.util.Map;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.STYLE;
 import org.primefaces.model.diagram.DiagramModel;
 import org.primefaces.model.diagram.Element;
 import org.primefaces.model.diagram.Connection;
@@ -152,7 +155,6 @@ public class DiagramRenderer extends CoreRenderer {
 
     protected void encodeScript(FacesContext context, Diagram diagram) throws IOException {
         String clientId = diagram.getClientId(context);
-        StringBuilder sb = SharedStringBuilder.get(SB_DIAGRAM);
         WidgetBuilder wb = getWidgetBuilder(context);
         wb.init("Diagram", diagram.resolveWidgetVar(), clientId);
 
@@ -217,16 +219,16 @@ public class DiagramRenderer extends CoreRenderer {
                         encodeEndPoint(wb, endPoint, elementClientId);
 
                         if (j < (endPointsSize - 1)) {
-                            wb.append(",");
+                            wb.append(',');
                         }
                     }
                 }
 
                 if (i < (elementsSize - 1)) {
-                    wb.append(",");
+                    wb.append(',');
                 }
             }
-            wb.append("]");
+            wb.append(']');
         }
     }
 
@@ -240,18 +242,18 @@ public class DiagramRenderer extends CoreRenderer {
         int maxConnections = endPoint.getMaxConnections();
         String scope = endPoint.getScope();
 
-        wb.append("{uuid:'").append(endPoint.getId()).append("'")
-                .append(",element:'").append(elementClientId).append("'")
-                .append(",anchor:'").append(endPoint.getAnchor().toString()).append("'");
+        wb.append("{uuid:'").append(endPoint.getId()).append('\'')
+                .append(",element:'").append(elementClientId).append('\'')
+                .append(",anchor:'").append(endPoint.getAnchor().toString()).append('\'');
 
         if (maxConnections != 1) wb.append(",maxConnections:").append(maxConnections);
         if (style != null) wb.append(",paintStyle:").append(style);
         if (hoverStyle != null) wb.append(",hoverPaintStyle:").append(hoverStyle);
         if (endPoint.isSource()) wb.append(",isSource:true");
         if (endPoint.isTarget()) wb.append(",isTarget:true");
-        if (styleClass != null) wb.append(",cssClass:'").append(styleClass).append("'");
-        if (hoverStyleClass != null) wb.append(",hoverClass:'").append(hoverStyleClass).append("'");
-        if (scope != null) wb.append(",scope:'").append(scope).append("'");
+        if (styleClass != null) wb.append(",cssClass:'").append(styleClass).append('\'');
+        if (hoverStyleClass != null) wb.append(",hoverClass:'").append(hoverStyleClass).append('\'');
+        if (scope != null) wb.append(",scope:'").append(scope).append('\'');
 
         if (type != null) {
             wb.append(",endpoint:").append(endPoint.toJS(sb));
@@ -274,7 +276,7 @@ public class DiagramRenderer extends CoreRenderer {
                 Connector connector = connection.getConnector();
                 List<Overlay> overlays = connection.getOverlays();
 
-                wb.append("{uuids:['").append(connection.getSource().getId()).append("'")
+                wb.append("{uuids:['").append(connection.getSource().getId()).append('\'')
                         .append(",'").append(connection.getTarget().getId()).append("']");
 
                 if (connector != null && connector.getType() != null) {
@@ -296,11 +298,11 @@ public class DiagramRenderer extends CoreRenderer {
                 wb.append("}");
 
                 if (i < (connectionsSize - 1)) {
-                    wb.append(",");
+                    wb.append(',');
                 }
 
             }
-            wb.append("]");
+            wb.append(']');
         }
     }
 
@@ -310,7 +312,7 @@ public class DiagramRenderer extends CoreRenderer {
         if (overlays != null && !overlays.isEmpty()) {
             int overlaysSize = overlays.size();
 
-            wb.append(",").append(propertyName).append(":[");
+            wb.append(',').append(propertyName).append(":[");
             for (int j = 0; j < overlaysSize; j++) {
                 Overlay overlay = overlays.get(j);
                 sb.setLength(0);
@@ -318,10 +320,10 @@ public class DiagramRenderer extends CoreRenderer {
                 wb.append(overlay.toJS(sb));
 
                 if (j < (overlaysSize - 1)) {
-                    wb.append(",");
+                    wb.append(',');
                 }
             }
-            wb.append("]");
+            wb.append(']');
         }
     }
 
@@ -336,11 +338,11 @@ public class DiagramRenderer extends CoreRenderer {
         Map<String, Object> requestMap = context.getExternalContext().getRequestMap();
         String var = diagram.getVar();
 
-        writer.startElement("div", diagram);
+        writer.startElement(DIV, diagram);
         writer.writeAttribute("id", diagram.getClientId(context), null);
-        writer.writeAttribute("class", styleClass, null);
+        writer.writeAttribute(CLASS, styleClass, null);
         if (style != null) {
-            writer.writeAttribute("style", style, null);
+            writer.writeAttribute(STYLE, style, null);
         }
 
         if (model != null) {
@@ -359,10 +361,10 @@ public class DiagramRenderer extends CoreRenderer {
                     String coords = "left:" + x + ";top:" + y;
                     String title = element.getTitle();
 
-                    writer.startElement("div", null);
+                    writer.startElement(DIV, null);
                     writer.writeAttribute("id", clientId + "-" + element.getId(), null);
-                    writer.writeAttribute("class", elementClass, null);
-                    writer.writeAttribute("style", coords, null);
+                    writer.writeAttribute(CLASS, elementClass, null);
+                    writer.writeAttribute(STYLE, coords, null);
                     writer.writeAttribute("data-tooltip", title, null);
 
                     if (elementFacet != null && var != null) {
@@ -372,7 +374,7 @@ public class DiagramRenderer extends CoreRenderer {
                     else if (data != null) {
                         writer.writeText(data, null);
                     }
-                    writer.endElement("div");
+                    writer.endElement(DIV);
                 }
             }
 
@@ -381,6 +383,6 @@ public class DiagramRenderer extends CoreRenderer {
             }
         }
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 }

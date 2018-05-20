@@ -70,10 +70,10 @@ public class DialogNavigationHandler extends ConfigurableNavigationHandler {
             pfdlgcid = ComponentUtils.escapeEcmaScriptText(pfdlgcid);
 
             sb.append("PrimeFaces.openDialog({url:'").append(url).append("',pfdlgcid:'").append(pfdlgcid)
-                    .append("',sourceComponentId:'").append(sourceComponentId).append("'");
+                    .append("',sourceComponentId:'").append(sourceComponentId).append('\'');
 
             if (sourceWidget != null) {
-                sb.append(",sourceWidgetVar:'").append(sourceWidget).append("'");
+                sb.append(",sourceWidgetVar:'").append(sourceWidget).append('\'');
             }
 
             sb.append(",options:{");
@@ -82,16 +82,16 @@ public class DialogNavigationHandler extends ConfigurableNavigationHandler {
                     String optionName = it.next();
                     Object optionValue = options.get(optionName);
 
-                    sb.append(optionName).append(":");
+                    sb.append(optionName).append(':');
                     if (optionValue instanceof String) {
-                        sb.append("'").append(ComponentUtils.escapeEcmaScriptText((String) optionValue)).append("'");
+                        sb.append('\'').append(ComponentUtils.escapeEcmaScriptText((String) optionValue)).append('\'');
                     }
                     else {
                         sb.append(optionValue);
                     }
 
                     if (it.hasNext()) {
-                        sb.append(",");
+                        sb.append(',');
                     }
                 }
             }

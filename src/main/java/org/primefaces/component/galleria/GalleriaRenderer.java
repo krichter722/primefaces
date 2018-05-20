@@ -22,6 +22,9 @@ import java.util.Map;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.STYLE;
 import org.primefaces.renderkit.CoreRenderer;
 import org.primefaces.util.WidgetBuilder;
 
@@ -44,28 +47,28 @@ public class GalleriaRenderer extends CoreRenderer {
         styleClass = (styleClass == null) ? Galleria.CONTAINER_CLASS : Galleria.CONTAINER_CLASS + " " + styleClass;
         UIComponent content = galleria.getFacet("content");
 
-        writer.startElement("div", component);
+        writer.startElement(DIV, component);
         writer.writeAttribute("id", galleria.getClientId(context), "id");
-        writer.writeAttribute("class", styleClass, "styleClass");
+        writer.writeAttribute(CLASS, styleClass, "styleClass");
         if (style != null) {
-            writer.writeAttribute("style", style, "style");
+            writer.writeAttribute(STYLE, style, STYLE);
         }
 
         writer.startElement("ul", component);
-        writer.writeAttribute("class", Galleria.PANEL_WRAPPER_CLASS, null);
+        writer.writeAttribute(CLASS, Galleria.PANEL_WRAPPER_CLASS, null);
 
         if (var == null) {
             for (UIComponent child : galleria.getChildren()) {
                 if (child.isRendered()) {
                     writer.startElement("li", null);
-                    writer.writeAttribute("class", Galleria.PANEL_CLASS, null);
+                    writer.writeAttribute(CLASS, Galleria.PANEL_CLASS, null);
                     child.encodeAll(context);
 
                     if (content != null) {
-                        writer.startElement("div", null);
-                        writer.writeAttribute("class", Galleria.PANEL_CONTENT_CLASS, null);
+                        writer.startElement(DIV, null);
+                        writer.writeAttribute(CLASS, Galleria.PANEL_CONTENT_CLASS, null);
                         content.encodeAll(context);
-                        writer.endElement("div");
+                        writer.endElement(DIV);
                     }
 
                     writer.endElement("li");
@@ -80,14 +83,14 @@ public class GalleriaRenderer extends CoreRenderer {
                     requestMap.put(var, it.next());
 
                     writer.startElement("li", null);
-                    writer.writeAttribute("class", Galleria.PANEL_CLASS, null);
+                    writer.writeAttribute(CLASS, Galleria.PANEL_CLASS, null);
                     renderChildren(context, galleria);
 
                     if (content != null) {
-                        writer.startElement("div", null);
-                        writer.writeAttribute("class", Galleria.PANEL_CONTENT_CLASS, null);
+                        writer.startElement(DIV, null);
+                        writer.writeAttribute(CLASS, Galleria.PANEL_CONTENT_CLASS, null);
                         content.encodeAll(context);
-                        writer.endElement("div");
+                        writer.endElement(DIV);
                     }
 
                     writer.endElement("li");
@@ -99,7 +102,7 @@ public class GalleriaRenderer extends CoreRenderer {
 
         writer.endElement("ul");
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     public void encodeScript(FacesContext context, UIComponent component) throws IOException {

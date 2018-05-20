@@ -102,7 +102,7 @@ public class NativeUploadedFile implements UploadedFile, Serializable {
     }
 
     @Override
-    public void write(String filePath) throws Exception {
+    public void write(String filePath) throws IOException {
         part.write(filePath);
     }
 

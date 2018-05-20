@@ -19,6 +19,8 @@ import java.io.IOException;
 
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import static org.primefaces.component.Literals.SCRIPT;
+import static org.primefaces.component.Literals.TYPE;
 import org.primefaces.config.PrimeConfiguration;
 
 /**
@@ -97,9 +99,9 @@ public class WidgetBuilder {
 
     private void renderScriptBlock(String id) throws IOException {
         ResponseWriter rw = context.getResponseWriter();
-        rw.startElement("script", null);
+        rw.startElement(SCRIPT, null);
         rw.writeAttribute("id", id + "_s", null);
-        rw.writeAttribute("type", "text/javascript", null);
+        rw.writeAttribute(TYPE, "text/javascript", null);
     }
 
     /**
@@ -303,6 +305,6 @@ public class WidgetBuilder {
             rw.write("});");
         }
 
-        rw.endElement("script");
+        rw.endElement(SCRIPT);
     }
 }

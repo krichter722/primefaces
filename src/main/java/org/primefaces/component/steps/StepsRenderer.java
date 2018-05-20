@@ -32,6 +32,14 @@ import org.primefaces.component.menu.BaseMenuRenderer;
 import org.primefaces.model.menu.MenuElement;
 import org.primefaces.model.menu.MenuItem;
 import org.primefaces.util.ComponentTraversalUtils;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.ONCLICK;
+import static org.primefaces.component.Literals.ROLE;
+import static org.primefaces.component.Literals.SPAN;
+import static org.primefaces.component.Literals.STYLE;
+import static org.primefaces.component.Literals.TABINDEX;
+import static org.primefaces.component.Literals.TITLE;
 
 public class StepsRenderer extends BaseMenuRenderer {
 
@@ -46,15 +54,15 @@ public class StepsRenderer extends BaseMenuRenderer {
         int activeIndex = steps.getActiveIndex();
         List<MenuElement> elements = steps.getElements();
 
-        writer.startElement("div", steps);
+        writer.startElement(DIV, steps);
         writer.writeAttribute("id", clientId, null);
-        writer.writeAttribute("class", styleClass, "styleClass");
+        writer.writeAttribute(CLASS, styleClass, "styleClass");
         if (steps.getStyle() != null) {
-            writer.writeAttribute("style", steps.getStyle(), "style");
+            writer.writeAttribute(STYLE, steps.getStyle(), STYLE);
         }
 
         writer.startElement("ul", null);
-        writer.writeAttribute("role", "tablist", null);
+        writer.writeAttribute(ROLE, "tablist", null);
 
         int i = 0;
         if (elements != null && !elements.isEmpty()) {
@@ -68,7 +76,7 @@ public class StepsRenderer extends BaseMenuRenderer {
 
         writer.endElement("ul");
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeItem(FacesContext context, Steps steps, MenuItem item, int activeIndex, int index) throws IOException {
@@ -99,10 +107,10 @@ public class StepsRenderer extends BaseMenuRenderer {
 
         //header container
         writer.startElement("li", null);
-        writer.writeAttribute("class", itemClass, null);
-        writer.writeAttribute("role", "tab", null);
+        writer.writeAttribute(CLASS, itemClass, null);
+        writer.writeAttribute(ROLE, "tab", null);
         if (containerStyle != null) {
-            writer.writeAttribute("style", containerStyle, null);
+            writer.writeAttribute(STYLE, containerStyle, null);
         }
 
         encodeMenuItem(context, steps, item, activeIndex, index);
@@ -117,23 +125,23 @@ public class StepsRenderer extends BaseMenuRenderer {
         String styleClass = this.getLinkStyleClass(menuitem);
 
         writer.startElement("a", null);
-        writer.writeAttribute("tabindex", "-1", null);
+        writer.writeAttribute(TABINDEX, "-1", null);
         if (shouldRenderId(menuitem)) {
             writer.writeAttribute("id", menuitem.getClientId(), null);
         }
         if (title != null) {
-            writer.writeAttribute("title", title, null);
+            writer.writeAttribute(TITLE, title, null);
         }
 
-        writer.writeAttribute("class", styleClass, null);
+        writer.writeAttribute(CLASS, styleClass, null);
 
         if (style != null) {
-            writer.writeAttribute("style", style, null);
+            writer.writeAttribute(STYLE, style, null);
         }
 
         if (steps.isReadonly() || menuitem.isDisabled() || (activeIndex <= index)) {
             writer.writeAttribute("href", "#", null);
-            writer.writeAttribute("onclick", "return false;", null);
+            writer.writeAttribute(ONCLICK, "return false;", null);
         }
         else {
             String onclick = menuitem.getOnclick();
@@ -181,21 +189,21 @@ public class StepsRenderer extends BaseMenuRenderer {
             }
 
             if (onclick != null) {
-                writer.writeAttribute("onclick", onclick, null);
+                writer.writeAttribute(ONCLICK, onclick, null);
             }
         }
 
-        writer.startElement("span", steps);
-        writer.writeAttribute("class", Steps.STEP_NUMBER_CLASS, null);
+        writer.startElement(SPAN, steps);
+        writer.writeAttribute(CLASS, Steps.STEP_NUMBER_CLASS, null);
         writer.writeText((index + 1), null);
-        writer.endElement("span");
+        writer.endElement(SPAN);
 
         Object value = menuitem.getValue();
         if (value != null) {
-            writer.startElement("span", steps);
-            writer.writeAttribute("class", Steps.STEP_TITLE_CLASS, null);
+            writer.startElement(SPAN, steps);
+            writer.writeAttribute(CLASS, Steps.STEP_TITLE_CLASS, null);
             writer.writeText(value, null);
-            writer.endElement("span");
+            writer.endElement(SPAN);
         }
 
         writer.endElement("a");

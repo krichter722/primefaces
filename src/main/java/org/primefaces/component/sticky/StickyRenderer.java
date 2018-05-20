@@ -22,6 +22,7 @@ import javax.faces.context.ResponseWriter;
 import org.primefaces.expression.SearchExpressionFacade;
 import org.primefaces.renderkit.CoreRenderer;
 import org.primefaces.util.WidgetBuilder;
+import static org.primefaces.component.Literals.DIV;
 
 public class StickyRenderer extends CoreRenderer {
 
@@ -35,9 +36,9 @@ public class StickyRenderer extends CoreRenderer {
 
     protected void encodeMarkup(FacesContext context, Sticky sticky) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
-        writer.startElement("div", sticky);
+        writer.startElement(DIV, sticky);
         writer.writeAttribute("id", sticky.getClientId(context), null);
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeScript(FacesContext context, Sticky sticky) throws IOException {

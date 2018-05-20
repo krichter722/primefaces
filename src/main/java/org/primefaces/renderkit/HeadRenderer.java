@@ -29,6 +29,8 @@ import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
+import static org.primefaces.component.Literals.SCRIPT;
+import static org.primefaces.component.Literals.TYPE;
 import org.primefaces.context.PrimeApplicationContext;
 
 /**
@@ -102,8 +104,8 @@ public class HeadRenderer extends Renderer {
             encodeValidationResources(context, applicationContext.getConfig().isBeanValidationEnabled());
         }
 
-        writer.startElement("script", null);
-        writer.writeAttribute("type", "text/javascript", null);
+        writer.startElement(SCRIPT, null);
+        writer.writeAttribute(TYPE, "text/javascript", null);
         writer.write("if(window.PrimeFaces){");
 
         writer.write("PrimeFaces.settings.locale='" + context.getViewRoot().getLocale() + "';");
@@ -126,7 +128,7 @@ public class HeadRenderer extends Renderer {
         }
 
         writer.write("}");
-        writer.endElement("script");
+        writer.endElement(SCRIPT);
     }
 
     @Override
@@ -151,7 +153,7 @@ public class HeadRenderer extends Renderer {
         }
         else {
             writer.startElement("link", null);
-            writer.writeAttribute("type", "text/css", null);
+            writer.writeAttribute(TYPE, "text/css", null);
             writer.writeAttribute("rel", "stylesheet", null);
             writer.writeAttribute("href", cssResource.getRequestPath(), null);
             writer.endElement("link");
@@ -163,20 +165,20 @@ public class HeadRenderer extends Renderer {
         Resource resource = context.getApplication().getResourceHandler().createResource("validation/validation.js", "primefaces");
 
         if (resource != null) {
-            writer.startElement("script", null);
-            writer.writeAttribute("type", "text/javascript", null);
+            writer.startElement(SCRIPT, null);
+            writer.writeAttribute(TYPE, "text/javascript", null);
             writer.writeAttribute("src", resource.getRequestPath(), null);
-            writer.endElement("script");
+            writer.endElement(SCRIPT);
         }
 
         if (beanValidationEnabled) {
             resource = context.getApplication().getResourceHandler().createResource("validation/beanvalidation.js", "primefaces");
 
             if (resource != null) {
-                writer.startElement("script", null);
-                writer.writeAttribute("type", "text/javascript", null);
+                writer.startElement(SCRIPT, null);
+                writer.writeAttribute(TYPE, "text/javascript", null);
                 writer.writeAttribute("src", resource.getRequestPath(), null);
-                writer.endElement("script");
+                writer.endElement(SCRIPT);
             }
         }
     }

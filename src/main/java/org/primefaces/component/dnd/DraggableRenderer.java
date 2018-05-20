@@ -19,6 +19,7 @@ import java.io.IOException;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import static org.primefaces.component.Literals.DISABLED;
 
 import org.primefaces.component.dashboard.Dashboard;
 import org.primefaces.expression.SearchExpressionFacade;
@@ -40,7 +41,7 @@ public class DraggableRenderer extends CoreRenderer {
         wb.init("Draggable", draggable.resolveWidgetVar(), clientId)
                 .attr("target", target.getClientId(context))
                 .attr("cursor", draggable.getCursor())
-                .attr("disabled", draggable.isDisabled(), false)
+                .attr(DISABLED, draggable.isDisabled(), false)
                 .attr("axis", draggable.getAxis(), null)
                 .attr("containment", draggable.getContainment(), null)
                 .attr("appendTo", SearchExpressionFacade.resolveClientId(context, draggable, draggable.getAppendTo()), null)
@@ -60,7 +61,7 @@ public class DraggableRenderer extends CoreRenderer {
         }
 
         if (draggable.getGrid() != null) {
-            wb.append(",grid:[").append(draggable.getGrid()).append("]");
+            wb.append(",grid:[").append(draggable.getGrid()).append(']');
         }
 
         if (draggable.isSnap()) {

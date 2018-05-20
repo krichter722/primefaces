@@ -26,6 +26,17 @@ import org.primefaces.renderkit.CoreRenderer;
 import org.primefaces.util.ComponentUtils;
 import org.primefaces.util.HTML;
 import org.primefaces.util.WidgetBuilder;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.INPUT;
+import static org.primefaces.component.Literals.NAME;
+import static org.primefaces.component.Literals.ROLE;
+import static org.primefaces.component.Literals.SPAN;
+import static org.primefaces.component.Literals.STYLE;
+import static org.primefaces.component.Literals.TABINDEX;
+import static org.primefaces.component.Literals.TITLE;
+import static org.primefaces.component.Literals.TYPE;
+import static org.primefaces.component.Literals.VALUE;
 
 public class TabViewRenderer extends CoreRenderer {
 
@@ -93,7 +104,7 @@ public class TabViewRenderer extends CoreRenderer {
         wb.attr("effect", tabView.getEffect(), null)
                 .attr("effectDuration", tabView.getEffectDuration(), null)
                 .attr("scrollable", tabView.isScrollable())
-                .attr("tabindex", tabView.getTabindex(), null);
+                .attr(TABINDEX, tabView.getTabindex(), null);
 
         encodeClientBehaviors(context, tabView);
 
@@ -116,11 +127,11 @@ public class TabViewRenderer extends CoreRenderer {
             styleClass += " ui-tabs-rtl";
         }
 
-        writer.startElement("div", tabView);
+        writer.startElement(DIV, tabView);
         writer.writeAttribute("id", clientId, null);
-        writer.writeAttribute("class", styleClass, "styleClass");
+        writer.writeAttribute(CLASS, styleClass, "styleClass");
         if (tabView.getStyle() != null) {
-            writer.writeAttribute("style", tabView.getStyle(), "style");
+            writer.writeAttribute(STYLE, tabView.getStyle(), STYLE);
         }
 
         writer.writeAttribute(HTML.WIDGET_VAR, widgetVar, null);
@@ -143,19 +154,19 @@ public class TabViewRenderer extends CoreRenderer {
             encodeStateHolder(context, tabView, scrollParam, scrollValue);
         }
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeStateHolder(FacesContext facesContext, TabView tabView, String name, String value) throws IOException {
         ResponseWriter writer = facesContext.getResponseWriter();
 
-        writer.startElement("input", null);
-        writer.writeAttribute("type", "hidden", null);
+        writer.startElement(INPUT, null);
+        writer.writeAttribute(TYPE, "hidden", null);
         writer.writeAttribute("id", name, null);
-        writer.writeAttribute("name", name, null);
-        writer.writeAttribute("value", value, null);
+        writer.writeAttribute(NAME, name, null);
+        writer.writeAttribute(VALUE, value, null);
         writer.writeAttribute("autocomplete", "off", null);
-        writer.endElement("input");
+        writer.endElement(INPUT);
     }
 
     protected void encodeHeaders(FacesContext context, TabView tabView) throws IOException {
@@ -165,16 +176,16 @@ public class TabViewRenderer extends CoreRenderer {
         boolean scrollable = tabView.isScrollable();
 
         if (scrollable) {
-            writer.startElement("div", null);
-            writer.writeAttribute("class", TabView.NAVIGATOR_SCROLLER_CLASS, null);
+            writer.startElement(DIV, null);
+            writer.writeAttribute(CLASS, TabView.NAVIGATOR_SCROLLER_CLASS, null);
 
             encodeScrollerButton(context, tabView, TabView.NAVIGATOR_LEFT_CLASS, TabView.NAVIGATOR_LEFT_ICON_CLASS);
             encodeScrollerButton(context, tabView, TabView.NAVIGATOR_RIGHT_CLASS, TabView.NAVIGATOR_RIGHT_ICON_CLASS);
         }
 
         writer.startElement("ul", null);
-        writer.writeAttribute("class", TabView.NAVIGATOR_CLASS, null);
-        writer.writeAttribute("role", "tablist", null);
+        writer.writeAttribute(CLASS, TabView.NAVIGATOR_CLASS, null);
+        writer.writeAttribute(ROLE, "tablist", null);
 
         if (var == null) {
             int j = 0;
@@ -206,7 +217,7 @@ public class TabViewRenderer extends CoreRenderer {
         writer.endElement("ul");
 
         if (scrollable) {
-            writer.endElement("div");
+            writer.endElement(DIV);
         }
     }
 
@@ -220,31 +231,31 @@ public class TabViewRenderer extends CoreRenderer {
         }
         String styleClass = tab.getTitleStyleClass();
         styleClass = (styleClass == null) ? defaultStyleClass : defaultStyleClass + " " + styleClass;
-        UIComponent titleFacet = tab.getFacet("title");
+        UIComponent titleFacet = tab.getFacet(TITLE);
         String tabindex = tab.isDisabled() ? "-1" : tabView.getTabindex();
 
         //header container
         writer.startElement("li", tab);
-        writer.writeAttribute("class", styleClass, null);
-        writer.writeAttribute("role", "tab", null);
+        writer.writeAttribute(CLASS, styleClass, null);
+        writer.writeAttribute(ROLE, "tab", null);
         writer.writeAttribute("aria-expanded", String.valueOf(active), null);
         writer.writeAttribute("aria-selected", String.valueOf(active), null);
         writer.writeAttribute("aria-label", tab.getAriaLabel(), null);
         writer.writeAttribute("data-index", index, null);
         if (tab.getTitleStyle() != null) {
-            writer.writeAttribute("style", tab.getTitleStyle(), null);
+            writer.writeAttribute(STYLE, tab.getTitleStyle(), null);
         }
         if (tab.getTitletip() != null) {
-            writer.writeAttribute("title", tab.getTitletip(), null);
+            writer.writeAttribute(TITLE, tab.getTitletip(), null);
         }
         if (tabindex != null) {
-            writer.writeAttribute("tabindex", tabindex, null);
+            writer.writeAttribute(TABINDEX, tabindex, null);
         }
 
         //title
         writer.startElement("a", null);
         writer.writeAttribute("href", "#" + tab.getClientId(context), null);
-        writer.writeAttribute("tabindex", "-1", null);
+        writer.writeAttribute(TABINDEX, "-1", null);
         if (titleFacet == null) {
             String tabTitle = tab.getTitle();
             if (tabTitle != null) {
@@ -258,15 +269,15 @@ public class TabViewRenderer extends CoreRenderer {
 
         //closable
         if (tab.isClosable()) {
-            writer.startElement("span", null);
-            writer.writeAttribute("class", "ui-icon ui-icon-close", null);
-            writer.endElement("span");
+            writer.startElement(SPAN, null);
+            writer.writeAttribute(CLASS, "ui-icon ui-icon-close", null);
+            writer.endElement(SPAN);
         }
 
         UIComponent actions = tab.getFacet("actions");
         if (actions != null && actions.isRendered())  {
             writer.startElement("li", null);
-            writer.writeAttribute("class", "ui-tabs-actions", null);
+            writer.writeAttribute(CLASS, "ui-tabs-actions", null);
             writer.writeAttribute("aria-hidden", String.valueOf(!active), null);
             actions.encodeAll(context);
             writer.endElement("li");
@@ -281,8 +292,8 @@ public class TabViewRenderer extends CoreRenderer {
         int activeIndex = tabView.getActiveIndex();
         boolean dynamic = tabView.isDynamic();
 
-        writer.startElement("div", null);
-        writer.writeAttribute("class", TabView.PANELS_CLASS, null);
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, TabView.PANELS_CLASS, null);
 
         if (var == null) {
             int j = 0;
@@ -311,7 +322,7 @@ public class TabViewRenderer extends CoreRenderer {
             tabView.setIndex(-1);
         }
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeTabContent(FacesContext context, Tab tab, int index, boolean active, boolean dynamic)
@@ -319,10 +330,10 @@ public class TabViewRenderer extends CoreRenderer {
         ResponseWriter writer = context.getResponseWriter();
         String styleClass = active ? TabView.ACTIVE_TAB_CONTENT_CLASS : TabView.INACTIVE_TAB_CONTENT_CLASS;
 
-        writer.startElement("div", null);
+        writer.startElement(DIV, null);
         writer.writeAttribute("id", tab.getClientId(context), null);
-        writer.writeAttribute("class", styleClass, null);
-        writer.writeAttribute("role", "tabpanel", null);
+        writer.writeAttribute(CLASS, styleClass, null);
+        writer.writeAttribute(ROLE, "tabpanel", null);
         writer.writeAttribute("aria-hidden", String.valueOf(!active), null);
         writer.writeAttribute("data-index", index, null);
 
@@ -336,18 +347,18 @@ public class TabViewRenderer extends CoreRenderer {
             tab.encodeAll(context);
         }
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeScrollerButton(FacesContext context, TabView tabView, String styleClass, String iconClass) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
 
         writer.startElement("a", null);
-        writer.writeAttribute("class", styleClass, null);
+        writer.writeAttribute(CLASS, styleClass, null);
 
-        writer.startElement("span", null);
-        writer.writeAttribute("class", iconClass, null);
-        writer.endElement("span");
+        writer.startElement(SPAN, null);
+        writer.writeAttribute(CLASS, iconClass, null);
+        writer.endElement(SPAN);
 
         writer.endElement("a");
     }

@@ -21,6 +21,12 @@ import javax.faces.FacesException;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.GRID;
+import static org.primefaces.component.Literals.STYLE;
+import static org.primefaces.component.Literals.TABLE;
+import static org.primefaces.component.Literals.TBODY;
 import org.primefaces.renderkit.DataRenderer;
 import org.primefaces.util.GridLayoutUtils;
 import org.primefaces.util.WidgetBuilder;
@@ -86,11 +92,11 @@ public class DataGridRenderer extends DataRenderer {
             grid.calculateFirst();
         }
 
-        writer.startElement("div", grid);
+        writer.startElement(DIV, grid);
         writer.writeAttribute("id", clientId, "id");
-        writer.writeAttribute("class", styleClass, "styleClass");
+        writer.writeAttribute(CLASS, styleClass, "styleClass");
         if (style != null) {
-            writer.writeAttribute("style", style, "style");
+            writer.writeAttribute(STYLE, style, STYLE);
         }
 
         encodeFacet(context, grid, "header", DataGrid.HEADER_CLASS);
@@ -99,9 +105,9 @@ public class DataGridRenderer extends DataRenderer {
             encodePaginatorMarkup(context, grid, "top");
         }
 
-        writer.startElement("div", grid);
+        writer.startElement(DIV, grid);
         writer.writeAttribute("id", clientId + "_content", null);
-        writer.writeAttribute("class", contentClass, null);
+        writer.writeAttribute(CLASS, contentClass, null);
 
         if (empty) {
             UIComponent emptyFacet = grid.getFacet("emptyMessage");
@@ -116,7 +122,7 @@ public class DataGridRenderer extends DataRenderer {
             encodeContent(context, grid);
         }
 
-        writer.endElement("div");
+        writer.endElement(DIV);
 
         if (hasPaginator && !paginatorPosition.equalsIgnoreCase("top")) {
             encodePaginatorMarkup(context, grid, "bottom");
@@ -124,7 +130,7 @@ public class DataGridRenderer extends DataRenderer {
 
         encodeFacet(context, grid, "footer", DataGrid.FOOTER_CLASS);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeContent(FacesContext context, DataGrid grid) throws IOException {
@@ -133,7 +139,7 @@ public class DataGridRenderer extends DataRenderer {
         if (layout.equals("tabular")) {
             encodeTable(context, grid);
         }
-        else if (layout.equals("grid")) {
+        else if (layout.equals(GRID)) {
             encodeGrid(context, grid);
         }
         else {
@@ -157,12 +163,12 @@ public class DataGridRenderer extends DataRenderer {
                 break;
             }
 
-            writer.startElement("div", null);
-            writer.writeAttribute("class", DataGrid.GRID_ROW_CLASS, null);
+            writer.startElement(DIV, null);
+            writer.writeAttribute(CLASS, DataGrid.GRID_ROW_CLASS, null);
 
             for (int j = 0; j < columns; j++) {
-                writer.startElement("div", null);
-                writer.writeAttribute("class", columnClass, null);
+                writer.startElement(DIV, null);
+                writer.writeAttribute(CLASS, columnClass, null);
 
                 grid.setRowIndex(rowIndex);
                 if (grid.isRowAvailable()) {
@@ -170,10 +176,10 @@ public class DataGridRenderer extends DataRenderer {
                 }
                 rowIndex++;
 
-                writer.endElement("div");
+                writer.endElement(DIV);
             }
 
-            writer.endElement("div");
+            writer.endElement(DIV);
         }
 
         grid.setRowIndex(-1); //cleanup
@@ -188,9 +194,9 @@ public class DataGridRenderer extends DataRenderer {
         int itemsToRender = rows != 0 ? rows : grid.getRowCount();
         int numberOfRowsToRender = (itemsToRender + columns - 1) / columns;
 
-        writer.startElement("table", grid);
-        writer.writeAttribute("class", DataGrid.TABLE_CLASS, null);
-        writer.startElement("tbody", null);
+        writer.startElement(TABLE, grid);
+        writer.writeAttribute(CLASS, DataGrid.TABLE_CLASS, null);
+        writer.startElement(TBODY, null);
 
         for (int i = 0; i < numberOfRowsToRender; i++) {
             grid.setRowIndex(rowIndex);
@@ -199,11 +205,11 @@ public class DataGridRenderer extends DataRenderer {
             }
 
             writer.startElement("tr", null);
-            writer.writeAttribute("class", DataGrid.TABLE_ROW_CLASS, null);
+            writer.writeAttribute(CLASS, DataGrid.TABLE_ROW_CLASS, null);
 
             for (int j = 0; j < columns; j++) {
                 writer.startElement("td", null);
-                writer.writeAttribute("class", DataGrid.COLUMN_CLASS, null);
+                writer.writeAttribute(CLASS, DataGrid.COLUMN_CLASS, null);
 
                 grid.setRowIndex(rowIndex);
                 if (grid.isRowAvailable()) {
@@ -218,8 +224,8 @@ public class DataGridRenderer extends DataRenderer {
 
         grid.setRowIndex(-1); //cleanup
 
-        writer.endElement("tbody");
-        writer.endElement("table");
+        writer.endElement(TBODY);
+        writer.endElement(TABLE);
     }
 
     @Override

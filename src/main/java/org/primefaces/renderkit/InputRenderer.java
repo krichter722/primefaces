@@ -20,9 +20,12 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
+import static org.primefaces.component.Literals.DIR;
 import org.primefaces.component.api.RTLAware;
 
 import org.primefaces.util.ComponentUtils;
+import static org.primefaces.component.Literals.DISABLED;
+import static org.primefaces.component.Literals.READONLY;
 
 public abstract class InputRenderer extends CoreRenderer {
 
@@ -40,15 +43,15 @@ public abstract class InputRenderer extends CoreRenderer {
     }
 
     protected boolean shouldDecode(UIComponent component) {
-        boolean disabled = Boolean.parseBoolean(String.valueOf(component.getAttributes().get("disabled")));
-        boolean readonly = Boolean.parseBoolean(String.valueOf(component.getAttributes().get("readonly")));
+        boolean disabled = Boolean.parseBoolean(String.valueOf(component.getAttributes().get(DISABLED)));
+        boolean readonly = Boolean.parseBoolean(String.valueOf(component.getAttributes().get(READONLY)));
 
         return !disabled && !readonly;
     }
     
     public <T extends UIComponent & RTLAware> void renderRTLDirection(FacesContext context, T component) throws IOException {
         if (ComponentUtils.isRTL(context, component)) {
-            context.getResponseWriter().writeAttribute("dir", "rtl", null);
+            context.getResponseWriter().writeAttribute(DIR, "rtl", null);
         }
     }
 }

@@ -23,6 +23,15 @@ import javax.faces.context.ResponseWriter;
 import org.primefaces.renderkit.InputRenderer;
 import org.primefaces.util.ComponentUtils;
 import org.primefaces.util.WidgetBuilder;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DISABLED;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.INPUT;
+import static org.primefaces.component.Literals.NAME;
+import static org.primefaces.component.Literals.READONLY;
+import static org.primefaces.component.Literals.STYLE;
+import static org.primefaces.component.Literals.TYPE;
+import static org.primefaces.component.Literals.VALUE;
 
 public class RatingRenderer extends InputRenderer {
 
@@ -54,8 +63,8 @@ public class RatingRenderer extends InputRenderer {
         WidgetBuilder wb = getWidgetBuilder(context);
         wb.init("Rating", rating.resolveWidgetVar(), clientId)
                 .callback("onRate", "function(value)", rating.getOnRate())
-                .attr("readonly", rating.isReadonly(), false)
-                .attr("disabled", rating.isDisabled(), false);
+                .attr(READONLY, rating.isReadonly(), false)
+                .attr(DISABLED, rating.isDisabled(), false);
 
         encodeClientBehaviors(context, rating);
 
@@ -78,11 +87,11 @@ public class RatingRenderer extends InputRenderer {
             styleClass = styleClass + " ui-state-disabled";
         }
 
-        writer.startElement("div", rating);
+        writer.startElement(DIV, rating);
         writer.writeAttribute("id", clientId, "id");
-        writer.writeAttribute("class", styleClass, null);
+        writer.writeAttribute(CLASS, styleClass, null);
         if (style != null) {
-            writer.writeAttribute("style", style, null);
+            writer.writeAttribute(STYLE, style, null);
         }
 
         if (rating.isCancel() && !disabled && !readonly) {
@@ -96,32 +105,32 @@ public class RatingRenderer extends InputRenderer {
 
         encodeInput(context, clientId + "_input", valueToRender);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeIcon(FacesContext context, String styleClass) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
 
-        writer.startElement("div", null);
-        writer.writeAttribute("class", styleClass, null);
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, styleClass, null);
 
         writer.startElement("a", null);
         writer.endElement("a");
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeInput(FacesContext context, String id, String value) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
 
-        writer.startElement("input", null);
-        writer.writeAttribute("type", "hidden", null);
+        writer.startElement(INPUT, null);
+        writer.writeAttribute(TYPE, "hidden", null);
         writer.writeAttribute("id", id, null);
-        writer.writeAttribute("name", id, null);
+        writer.writeAttribute(NAME, id, null);
         writer.writeAttribute("autocomplete", "off", null);
         if (value != null) {
-            writer.writeAttribute("value", value, null);
+            writer.writeAttribute(VALUE, value, null);
         }
-        writer.endElement("input");
+        writer.endElement(INPUT);
     }
 }

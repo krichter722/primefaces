@@ -25,6 +25,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
+import static org.primefaces.component.Literals.BUTTON;
 import org.primefaces.component.column.Column;
 
 import org.primefaces.model.DualListModel;
@@ -32,6 +33,21 @@ import org.primefaces.renderkit.CoreRenderer;
 import org.primefaces.renderkit.RendererUtils;
 import org.primefaces.util.HTML;
 import org.primefaces.util.WidgetBuilder;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DISABLED;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.INPUT;
+import static org.primefaces.component.Literals.MENUITEM;
+import static org.primefaces.component.Literals.NAME;
+import static org.primefaces.component.Literals.ROLE;
+import static org.primefaces.component.Literals.SELECT;
+import static org.primefaces.component.Literals.SPAN;
+import static org.primefaces.component.Literals.STYLE;
+import static org.primefaces.component.Literals.TABINDEX;
+import static org.primefaces.component.Literals.TABLE;
+import static org.primefaces.component.Literals.TBODY;
+import static org.primefaces.component.Literals.TITLE;
+import static org.primefaces.component.Literals.TYPE;
 
 public class PickListRenderer extends CoreRenderer {
 
@@ -76,11 +92,11 @@ public class PickListRenderer extends CoreRenderer {
             styleClass += " ui-picklist-responsive";
         }
 
-        writer.startElement("div", pickList);
+        writer.startElement(DIV, pickList);
         writer.writeAttribute("id", clientId, "id");
-        writer.writeAttribute("class", styleClass, null);
+        writer.writeAttribute(CLASS, styleClass, null);
         if (pickList.getStyle() != null) {
-            writer.writeAttribute("style", pickList.getStyle(), null);
+            writer.writeAttribute(STYLE, pickList.getStyle(), null);
         }
 
         //Target List Reorder Buttons
@@ -93,10 +109,10 @@ public class PickListRenderer extends CoreRenderer {
                 pickList.getFacet("sourceCaption"), pickList.isShowSourceFilter());
 
         //Buttons
-        writer.startElement("div", null);
-        writer.writeAttribute("class", PickList.BUTTONS_CLASS, null);
-        writer.startElement("div", null);
-        writer.writeAttribute("class", PickList.BUTTONS_CELL_CLASS, null);
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, PickList.BUTTONS_CLASS, null);
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, PickList.BUTTONS_CELL_CLASS, null);
         if (vertical) {
             encodeButton(context, pickList.getAddLabel(), PickList.ADD_BUTTON_CLASS, PickList.VERTICAL_ADD_BUTTON_ICON_CLASS, labelDisplay);
             encodeButton(context, pickList.getAddAllLabel(), PickList.ADD_ALL_BUTTON_CLASS, PickList.VERTICAL_ADD_ALL_BUTTON_ICON_CLASS, labelDisplay);
@@ -109,8 +125,8 @@ public class PickListRenderer extends CoreRenderer {
             encodeButton(context, pickList.getRemoveLabel(), PickList.REMOVE_BUTTON_CLASS, PickList.REMOVE_BUTTON_ICON_CLASS, labelDisplay);
             encodeButton(context, pickList.getRemoveAllLabel(), PickList.REMOVE_ALL_BUTTON_CLASS, PickList.REMOVE_ALL_BUTTON_ICON_CLASS, labelDisplay);
         }
-        writer.endElement("div");
-        writer.endElement("div");
+        writer.endElement(DIV);
+        writer.endElement(DIV);
 
         //Target List
         encodeList(context, pickList, clientId + "_target", PickList.TARGET_CLASS, model.getTarget(),
@@ -124,7 +140,7 @@ public class PickListRenderer extends CoreRenderer {
         /* For ScreenReader */
         encodeAriaRegion(context, clientId);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeScript(FacesContext context, PickList pickList) throws IOException {
@@ -135,12 +151,12 @@ public class PickListRenderer extends CoreRenderer {
                 .attr("effectSpeed", pickList.getEffectSpeed())
                 .attr("showSourceControls", pickList.isShowSourceControls(), false)
                 .attr("showTargetControls", pickList.isShowTargetControls(), false)
-                .attr("disabled", pickList.isDisabled(), false)
+                .attr(DISABLED, pickList.isDisabled(), false)
                 .attr("filterMatchMode", pickList.getFilterMatchMode(), null)
                 .nativeAttr("filterFunction", pickList.getFilterFunction(), null)
                 .attr("showCheckbox", pickList.isShowCheckbox(), false)
                 .callback("onTransfer", "function(e)", pickList.getOnTransfer())
-                .attr("tabindex", pickList.getTabindex(), "0");
+                .attr(TABINDEX, pickList.getTabindex(), "0");
 
         encodeClientBehaviors(context, pickList);
 
@@ -150,25 +166,25 @@ public class PickListRenderer extends CoreRenderer {
     protected void encodeListControls(FacesContext context, PickList pickList, String styleClass, String labelDisplay) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
 
-        writer.startElement("div", null);
-        writer.writeAttribute("class", styleClass, null);
-        writer.startElement("div", null);
-        writer.writeAttribute("class", PickList.BUTTONS_CELL_CLASS, null);
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, styleClass, null);
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, PickList.BUTTONS_CELL_CLASS, null);
         encodeButton(context, pickList.getMoveUpLabel(), PickList.MOVE_UP_BUTTON_CLASS, PickList.MOVE_UP_BUTTON_ICON_CLASS, labelDisplay);
         encodeButton(context, pickList.getMoveTopLabel(), PickList.MOVE_TOP_BUTTON_CLASS, PickList.MOVE_TOP_BUTTON_ICON_CLASS, labelDisplay);
         encodeButton(context, pickList.getMoveDownLabel(), PickList.MOVE_DOWN_BUTTON_CLASS, PickList.MOVE_DOWN_BUTTON_ICON_CLASS, labelDisplay);
         encodeButton(context, pickList.getMoveBottomLabel(), PickList.MOVE_BOTTOM_BUTTON_CLASS, PickList.MOVE_BOTTOM_BUTTON_ICON_CLASS, labelDisplay);
-        writer.endElement("div");
-        writer.endElement("div");
+        writer.endElement(DIV);
+        writer.endElement(DIV);
     }
 
     protected void encodeCaption(FacesContext context, UIComponent caption) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
 
-        writer.startElement("div", null);
-        writer.writeAttribute("class", PickList.CAPTION_CLASS, null);
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, PickList.CAPTION_CLASS, null);
         caption.encodeAll(context);
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeButton(FacesContext context, String title, String styleClass, String icon, String labelDisplay) throws IOException {
@@ -176,26 +192,26 @@ public class PickListRenderer extends CoreRenderer {
         boolean tooltip = labelDisplay.equals("tooltip");
         String buttonClass = tooltip ? HTML.BUTTON_ICON_ONLY_BUTTON_CLASS : HTML.BUTTON_TEXT_ICON_LEFT_BUTTON_CLASS;
 
-        writer.startElement("button", null);
-        writer.writeAttribute("type", "button", null);
-        writer.writeAttribute("class", buttonClass + " " + styleClass, null);
+        writer.startElement(BUTTON, null);
+        writer.writeAttribute(TYPE, BUTTON, null);
+        writer.writeAttribute(CLASS, buttonClass + " " + styleClass, null);
 
         if (tooltip) {
-            writer.writeAttribute("title", title, null);
+            writer.writeAttribute(TITLE, title, null);
         }
 
         //icon
-        writer.startElement("span", null);
-        writer.writeAttribute("class", HTML.BUTTON_LEFT_ICON_CLASS + " " + icon, null);
-        writer.endElement("span");
+        writer.startElement(SPAN, null);
+        writer.writeAttribute(CLASS, HTML.BUTTON_LEFT_ICON_CLASS + " " + icon, null);
+        writer.endElement(SPAN);
 
         //text
-        writer.startElement("span", null);
-        writer.writeAttribute("class", HTML.BUTTON_TEXT_CLASS, null);
+        writer.startElement(SPAN, null);
+        writer.writeAttribute(CLASS, HTML.BUTTON_TEXT_CLASS, null);
         writer.writeText(title, null);
-        writer.endElement("span");
+        writer.endElement(SPAN);
 
-        writer.endElement("button");
+        writer.endElement(BUTTON);
     }
 
     protected void encodeList(FacesContext context, PickList pickList, String listId, String styleClass, List model, UIComponent caption,
@@ -203,8 +219,8 @@ public class PickListRenderer extends CoreRenderer {
         
         ResponseWriter writer = context.getResponseWriter();
 
-        writer.startElement("div", null);
-        writer.writeAttribute("class", PickList.LIST_WRAPPER_CLASS, null);
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, PickList.LIST_WRAPPER_CLASS, null);
 
         if (filter) {
             encodeFilter(context, pickList, listId + "_filter");
@@ -219,8 +235,8 @@ public class PickListRenderer extends CoreRenderer {
         }
 
         writer.startElement("ul", null);
-        writer.writeAttribute("class", styleClass, null);
-        writer.writeAttribute("role", "menu", null);
+        writer.writeAttribute(CLASS, styleClass, null);
+        writer.writeAttribute(ROLE, "menu", null);
 
         encodeOptions(context, pickList, model);
 
@@ -228,20 +244,20 @@ public class PickListRenderer extends CoreRenderer {
 
         encodeListInput(context, listId);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeListInput(FacesContext context, String clientId) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
 
-        writer.startElement("select", null);
+        writer.startElement(SELECT, null);
         writer.writeAttribute("id", clientId, null);
-        writer.writeAttribute("name", clientId, null);
+        writer.writeAttribute(NAME, clientId, null);
         writer.writeAttribute("multiple", "multiple", null);
-        writer.writeAttribute("class", "ui-helper-hidden", null);
+        writer.writeAttribute(CLASS, "ui-helper-hidden", null);
 
         //items generated on client side
-        writer.endElement("select");
+        writer.endElement(SELECT);
     }
 
     @SuppressWarnings("unchecked")
@@ -260,16 +276,16 @@ public class PickListRenderer extends CoreRenderer {
             String itemClass = pickList.isItemDisabled() ? PickList.ITEM_CLASS + " " + PickList.ITEM_DISABLED_CLASS : PickList.ITEM_CLASS;
 
             writer.startElement("li", null);
-            writer.writeAttribute("class", itemClass, null);
+            writer.writeAttribute(CLASS, itemClass, null);
             writer.writeAttribute("data-item-value", itemValue, null);
             writer.writeAttribute("data-item-label", itemLabel, null);
-            writer.writeAttribute("role", "menuitem", null);
+            writer.writeAttribute(ROLE, MENUITEM, null);
 
             if (pickList.getChildCount() > 0) {
-                writer.startElement("table", null);
-                writer.writeAttribute("role", "presentation", null);
+                writer.startElement(TABLE, null);
+                writer.writeAttribute(ROLE, "presentation", null);
 
-                writer.startElement("tbody", null);
+                writer.startElement(TBODY, null);
                 writer.startElement("tr", null);
 
                 if (showCheckbox) {
@@ -283,8 +299,8 @@ public class PickListRenderer extends CoreRenderer {
                         Column column = (Column) kid;
 
                         writer.startElement("td", null);
-                        if (column.getStyle() != null) writer.writeAttribute("style", column.getStyle(), null);
-                        if (column.getStyleClass() != null) writer.writeAttribute("class", column.getStyleClass(), null);
+                        if (column.getStyle() != null) writer.writeAttribute(STYLE, column.getStyle(), null);
+                        if (column.getStyleClass() != null) writer.writeAttribute(CLASS, column.getStyleClass(), null);
 
                         renderChildren(context, column);
                         writer.endElement("td");
@@ -292,8 +308,8 @@ public class PickListRenderer extends CoreRenderer {
                 }
 
                 writer.endElement("tr");
-                writer.endElement("tbody");
-                writer.endElement("table");
+                writer.endElement(TBODY);
+                writer.endElement(TABLE);
             }
             else {
                 if (showCheckbox) {
@@ -310,7 +326,8 @@ public class PickListRenderer extends CoreRenderer {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked",
+        "PMD.AvoidCatchingGenericException"})
     public Object getConvertedValue(FacesContext context, UIComponent component, Object submittedValue) throws ConverterException {
         try {
             PickList pickList = (PickList) component;
@@ -332,33 +349,33 @@ public class PickListRenderer extends CoreRenderer {
     protected void encodeFilter(FacesContext context, PickList pickList, String name) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
 
-        writer.startElement("div", null);
-        writer.writeAttribute("class", PickList.FILTER_CONTAINER, null);
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, PickList.FILTER_CONTAINER, null);
 
-        writer.startElement("input", null);
+        writer.startElement(INPUT, null);
         writer.writeAttribute("id", name, null);
-        writer.writeAttribute("name", name, null);
-        writer.writeAttribute("type", "text", null);
-        writer.writeAttribute("class", PickList.FILTER_CLASS, null);
-        writer.endElement("input");
+        writer.writeAttribute(NAME, name, null);
+        writer.writeAttribute(TYPE, "text", null);
+        writer.writeAttribute(CLASS, PickList.FILTER_CLASS, null);
+        writer.endElement(INPUT);
 
-        writer.startElement("span", null);
-        writer.writeAttribute("class", "ui-icon ui-icon-search", null);
-        writer.endElement("span");
+        writer.startElement(SPAN, null);
+        writer.writeAttribute(CLASS, "ui-icon ui-icon-search", null);
+        writer.endElement(SPAN);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeAriaRegion(FacesContext context, String clientId) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
 
-        writer.startElement("div", null);
+        writer.startElement(DIV, null);
         writer.writeAttribute("id", clientId + "_ariaRegion", null);
-        writer.writeAttribute("class", "ui-helper-hidden-accessible", null);
-        writer.writeAttribute("role", "region", null);
+        writer.writeAttribute(CLASS, "ui-helper-hidden-accessible", null);
+        writer.writeAttribute(ROLE, "region", null);
         writer.writeAttribute("aria-live", "polite", null);
         writer.writeAttribute("aria-atomic", "true", null);
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     @Override

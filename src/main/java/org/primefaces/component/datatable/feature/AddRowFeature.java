@@ -23,6 +23,7 @@ import org.primefaces.component.datatable.DataTableRenderer;
 public class AddRowFeature implements DataTableFeature {
 
     @Override
+    @SuppressWarnings("PMD.AvoidThrowingRawExceptionTypes")
     public void decode(FacesContext context, DataTable table) {
         throw new RuntimeException("AddRowFeature should not encode.");
     }

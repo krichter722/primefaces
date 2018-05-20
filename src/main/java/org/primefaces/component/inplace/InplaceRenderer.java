@@ -20,6 +20,14 @@ import java.io.IOException;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import static org.primefaces.component.Literals.BUTTON;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DISABLED;
+import static org.primefaces.component.Literals.INPUT;
+import static org.primefaces.component.Literals.SPAN;
+import static org.primefaces.component.Literals.STYLE;
+import static org.primefaces.component.Literals.TITLE;
+import static org.primefaces.component.Literals.TYPE;
 
 import org.primefaces.renderkit.CoreRenderer;
 import org.primefaces.util.ComponentUtils;
@@ -58,23 +66,23 @@ public class InplaceRenderer extends CoreRenderer {
         String contentStyle = validationFailed ? "inline" : "none";
 
         UIComponent outputFacet = inplace.getFacet("output");
-        UIComponent inputFacet = inplace.getFacet("input");
+        UIComponent inputFacet = inplace.getFacet(INPUT);
 
         //container
-        writer.startElement("span", inplace);
+        writer.startElement(SPAN, inplace);
         writer.writeAttribute("id", clientId, "id");
-        writer.writeAttribute("class", styleClass, "id");
+        writer.writeAttribute(CLASS, styleClass, "id");
         if (userStyle != null) {
-            writer.writeAttribute("style", userStyle, "id");
+            writer.writeAttribute(STYLE, userStyle, "id");
         }
 
         writer.writeAttribute(HTML.WIDGET_VAR, widgetVar, null);
 
         //display
-        writer.startElement("span", null);
+        writer.startElement(SPAN, null);
         writer.writeAttribute("id", clientId + "_display", "id");
-        writer.writeAttribute("class", displayClass, null);
-        writer.writeAttribute("style", "display:" + displayStyle, null);
+        writer.writeAttribute(CLASS, displayClass, null);
+        writer.writeAttribute(STYLE, "display:" + displayStyle, null);
 
         if (outputFacet != null) {
             outputFacet.encodeAll(context);
@@ -83,14 +91,14 @@ public class InplaceRenderer extends CoreRenderer {
             writer.writeText(getLabelToRender(context, inplace), null);
         }
 
-        writer.endElement("span");
+        writer.endElement(SPAN);
 
         //content
         if (!inplace.isDisabled()) {
-            writer.startElement("span", null);
+            writer.startElement(SPAN, null);
             writer.writeAttribute("id", clientId + "_content", "id");
-            writer.writeAttribute("class", Inplace.CONTENT_CLASS, null);
-            writer.writeAttribute("style", "display:" + contentStyle, null);
+            writer.writeAttribute(CLASS, Inplace.CONTENT_CLASS, null);
+            writer.writeAttribute(STYLE, "display:" + contentStyle, null);
 
             if (inputFacet != null) {
                 inputFacet.encodeAll(context);
@@ -103,10 +111,10 @@ public class InplaceRenderer extends CoreRenderer {
                 encodeEditor(context, inplace);
             }
 
-            writer.endElement("span");
+            writer.endElement(SPAN);
         }
 
-        writer.endElement("span");
+        writer.endElement(SPAN);
     }
 
     protected String getLabelToRender(FacesContext context, Inplace inplace) {
@@ -141,7 +149,7 @@ public class InplaceRenderer extends CoreRenderer {
                 .attr("effectSpeed", inplace.getEffectSpeed())
                 .attr("event", inplace.getEvent())
                 .attr("toggleable", inplace.isToggleable(), false)
-                .attr("disabled", inplace.isDisabled(), false)
+                .attr(DISABLED, inplace.isDisabled(), false)
                 .attr("editor", inplace.isEditor(), false);
 
         encodeClientBehaviors(context, inplace);
@@ -152,36 +160,36 @@ public class InplaceRenderer extends CoreRenderer {
     protected void encodeEditor(FacesContext context, Inplace inplace) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
 
-        writer.startElement("span", null);
+        writer.startElement(SPAN, null);
         writer.writeAttribute("id", inplace.getClientId(context) + "_editor", null);
-        writer.writeAttribute("class", Inplace.EDITOR_CLASS, null);
+        writer.writeAttribute(CLASS, Inplace.EDITOR_CLASS, null);
 
         encodeButton(context, inplace.getSaveLabel(), Inplace.SAVE_BUTTON_CLASS, "ui-icon-check");
         encodeButton(context, inplace.getCancelLabel(), Inplace.CANCEL_BUTTON_CLASS, "ui-icon-close");
 
-        writer.endElement("span");
+        writer.endElement(SPAN);
     }
 
     protected void encodeButton(FacesContext context, String title, String styleClass, String icon) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
 
-        writer.startElement("button", null);
-        writer.writeAttribute("type", "button", null);
-        writer.writeAttribute("class", HTML.BUTTON_ICON_ONLY_BUTTON_CLASS + " " + styleClass, null);
-        writer.writeAttribute("title", title, null);
+        writer.startElement(BUTTON, null);
+        writer.writeAttribute(TYPE, BUTTON, null);
+        writer.writeAttribute(CLASS, HTML.BUTTON_ICON_ONLY_BUTTON_CLASS + " " + styleClass, null);
+        writer.writeAttribute(TITLE, title, null);
 
         //icon
-        writer.startElement("span", null);
-        writer.writeAttribute("class", HTML.BUTTON_LEFT_ICON_CLASS + " " + icon, null);
-        writer.endElement("span");
+        writer.startElement(SPAN, null);
+        writer.writeAttribute(CLASS, HTML.BUTTON_LEFT_ICON_CLASS + " " + icon, null);
+        writer.endElement(SPAN);
 
         //text
-        writer.startElement("span", null);
-        writer.writeAttribute("class", HTML.BUTTON_TEXT_CLASS, null);
+        writer.startElement(SPAN, null);
+        writer.writeAttribute(CLASS, HTML.BUTTON_TEXT_CLASS, null);
         writer.write("ui-button");
-        writer.endElement("span");
+        writer.endElement(SPAN);
 
-        writer.endElement("button");
+        writer.endElement(BUTTON);
     }
 
     @Override

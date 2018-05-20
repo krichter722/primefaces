@@ -19,6 +19,10 @@ import java.io.IOException;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.SPAN;
+import static org.primefaces.component.Literals.STYLE;
+import static org.primefaces.component.Literals.VALUE;
 import org.primefaces.renderkit.OutcomeTargetRenderer;
 import org.primefaces.util.HTML;
 
@@ -36,17 +40,17 @@ public class LinkRenderer extends OutcomeTargetRenderer {
         styleClass = (styleClass == null) ? defaultStyleClass : defaultStyleClass + " " + styleClass;
 
         if (disabled) {
-            writer.startElement("span", link);
+            writer.startElement(SPAN, link);
             if (shouldWriteId) {
                 writer.writeAttribute("id", link.getClientId(context), "id");
             }
-            writer.writeAttribute("class", styleClass, "styleClass");
+            writer.writeAttribute(CLASS, styleClass, "styleClass");
             if (style != null) {
-                writer.writeAttribute("style", style, "style");
+                writer.writeAttribute(STYLE, style, STYLE);
             }
 
             renderContent(context, link);
-            writer.endElement("span");
+            writer.endElement(SPAN);
         }
         else {
             String targetURL = getTargetURL(context, link);
@@ -59,7 +63,7 @@ public class LinkRenderer extends OutcomeTargetRenderer {
                 writer.writeAttribute("id", link.getClientId(context), "id");
             }
             writer.writeAttribute("href", targetURL, null);
-            writer.writeAttribute("class", styleClass, "styleClass");
+            writer.writeAttribute(CLASS, styleClass, "styleClass");
             renderPassThruAttributes(context, link, HTML.LINK_ATTRS_WITHOUT_EVENTS);
             renderDomEvents(context, link, HTML.OUTPUT_EVENTS);
             renderContent(context, link);
@@ -73,7 +77,7 @@ public class LinkRenderer extends OutcomeTargetRenderer {
 
         if (value != null) {
             if (link.isEscape()) {
-                writer.writeText(value, "value");
+                writer.writeText(value, VALUE);
             }
             else {
                 writer.write(value.toString());

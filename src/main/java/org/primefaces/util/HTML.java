@@ -15,9 +15,22 @@
  */
 package org.primefaces.util;
 
+import static org.primefaces.component.Literals.ACCESSKEY;
+import static org.primefaces.component.Literals.ALT;
+import static org.primefaces.component.Literals.DIR;
+import static org.primefaces.component.Literals.DISABLED;
+import static org.primefaces.component.Literals.LABEL;
+import static org.primefaces.component.Literals.LANG;
+import static org.primefaces.component.Literals.ONCLICK;
+import static org.primefaces.component.Literals.READONLY;
+import static org.primefaces.component.Literals.STYLE;
+import static org.primefaces.component.Literals.TABINDEX;
+import static org.primefaces.component.Literals.TITLE;
+import static org.primefaces.component.Literals.TYPE;
+
 public class HTML {
 
-    public static final String[] CLICK_EVENT = {"onclick"};
+    public static final String[] CLICK_EVENT = {ONCLICK};
 
     public static final String[] BLUR_FOCUS_EVENTS = {
         "onblur",
@@ -43,110 +56,110 @@ public class HTML {
 
     //StyleClass is omitted
     public static final String[] IMG_ATTRS_WITHOUT_EVENTS = {
-        "alt",
+        ALT,
         "width",
         "height",
-        "title",
-        "dir",
-        "lang",
+        TITLE,
+        DIR,
+        LANG,
         "ismap",
         "usemap",
-        "style"
+        STYLE
     };
 
     //StyleClass is omitted
     public static final String[] LINK_ATTRS_WITHOUT_EVENTS = {
-        "accesskey",
+        ACCESSKEY,
         "charset",
         "coords",
-        "dir",
-        "disabled",
+        DIR,
+        DISABLED,
         "hreflang",
         "rel",
         "rev",
         "shape",
-        "tabindex",
-        "style",
+        TABINDEX,
+        STYLE,
         "target",
-        "title",
-        "type"
+        TITLE,
+        TYPE
     };
 
     //StyleClass is omitted
     public static final String[] BUTTON_ATTRS_WITHOUT_EVENTS = {
-        "accesskey",
-        "alt",
-        "dir",
-        "label",
-        "lang",
-        "style",
-        "tabindex",
-        "title",
-        "type"
+        ACCESSKEY,
+        ALT,
+        DIR,
+        LABEL,
+        LANG,
+        STYLE,
+        TABINDEX,
+        TITLE,
+        TYPE
     };
 
     //StyleClass is omitted
     public static final String[] MEDIA_ATTRS = {
         "height",
         "width",
-        "style"
+        STYLE
     };
 
     //disabled, readonly, style, styleClass handles by component renderer
     public static final String[] INPUT_TEXT_ATTRS_WITHOUT_EVENTS = {
-        "accesskey",
-        "alt",
+        ACCESSKEY,
+        ALT,
         "autocomplete",
-        "dir",
-        "lang",
+        DIR,
+        LANG,
         "maxlength",
         "placeholder",
         "size",
-        "tabindex",
-        "title"
+        TABINDEX,
+        TITLE
     };
 
     public static final String[] SELECT_ATTRS_WITHOUT_EVENTS = {
-        "accesskey",
-        "dir",
-        "disabled",
-        "lang",
-        "readonly",
-        "style",
-        "tabindex",
-        "title"
+        ACCESSKEY,
+        DIR,
+        DISABLED,
+        LANG,
+        READONLY,
+        STYLE,
+        TABINDEX,
+        TITLE
     };
 
     public static final String[] TEXTAREA_ATTRS_WITHOUT_EVENTS = {
         "cols",
         "rows",
-        "accesskey",
-        "alt",
+        ACCESSKEY,
+        ALT,
         "autocomplete",
         "placeholder",
-        "dir",
-        "lang",
+        DIR,
+        LANG,
         "size",
-        "tabindex",
-        "title",
+        TABINDEX,
+        TITLE,
         "maxlength"
     };
 
     //StyleClass is omitted
     public static final String[] LABEL_ATTRS_WITHOUT_EVENTS = {
-        "accesskey",
-        "dir",
-        "lang",
-        "style",
-        "tabindex",
-        "title"
+        ACCESSKEY,
+        DIR,
+        LANG,
+        STYLE,
+        TABINDEX,
+        TITLE
     };
 
     public static final String[] BODY_ATTRS = ArrayUtils.concat(COMMON_EVENTS_WITHOUT_CLICK, CLICK_EVENT, new String[]{
-        "dir",
-        "lang",
-        "style",
-        "title",
+        DIR,
+        LANG,
+        STYLE,
+        TITLE,
         "onload",
         "onunload"
     });

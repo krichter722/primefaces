@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import static org.primefaces.component.Literals.NULL;
 import org.primefaces.component.chart.Chart;
 import org.primefaces.model.chart.BarChartModel;
 import org.primefaces.model.chart.ChartSeries;
@@ -44,7 +45,7 @@ public class BarRenderer extends CartesianPlotRenderer {
             for (Iterator<Map.Entry<Object, Number>> its = series.getData().entrySet().iterator(); its.hasNext();) {
                 Map.Entry<Object, Number> entry = its.next();
                 Number value = entry.getValue();
-                String valueToRender = value != null ? value.toString() : "null";
+                String valueToRender = value != null ? value.toString() : NULL;
 
                 if (horizontal) {
                     writer.write("[");

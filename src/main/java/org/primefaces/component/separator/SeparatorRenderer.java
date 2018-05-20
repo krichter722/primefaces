@@ -22,6 +22,9 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
 import org.primefaces.renderkit.CoreRenderer;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.STYLE;
+import static org.primefaces.component.Literals.TITLE;
 
 public class SeparatorRenderer extends CoreRenderer {
 
@@ -34,10 +37,10 @@ public class SeparatorRenderer extends CoreRenderer {
 
         writer.startElement("hr", separator);
         writer.writeAttribute("id", separator.getClientId(context), "id");
-        writer.writeAttribute("class", styleClass, "styleClass");
+        writer.writeAttribute(CLASS, styleClass, "styleClass");
 
-        if (separator.getTitle() != null) writer.writeAttribute("title", separator.getTitle(), "title");
-        if (separator.getStyle() != null) writer.writeAttribute("style", separator.getStyle(), "style");
+        if (separator.getTitle() != null) writer.writeAttribute(TITLE, separator.getTitle(), TITLE);
+        if (separator.getStyle() != null) writer.writeAttribute(STYLE, separator.getStyle(), STYLE);
 
         writer.endElement("hr");
     }

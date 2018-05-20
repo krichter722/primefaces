@@ -27,6 +27,10 @@ import org.primefaces.component.menu.BaseMenuRenderer;
 import org.primefaces.model.menu.MenuElement;
 import org.primefaces.model.menu.MenuItem;
 import org.primefaces.util.WidgetBuilder;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.ROLE;
+import static org.primefaces.component.Literals.STYLE;
 
 public class TabMenuRenderer extends BaseMenuRenderer {
 
@@ -49,16 +53,16 @@ public class TabMenuRenderer extends BaseMenuRenderer {
         int activeIndex = menu.getActiveIndex();
         List<?> elements = menu.getElements();
 
-        writer.startElement("div", menu);
+        writer.startElement(DIV, menu);
         writer.writeAttribute("id", clientId, null);
-        writer.writeAttribute("class", styleClass, "styleClass");
+        writer.writeAttribute(CLASS, styleClass, "styleClass");
         if (menu.getStyle() != null) {
-            writer.writeAttribute("style", menu.getStyle(), "style");
+            writer.writeAttribute(STYLE, menu.getStyle(), STYLE);
         }
 
         writer.startElement("ul", null);
-        writer.writeAttribute("class", TabMenu.NAVIGATOR_CLASS, null);
-        writer.writeAttribute("role", "tablist", null);
+        writer.writeAttribute(CLASS, TabMenu.NAVIGATOR_CLASS, null);
+        writer.writeAttribute(ROLE, "tablist", null);
 
         int i = 0;
         if (elements != null && !elements.isEmpty()) {
@@ -74,7 +78,7 @@ public class TabMenuRenderer extends BaseMenuRenderer {
 
         writer.endElement("ul");
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeItem(FacesContext context, TabMenu menu, MenuItem item, boolean active) throws IOException {
@@ -92,13 +96,13 @@ public class TabMenuRenderer extends BaseMenuRenderer {
 
         //header container
         writer.startElement("li", null);
-        writer.writeAttribute("class", containerClass, null);
-        writer.writeAttribute("role", "tab", null);
+        writer.writeAttribute(CLASS, containerClass, null);
+        writer.writeAttribute(ROLE, "tab", null);
         writer.writeAttribute("aria-expanded", String.valueOf(active), null);
         writer.writeAttribute("aria-selected", String.valueOf(active), null);
 
         if (containerStyle != null) {
-            writer.writeAttribute("style", containerStyle, null);
+            writer.writeAttribute(STYLE, containerStyle, null);
         }
 
         encodeMenuItem(context, menu, item);

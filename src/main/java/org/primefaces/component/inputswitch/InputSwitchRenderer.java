@@ -19,6 +19,16 @@ import java.io.IOException;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import static org.primefaces.component.Literals.CHECKED;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DISABLED;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.INPUT;
+import static org.primefaces.component.Literals.NAME;
+import static org.primefaces.component.Literals.SPAN;
+import static org.primefaces.component.Literals.STYLE;
+import static org.primefaces.component.Literals.TABINDEX;
+import static org.primefaces.component.Literals.TYPE;
 import org.primefaces.context.PrimeApplicationContext;
 import org.primefaces.renderkit.InputRenderer;
 import org.primefaces.util.ComponentUtils;
@@ -70,11 +80,11 @@ public class InputSwitchRenderer extends InputRenderer {
             styleClass = styleClass + " ui-state-disabled";
         }
 
-        writer.startElement("div", inputSwitch);
+        writer.startElement(DIV, inputSwitch);
         writer.writeAttribute("id", clientId, "id");
-        writer.writeAttribute("class", styleClass, "styleClass");
+        writer.writeAttribute(CLASS, styleClass, "styleClass");
         if (style != null) {
-            writer.writeAttribute("style", style, "style");
+            writer.writeAttribute(STYLE, style, STYLE);
         }
 
         encodeOption(context, inputSwitch.getOffLabel(), InputSwitch.OFF_LABEL_CLASS, showLabels);
@@ -82,15 +92,15 @@ public class InputSwitchRenderer extends InputRenderer {
         encodeHandle(context);
         encodeInput(context, inputSwitch, clientId, checked, disabled);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeOption(FacesContext context, String label, String styleClass, boolean showLabels) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
 
-        writer.startElement("div", null);
-        writer.writeAttribute("class", styleClass, null);
-        writer.startElement("span", null);
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, styleClass, null);
+        writer.startElement(SPAN, null);
 
         if (showLabels) {
             writer.writeText(label, null);
@@ -99,33 +109,33 @@ public class InputSwitchRenderer extends InputRenderer {
             writer.write("&nbsp;");
         }
 
-        writer.endElement("span");
-        writer.endElement("div");
+        writer.endElement(SPAN);
+        writer.endElement(DIV);
     }
 
     protected void encodeHandle(FacesContext context) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
 
-        writer.startElement("div", null);
-        writer.writeAttribute("class", InputSwitch.HANDLE_CLASS, null);
-        writer.endElement("div");
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, InputSwitch.HANDLE_CLASS, null);
+        writer.endElement(DIV);
     }
 
     protected void encodeInput(FacesContext context, InputSwitch inputSwitch, String clientId, boolean checked, boolean disabled) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
         String inputId = clientId + "_input";
 
-        writer.startElement("div", inputSwitch);
-        writer.writeAttribute("class", "ui-helper-hidden-accessible", null);
+        writer.startElement(DIV, inputSwitch);
+        writer.writeAttribute(CLASS, "ui-helper-hidden-accessible", null);
 
-        writer.startElement("input", null);
+        writer.startElement(INPUT, null);
         writer.writeAttribute("id", inputId, "id");
-        writer.writeAttribute("name", inputId, null);
-        writer.writeAttribute("type", "checkbox", null);
+        writer.writeAttribute(NAME, inputId, null);
+        writer.writeAttribute(TYPE, "checkbox", null);
 
-        if (checked) writer.writeAttribute("checked", "checked", null);
-        if (disabled) writer.writeAttribute("disabled", "disabled", null);
-        if (inputSwitch.getTabindex() != null) writer.writeAttribute("tabindex", inputSwitch.getTabindex(), null);
+        if (checked) writer.writeAttribute(CHECKED, CHECKED, null);
+        if (disabled) writer.writeAttribute(DISABLED, DISABLED, null);
+        if (inputSwitch.getTabindex() != null) writer.writeAttribute(TABINDEX, inputSwitch.getTabindex(), null);
 
         if (PrimeApplicationContext.getCurrentInstance(context).getConfig().isClientSideValidationEnabled()) {
             renderValidationMetadata(context, inputSwitch);
@@ -134,9 +144,9 @@ public class InputSwitchRenderer extends InputRenderer {
         renderOnchange(context, inputSwitch);
         renderDomEvents(context, inputSwitch, HTML.BLUR_FOCUS_EVENTS);
 
-        writer.endElement("input");
+        writer.endElement(INPUT);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeScript(FacesContext context, InputSwitch inputSwitch) throws IOException {

@@ -16,11 +16,14 @@
 package org.primefaces.component.dialog;
 
 import java.io.IOException;
-import java.util.logging.Logger;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.SPAN;
+import static org.primefaces.component.Literals.STYLE;
 
 import org.primefaces.expression.SearchExpressionFacade;
 import org.primefaces.renderkit.CoreRenderer;
@@ -29,8 +32,6 @@ import org.primefaces.util.MessageFactory;
 import org.primefaces.util.WidgetBuilder;
 
 public class DialogRenderer extends CoreRenderer {
-
-    private static final Logger LOG = Logger.getLogger(DialogRenderer.class.getName());
 
     @Override
     public void decode(FacesContext context, UIComponent component) {
@@ -101,12 +102,12 @@ public class DialogRenderer extends CoreRenderer {
             styleClass += " ui-dialog-absolute";
         }
 
-        writer.startElement("div", null);
+        writer.startElement(DIV, null);
         writer.writeAttribute("id", clientId, null);
-        writer.writeAttribute("class", styleClass, null);
+        writer.writeAttribute(CLASS, styleClass, null);
 
         if (style != null) {
-            writer.writeAttribute("style", style, null);
+            writer.writeAttribute(STYLE, style, null);
         }
 
         if (dialog.isShowHeader()) {
@@ -117,7 +118,7 @@ public class DialogRenderer extends CoreRenderer {
 
         encodeFooter(context, dialog);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeHeader(FacesContext context, Dialog dialog) throws IOException {
@@ -125,13 +126,13 @@ public class DialogRenderer extends CoreRenderer {
         String header = dialog.getHeader();
         UIComponent headerFacet = dialog.getFacet("header");
 
-        writer.startElement("div", null);
-        writer.writeAttribute("class", Dialog.TITLE_BAR_CLASS, null);
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, Dialog.TITLE_BAR_CLASS, null);
 
         //title
-        writer.startElement("span", null);
+        writer.startElement(SPAN, null);
         writer.writeAttribute("id", dialog.getClientId(context) + "_title", null);
-        writer.writeAttribute("class", Dialog.TITLE_CLASS, null);
+        writer.writeAttribute(CLASS, Dialog.TITLE_CLASS, null);
 
         if (headerFacet != null) {
             headerFacet.encodeAll(context);
@@ -140,7 +141,7 @@ public class DialogRenderer extends CoreRenderer {
             writer.writeText(header, null);
         }
 
-        writer.endElement("span");
+        writer.endElement(SPAN);
 
         if (dialog.isClosable()) {
             encodeIcon(context, Dialog.TITLE_BAR_CLOSE_CLASS, Dialog.CLOSE_ICON_CLASS, MessageFactory.getMessage(Dialog.ARIA_CLOSE, null));
@@ -154,7 +155,7 @@ public class DialogRenderer extends CoreRenderer {
             encodeIcon(context, Dialog.TITLE_BAR_MINIMIZE_CLASS, Dialog.MINIMIZE_ICON_CLASS, null);
         }
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeFooter(FacesContext context, Dialog dialog) throws IOException {
@@ -166,33 +167,33 @@ public class DialogRenderer extends CoreRenderer {
             return;
         }
 
-        writer.startElement("div", null);
-        writer.writeAttribute("class", Dialog.FOOTER_CLASS, null);
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, Dialog.FOOTER_CLASS, null);
 
-        writer.startElement("span", null);
+        writer.startElement(SPAN, null);
         if (footerFacet != null) {
             footerFacet.encodeAll(context);
         }
         else if (footer != null) {
             writer.writeText(footer, null);
         }
-        writer.endElement("span");
+        writer.endElement(SPAN);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
 
     }
 
     protected void encodeContent(FacesContext context, Dialog dialog) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
 
-        writer.startElement("div", null);
-        writer.writeAttribute("class", Dialog.CONTENT_CLASS, null);
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, Dialog.CONTENT_CLASS, null);
 
         if (!dialog.isDynamic()) {
             renderChildren(context, dialog);
         }
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeIcon(FacesContext context, String anchorClass, String iconClass, String ariaLabel) throws IOException {
@@ -200,14 +201,14 @@ public class DialogRenderer extends CoreRenderer {
 
         writer.startElement("a", null);
         writer.writeAttribute("href", "#", null);
-        writer.writeAttribute("class", anchorClass, null);
+        writer.writeAttribute(CLASS, anchorClass, null);
         if (ariaLabel != null) {
             writer.writeAttribute("aria-label", ariaLabel, null);
         }
 
-        writer.startElement("span", null);
-        writer.writeAttribute("class", iconClass, null);
-        writer.endElement("span");
+        writer.startElement(SPAN, null);
+        writer.writeAttribute(CLASS, iconClass, null);
+        writer.endElement(SPAN);
 
         writer.endElement("a");
     }

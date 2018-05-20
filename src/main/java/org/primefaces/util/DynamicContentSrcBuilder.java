@@ -31,6 +31,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.UIParameter;
 import javax.faces.context.FacesContext;
 import javax.xml.bind.DatatypeConverter;
+import static org.primefaces.component.Literals.VALUE;
 import org.primefaces.application.resource.DynamicContentType;
 import org.primefaces.el.ValueExpressionAnalyzer;
 import org.primefaces.model.StreamedContent;
@@ -66,7 +67,7 @@ public class DynamicContentSrcBuilder {
                 }
                 
                 ValueExpression expression = ValueExpressionAnalyzer.getExpression(
-                        context.getELContext(), component.getValueExpression("value"));
+                        context.getELContext(), component.getValueExpression(VALUE));
                 
                 String expressionString = expression.getExpressionString();
                 String resourceKey = md5(expressionString);
@@ -75,8 +76,8 @@ public class DynamicContentSrcBuilder {
                 
                 StringBuilder builder = SharedStringBuilder.get(context, SB_BUILD);
                 builder.append(resourcePath)
-                        .append("&").append(Constants.DYNAMIC_CONTENT_PARAM).append("=").append(URLEncoder.encode(resourceKey, "UTF-8"))
-                        .append("&").append(Constants.DYNAMIC_CONTENT_TYPE_PARAM).append("=").append(type.toString());
+                        .append('&').append(Constants.DYNAMIC_CONTENT_PARAM).append('=').append(URLEncoder.encode(resourceKey, "UTF-8"))
+                        .append('&').append(Constants.DYNAMIC_CONTENT_TYPE_PARAM).append('=').append(type.toString());
 
                 for (int i = 0; i < component.getChildCount(); i++) {
                     UIComponent child = component.getChildren().get(i);
@@ -85,7 +86,7 @@ public class DynamicContentSrcBuilder {
                         if (!param.isDisable()) {
                             Object paramValue = param.getValue();
 
-                            builder.append("&").append(param.getName()).append("=");
+                            builder.append('&').append(param.getName()).append('=');
 
                             if (paramValue != null) {
                                 builder.append(URLEncoder.encode(paramValue.toString(), "UTF-8"));
@@ -115,6 +116,7 @@ public class DynamicContentSrcBuilder {
         return context.getExternalContext().encodeResourceURL(src);
     }
     
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     public static byte[] toByteArray(InputStream stream) {
         try {
             ByteArrayOutputStream buffer = new ByteArrayOutputStream();

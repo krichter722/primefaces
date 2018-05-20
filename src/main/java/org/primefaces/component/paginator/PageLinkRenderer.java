@@ -19,6 +19,9 @@ import java.io.IOException;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import org.primefaces.component.api.Pageable;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.SPAN;
+import static org.primefaces.component.Literals.TABINDEX;
 
 public class PageLinkRenderer {
 
@@ -31,14 +34,14 @@ public class PageLinkRenderer {
 
         writer.startElement("a", null);
         writer.writeAttribute("href", "#", null);
-        writer.writeAttribute("class", styleClass, null);
+        writer.writeAttribute(CLASS, styleClass, null);
         writer.writeAttribute("aria-label", ariaLabel, null);
-        writer.writeAttribute("tabindex", tabindex, null);
+        writer.writeAttribute(TABINDEX, tabindex, null);
 
-        writer.startElement("span", null);
-        writer.writeAttribute("class", iconClass, null);
+        writer.startElement(SPAN, null);
+        writer.writeAttribute(CLASS, iconClass, null);
         writer.writeText(text, null);
-        writer.endElement("span");
+        writer.endElement(SPAN);
 
         writer.endElement("a");
     }

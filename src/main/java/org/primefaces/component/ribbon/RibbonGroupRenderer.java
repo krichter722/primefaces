@@ -20,6 +20,9 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import org.primefaces.renderkit.CoreRenderer;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.STYLE;
 
 public class RibbonGroupRenderer extends CoreRenderer {
 
@@ -33,22 +36,22 @@ public class RibbonGroupRenderer extends CoreRenderer {
         String style = group.getStyle();
 
         writer.startElement("li", null);
-        writer.writeAttribute("class", groupClass, null);
+        writer.writeAttribute(CLASS, groupClass, null);
         if (style != null) {
-            writer.writeAttribute("style", style, null);
+            writer.writeAttribute(STYLE, style, null);
         }
 
-        writer.startElement("div", null);
-        writer.writeAttribute("class", Ribbon.GROUP_CONTENT_CLASS, null);
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, Ribbon.GROUP_CONTENT_CLASS, null);
         renderChildren(context, group);
-        writer.endElement("div");
+        writer.endElement(DIV);
 
-        writer.startElement("div", null);
-        writer.writeAttribute("class", Ribbon.GROUP_LABEL_CLASS, null);
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, Ribbon.GROUP_LABEL_CLASS, null);
         if (label != null) {
             writer.writeText(label, null);
         }
-        writer.endElement("div");
+        writer.endElement(DIV);
 
         writer.endElement("li");
     }

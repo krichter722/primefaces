@@ -28,6 +28,7 @@ import javax.faces.view.facelets.FaceletException;
 import javax.faces.view.facelets.TagAttribute;
 import javax.faces.view.facelets.TagConfig;
 import javax.faces.view.facelets.TagHandler;
+import static org.primefaces.component.Literals.VALUE;
 
 public class CollectorTagHandler extends TagHandler {
 
@@ -40,7 +41,7 @@ public class CollectorTagHandler extends TagHandler {
         super(tagConfig);
         this.addTo = getAttribute("addTo");
         this.removeFrom = getAttribute("removeFrom");
-        this.value = getRequiredAttribute("value");
+        this.value = getRequiredAttribute(VALUE);
         this.unique = getAttribute("unique");
     }
 

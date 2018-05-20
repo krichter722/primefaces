@@ -20,6 +20,10 @@ import java.io.IOException;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DISABLED;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.STYLE;
 
 import org.primefaces.component.panel.Panel;
 import org.primefaces.model.DashboardColumn;
@@ -46,12 +50,12 @@ public class DashboardRenderer extends CoreRenderer {
         ResponseWriter writer = contextr.getResponseWriter();
         String clientId = dashboard.getClientId(contextr);
 
-        writer.startElement("div", dashboard);
+        writer.startElement(DIV, dashboard);
         writer.writeAttribute("id", clientId, "id");
         String styleClass = dashboard.getStyleClass() != null ? Dashboard.CONTAINER_CLASS + " " + dashboard.getStyleClass() : Dashboard.CONTAINER_CLASS;
-        writer.writeAttribute("class", styleClass, "styleClass");
+        writer.writeAttribute(CLASS, styleClass, "styleClass");
         if (dashboard.getStyle() != null) {
-            writer.writeAttribute("style", dashboard.getStyle(), "style");
+            writer.writeAttribute(STYLE, dashboard.getStyle(), STYLE);
         }
 
         DashboardModel model = dashboard.getModel();
@@ -61,10 +65,10 @@ public class DashboardRenderer extends CoreRenderer {
                 String columnStyleClass = column.getStyleClass();
                 columnStyleClass = (columnStyleClass == null) ? Dashboard.COLUMN_CLASS : Dashboard.COLUMN_CLASS + " " + columnStyleClass;
 
-                writer.startElement("div", null);
-                writer.writeAttribute("class", columnStyleClass, null);
+                writer.startElement(DIV, null);
+                writer.writeAttribute(CLASS, columnStyleClass, null);
                 if (columnStyle != null) {
-                    writer.writeAttribute("style", columnStyle, null);
+                    writer.writeAttribute(STYLE, columnStyle, null);
                 }
 
                 for (String widgetId : column.getWidgets()) {
@@ -75,18 +79,18 @@ public class DashboardRenderer extends CoreRenderer {
                     }
                 }
 
-                writer.endElement("div");
+                writer.endElement(DIV);
             }
         }
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeScript(FacesContext context, Dashboard dashboard) throws IOException {
         String clientId = dashboard.getClientId(context);
         WidgetBuilder wb = getWidgetBuilder(context);
         wb.init("Dashboard", dashboard.resolveWidgetVar(), clientId)
-                .attr("disabled", dashboard.isDisabled(), false);
+                .attr(DISABLED, dashboard.isDisabled(), false);
 
         encodeClientBehaviors(context, dashboard);
 

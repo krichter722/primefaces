@@ -32,7 +32,7 @@ public class NativeFileUploadDecoder {
 
         try {
             if (fileUpload.getMode().equals("simple")) {
-                decodeSimple(context, fileUpload, request, inputToDecodeId);
+                decodeSimple(fileUpload, request, inputToDecodeId);
             }
             else {
                 decodeAdvanced(context, fileUpload, request);
@@ -46,7 +46,7 @@ public class NativeFileUploadDecoder {
         }
     }
 
-    private static void decodeSimple(FacesContext context, FileUpload fileUpload, HttpServletRequest request, String inputToDecodeId)
+    private static void decodeSimple(FileUpload fileUpload, HttpServletRequest request, String inputToDecodeId)
             throws IOException, ServletException {
 
         Part part = request.getPart(inputToDecodeId);

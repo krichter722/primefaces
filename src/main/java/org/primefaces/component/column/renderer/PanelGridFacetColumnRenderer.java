@@ -18,6 +18,11 @@ package org.primefaces.component.column.renderer;
 import java.io.IOException;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.COLSPAN;
+import static org.primefaces.component.Literals.ROLE;
+import static org.primefaces.component.Literals.STYLE;
+import static org.primefaces.component.Literals.UI_WIDGET_HEADER;
 import org.primefaces.component.column.Column;
 import org.primefaces.component.panelgrid.PanelGrid;
 import org.primefaces.renderkit.CoreRenderer;
@@ -29,15 +34,15 @@ public class PanelGridFacetColumnRenderer extends CoreRenderer implements Helper
         ResponseWriter writer = context.getResponseWriter();
         String style = column.getStyle();
         String styleClass = column.getStyleClass();
-        String defaultStyleClass = PanelGrid.CELL_CLASS + " ui-widget-header";
+        String defaultStyleClass = PanelGrid.CELL_CLASS + " " + UI_WIDGET_HEADER;
         styleClass = (styleClass == null) ? defaultStyleClass : defaultStyleClass + " " + styleClass;
 
         writer.startElement("td", null);
-        writer.writeAttribute("role", "columnheader", null);
-        writer.writeAttribute("class", styleClass, null);
+        writer.writeAttribute(ROLE, "columnheader", null);
+        writer.writeAttribute(CLASS, styleClass, null);
 
-        if (style != null) writer.writeAttribute("style", style, null);
-        if (column.getColspan() > 1) writer.writeAttribute("colspan", column.getColspan(), null);
+        if (style != null) writer.writeAttribute(STYLE, style, null);
+        if (column.getColspan() > 1) writer.writeAttribute(COLSPAN, column.getColspan(), null);
         if (column.getRowspan() > 1) writer.writeAttribute("rowspan", column.getRowspan(), null);
 
         renderChildren(context, column);

@@ -20,6 +20,18 @@ import java.util.Map;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import static org.primefaces.component.Literals.BUTTON;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.INPUT;
+import static org.primefaces.component.Literals.NAME;
+import static org.primefaces.component.Literals.ROLE;
+import static org.primefaces.component.Literals.SPAN;
+import static org.primefaces.component.Literals.STYLE;
+import static org.primefaces.component.Literals.TABINDEX;
+import static org.primefaces.component.Literals.TITLE;
+import static org.primefaces.component.Literals.TYPE;
+import static org.primefaces.component.Literals.VALUE;
 import org.primefaces.renderkit.CoreRenderer;
 import org.primefaces.util.HTML;
 import org.primefaces.util.WidgetBuilder;
@@ -65,12 +77,12 @@ public class FieldsetRenderer extends CoreRenderer {
 
         writer.startElement("fieldset", fieldset);
         if (title != null) {
-            writer.writeAttribute("title", fieldset.getTitle(), null);
+            writer.writeAttribute(TITLE, fieldset.getTitle(), null);
         }
         writer.writeAttribute("id", clientId, "id");
-        writer.writeAttribute("class", styleClass, "styleClass");
+        writer.writeAttribute(CLASS, styleClass, "styleClass");
         if (fieldset.getStyle() != null) {
-            writer.writeAttribute("style", fieldset.getStyle(), "style");
+            writer.writeAttribute(STYLE, fieldset.getStyle(), STYLE);
         }
 
         writer.writeAttribute(HTML.WIDGET_VAR, widgetVar, null);
@@ -91,15 +103,15 @@ public class FieldsetRenderer extends CoreRenderer {
     protected void encodeContent(FacesContext context, Fieldset fieldset) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
 
-        writer.startElement("div", null);
-        writer.writeAttribute("class", Fieldset.CONTENT_CLASS, null);
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, Fieldset.CONTENT_CLASS, null);
         if (fieldset.isCollapsed()) {
-            writer.writeAttribute("style", "display:none", null);
+            writer.writeAttribute(STYLE, "display:none", null);
         }
 
         renderChildren(context, fieldset);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeScript(FacesContext context, Fieldset fieldset) throws IOException {
@@ -126,17 +138,17 @@ public class FieldsetRenderer extends CoreRenderer {
 
         if (legendText != null || legend != null) {
             writer.startElement("legend", null);
-            writer.writeAttribute("class", Fieldset.LEGEND_CLASS, null);
+            writer.writeAttribute(CLASS, Fieldset.LEGEND_CLASS, null);
 
             if (fieldset.isToggleable()) {
-                writer.writeAttribute("role", "button", null);
-                writer.writeAttribute("tabindex", fieldset.getTabindex(), null);
+                writer.writeAttribute(ROLE, BUTTON, null);
+                writer.writeAttribute(TABINDEX, fieldset.getTabindex(), null);
 
                 String togglerClass = fieldset.isCollapsed() ? Fieldset.TOGGLER_PLUS_CLASS : Fieldset.TOGGLER_MINUS_CLASS;
 
-                writer.startElement("span", null);
-                writer.writeAttribute("class", togglerClass, null);
-                writer.endElement("span");
+                writer.startElement(SPAN, null);
+                writer.writeAttribute(CLASS, togglerClass, null);
+                writer.endElement(SPAN);
             }
 
             if (legend != null) {
@@ -144,7 +156,7 @@ public class FieldsetRenderer extends CoreRenderer {
             }
             else {
                 if (fieldset.isEscape()) {
-                    writer.writeText(legendText, "value");
+                    writer.writeText(legendText, VALUE);
                 }
                 else {
                     writer.write(legendText);
@@ -159,12 +171,12 @@ public class FieldsetRenderer extends CoreRenderer {
         ResponseWriter writer = context.getResponseWriter();
         String name = fieldset.getClientId(context) + "_collapsed";
 
-        writer.startElement("input", null);
-        writer.writeAttribute("type", "hidden", null);
+        writer.startElement(INPUT, null);
+        writer.writeAttribute(TYPE, "hidden", null);
         writer.writeAttribute("id", name, null);
-        writer.writeAttribute("name", name, null);
-        writer.writeAttribute("value", String.valueOf(fieldset.isCollapsed()), null);
-        writer.endElement("input");
+        writer.writeAttribute(NAME, name, null);
+        writer.writeAttribute(VALUE, String.valueOf(fieldset.isCollapsed()), null);
+        writer.endElement(INPUT);
     }
 
     @Override

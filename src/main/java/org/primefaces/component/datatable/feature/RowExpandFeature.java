@@ -19,6 +19,8 @@ import java.io.IOException;
 import java.util.Map;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.COLSPAN;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.component.datatable.DataTableRenderer;
 import org.primefaces.component.rowexpansion.RowExpansion;
@@ -27,6 +29,7 @@ import org.primefaces.model.LazyDataModel;
 public class RowExpandFeature implements DataTableFeature {
 
     @Override
+    @SuppressWarnings("PMD.AvoidThrowingRawExceptionTypes")
     public void decode(FacesContext context, DataTable table) {
         throw new RuntimeException("RowExpandFeature should not encode.");
     }
@@ -62,10 +65,10 @@ public class RowExpandFeature implements DataTableFeature {
             }
 
             writer.startElement("tr", null);
-            writer.writeAttribute("class", styleClass, null);
+            writer.writeAttribute(CLASS, styleClass, null);
 
             writer.startElement("td", null);
-            writer.writeAttribute("colspan", table.getColumnsCount(), null);
+            writer.writeAttribute(COLSPAN, table.getColumnsCount(), null);
 
             table.getRowExpansion().encodeAll(context);
 

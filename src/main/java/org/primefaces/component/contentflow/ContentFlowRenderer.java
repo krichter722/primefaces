@@ -22,6 +22,9 @@ import java.util.Map;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.STYLE;
 import org.primefaces.renderkit.CoreRenderer;
 import org.primefaces.util.WidgetBuilder;
 
@@ -41,46 +44,46 @@ public class ContentFlowRenderer extends CoreRenderer {
         String styleClass = cf.getStyleClass();
         String containerClass = (styleClass == null) ? ContentFlow.CONTAINER_CLASS : ContentFlow.CONTAINER_CLASS + " " + styleClass;
 
-        writer.startElement("div", cf);
+        writer.startElement(DIV, cf);
         writer.writeAttribute("id", cf.getClientId(context), null);
-        writer.writeAttribute("class", containerClass, null);
+        writer.writeAttribute(CLASS, containerClass, null);
         if (style != null) {
-            writer.writeAttribute("style", style, null);
+            writer.writeAttribute(STYLE, style, null);
         }
 
         //indicator
-        writer.startElement("div", null);
-        writer.writeAttribute("class", "loadindicator", null);
-        writer.startElement("div", null);
-        writer.writeAttribute("class", "indicator", null);
-        writer.endElement("div");
-        writer.endElement("div");
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, "loadindicator", null);
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, "indicator", null);
+        writer.endElement(DIV);
+        writer.endElement(DIV);
 
         //content
         encodeContent(context, cf);
 
         //caption
-        writer.startElement("div", null);
-        writer.writeAttribute("class", "globalCaption", null);
-        writer.endElement("div");
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, "globalCaption", null);
+        writer.endElement(DIV);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeContent(FacesContext context, ContentFlow cf) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
         String var = cf.getVar();
 
-        writer.startElement("div", null);
-        writer.writeAttribute("class", "flow", null);
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, "flow", null);
 
         if (var == null) {
             for (UIComponent child : cf.getChildren()) {
                 if (child.isRendered()) {
-                    writer.startElement("div", null);
-                    writer.writeAttribute("class", "item", null);
+                    writer.startElement(DIV, null);
+                    writer.writeAttribute(CLASS, "item", null);
                     child.encodeAll(context);
-                    writer.endElement("div");
+                    writer.endElement(DIV);
                 }
             }
         }
@@ -91,15 +94,15 @@ public class ContentFlowRenderer extends CoreRenderer {
                 for (Iterator<?> it = value.iterator(); it.hasNext();) {
                     requestMap.put(var, it.next());
 
-                    writer.startElement("div", null);
-                    writer.writeAttribute("class", "item", null);
+                    writer.startElement(DIV, null);
+                    writer.writeAttribute(CLASS, "item", null);
                     renderChildren(context, cf);
-                    writer.endElement("div");
+                    writer.endElement(DIV);
                 }
             }
         }
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeScript(FacesContext context, ContentFlow cf) throws IOException {

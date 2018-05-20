@@ -21,6 +21,11 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.renderkit.CoreRenderer;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.SPAN;
+import static org.primefaces.component.Literals.STYLE;
+import static org.primefaces.component.Literals.TITLE;
 
 public class RowEditorRenderer extends CoreRenderer {
 
@@ -32,18 +37,18 @@ public class RowEditorRenderer extends CoreRenderer {
         String styleClass = rowEditor.getStyleClass();
         styleClass = (styleClass == null) ? DataTable.ROW_EDITOR_CLASS : DataTable.ROW_EDITOR_CLASS + " " + styleClass;
 
-        writer.startElement("div", null);
+        writer.startElement(DIV, null);
         writer.writeAttribute("id", component.getClientId(context), null);
-        writer.writeAttribute("class", styleClass, null);
+        writer.writeAttribute(CLASS, styleClass, null);
         if (style != null) {
-            writer.writeAttribute("style", style, null);
+            writer.writeAttribute(STYLE, style, null);
         }
 
         encodeIcon(writer, "pencil", rowEditor.getEditTitle());
         encodeIcon(writer, "check", rowEditor.getSaveTitle());
         encodeIcon(writer, "close", rowEditor.getCancelTitle());
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeIcon(ResponseWriter writer, String type, String title) throws IOException {
@@ -52,14 +57,14 @@ public class RowEditorRenderer extends CoreRenderer {
 
         writer.startElement("a", null);
         writer.writeAttribute("href", "#", null);
-        writer.writeAttribute("class", "ui-row-editor-" + type, null);
+        writer.writeAttribute(CLASS, "ui-row-editor-" + type, null);
 
-        writer.startElement("span", null);
+        writer.startElement(SPAN, null);
         if (title != null) {
-            writer.writeAttribute("title", title, null);
+            writer.writeAttribute(TITLE, title, null);
         }
-        writer.writeAttribute("class", iconClass, null);
-        writer.endElement("span");
+        writer.writeAttribute(CLASS, iconClass, null);
+        writer.endElement(SPAN);
 
         writer.endElement("a");
     }

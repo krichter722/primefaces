@@ -25,6 +25,17 @@ import org.primefaces.renderkit.InputRenderer;
 import org.primefaces.util.ComponentUtils;
 import org.primefaces.util.HTML;
 import org.primefaces.util.WidgetBuilder;
+import static org.primefaces.component.Literals.CHECKED;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DISABLED;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.INPUT;
+import static org.primefaces.component.Literals.NAME;
+import static org.primefaces.component.Literals.SPAN;
+import static org.primefaces.component.Literals.STYLE;
+import static org.primefaces.component.Literals.TABINDEX;
+import static org.primefaces.component.Literals.TITLE;
+import static org.primefaces.component.Literals.TYPE;
 
 public class SelectBooleanCheckboxRenderer extends InputRenderer {
 
@@ -73,21 +84,21 @@ public class SelectBooleanCheckboxRenderer extends InputRenderer {
         styleClass = styleClass == null ? HTML.CHECKBOX_CLASS : HTML.CHECKBOX_CLASS + " " + styleClass;
         styleClass = "ui-selectbooleancheckbox " + styleClass;
 
-        writer.startElement("div", checkbox);
+        writer.startElement(DIV, checkbox);
         writer.writeAttribute("id", clientId, "id");
-        writer.writeAttribute("class", styleClass, "styleClass");
+        writer.writeAttribute(CLASS, styleClass, "styleClass");
         if (style != null) {
-            writer.writeAttribute("style", style, "style");
+            writer.writeAttribute(STYLE, style, STYLE);
         }
         if (title != null) {
-            writer.writeAttribute("title", title, "title");
+            writer.writeAttribute(TITLE, title, TITLE);
         }
 
         encodeInput(context, checkbox, clientId, checked, disabled);
         encodeOutput(context, checkbox, checked, disabled);
         encodeItemLabel(context, checkbox, clientId);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeInput(FacesContext context, SelectBooleanCheckbox checkbox, String clientId, boolean checked, boolean disabled) throws IOException {
@@ -95,13 +106,13 @@ public class SelectBooleanCheckboxRenderer extends InputRenderer {
         String inputId = clientId + "_input";
         String labelledBy = checkbox.getLabelledBy();
 
-        writer.startElement("div", checkbox);
-        writer.writeAttribute("class", "ui-helper-hidden-accessible", null);
+        writer.startElement(DIV, checkbox);
+        writer.writeAttribute(CLASS, "ui-helper-hidden-accessible", null);
 
-        writer.startElement("input", null);
+        writer.startElement(INPUT, null);
         writer.writeAttribute("id", inputId, "id");
-        writer.writeAttribute("name", inputId, null);
-        writer.writeAttribute("type", "checkbox", null);
+        writer.writeAttribute(NAME, inputId, null);
+        writer.writeAttribute(TYPE, "checkbox", null);
         writer.writeAttribute("autocomplete", "off", null);
         writer.writeAttribute("aria-hidden", "true", null);
 
@@ -110,15 +121,15 @@ public class SelectBooleanCheckboxRenderer extends InputRenderer {
         }
 
         if (checked) {
-            writer.writeAttribute("checked", "checked", null);
+            writer.writeAttribute(CHECKED, CHECKED, null);
             writer.writeAttribute("aria-checked", "true", null);
         }
         else {
             writer.writeAttribute("aria-checked", "false", null);
         }
 
-        if (disabled) writer.writeAttribute("disabled", "disabled", null);
-        if (checkbox.getTabindex() != null) writer.writeAttribute("tabindex", checkbox.getTabindex(), null);
+        if (disabled) writer.writeAttribute(DISABLED, DISABLED, null);
+        if (checkbox.getTabindex() != null) writer.writeAttribute(TABINDEX, checkbox.getTabindex(), null);
 
         if (PrimeApplicationContext.getCurrentInstance(context).getConfig().isClientSideValidationEnabled()) {
             renderValidationMetadata(context, checkbox);
@@ -127,9 +138,9 @@ public class SelectBooleanCheckboxRenderer extends InputRenderer {
         renderOnchange(context, checkbox);
         renderDomEvents(context, checkbox, HTML.BLUR_FOCUS_EVENTS);
 
-        writer.endElement("input");
+        writer.endElement(INPUT);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeOutput(FacesContext context, SelectBooleanCheckbox checkbox, boolean checked, boolean disabled) throws IOException {
@@ -141,14 +152,14 @@ public class SelectBooleanCheckboxRenderer extends InputRenderer {
 
         String iconClass = checked ? HTML.CHECKBOX_CHECKED_ICON_CLASS : HTML.CHECKBOX_UNCHECKED_ICON_CLASS;
 
-        writer.startElement("div", null);
-        writer.writeAttribute("class", styleClass, null);
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, styleClass, null);
 
-        writer.startElement("span", null);
-        writer.writeAttribute("class", iconClass, null);
-        writer.endElement("span");
+        writer.startElement(SPAN, null);
+        writer.writeAttribute(CLASS, iconClass, null);
+        writer.endElement(SPAN);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeItemLabel(FacesContext context, SelectBooleanCheckbox checkbox, String clientId) throws IOException {
@@ -157,10 +168,10 @@ public class SelectBooleanCheckboxRenderer extends InputRenderer {
         if (label != null) {
             ResponseWriter writer = context.getResponseWriter();
 
-            writer.startElement("span", null);
-            writer.writeAttribute("class", HTML.CHECKBOX_LABEL_CLASS, null);
+            writer.startElement(SPAN, null);
+            writer.writeAttribute(CLASS, HTML.CHECKBOX_LABEL_CLASS, null);
             writer.writeText(label, "itemLabel");
-            writer.endElement("span");
+            writer.endElement(SPAN);
         }
     }
 

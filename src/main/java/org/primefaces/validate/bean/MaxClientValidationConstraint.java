@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.validation.constraints.Max;
 import javax.validation.metadata.ConstraintDescriptor;
+import static org.primefaces.component.Literals.VALUE;
 import org.primefaces.util.HTML;
 
 public class MaxClientValidationConstraint implements ClientValidationConstraint {
@@ -32,7 +33,7 @@ public class MaxClientValidationConstraint implements ClientValidationConstraint
         Map attrs = constraintDescriptor.getAttributes();
         Object message = attrs.get(ATTR_MESSAGE);
 
-        metadata.put(HTML.VALIDATION_METADATA.MAX_VALUE, attrs.get("value"));
+        metadata.put(HTML.VALIDATION_METADATA.MAX_VALUE, attrs.get(VALUE));
 
         if (!message.equals(MESSAGE_ID)) {
             metadata.put(MESSAGE_METADATA, message);

@@ -32,6 +32,7 @@ public class WidgetVarExpressionResolver implements SearchExpressionResolver, Cl
     private static final Pattern PATTERN = Pattern.compile("@widgetVar\\((\\w+)\\)");
 
     @Override
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     public UIComponent resolveComponent(FacesContext context, UIComponent source, UIComponent last, String expression, int options) {
 
         try {

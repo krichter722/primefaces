@@ -19,6 +19,9 @@ import java.io.IOException;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import org.primefaces.util.HTML;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.SPAN;
 
 public class RendererUtils {
 
@@ -29,19 +32,19 @@ public class RendererUtils {
         ResponseWriter writer = context.getResponseWriter();
         String icon = checked ? HTML.CHECKBOX_CHECKED_ICON_CLASS : HTML.CHECKBOX_UNCHECKED_ICON_CLASS;
 
-        writer.startElement("div", null);
-        writer.writeAttribute("class", HTML.CHECKBOX_CLASS, null);
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, HTML.CHECKBOX_CLASS, null);
 
-        writer.startElement("div", null);
-        writer.writeAttribute("class", HTML.CHECKBOX_BOX_CLASS, null);
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, HTML.CHECKBOX_BOX_CLASS, null);
 
-        writer.startElement("span", null);
-        writer.writeAttribute("class", icon, null);
-        writer.endElement("span");
+        writer.startElement(SPAN, null);
+        writer.writeAttribute(CLASS, icon, null);
+        writer.endElement(SPAN);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     public static void encodeCheckbox(FacesContext context, boolean checked, boolean partialSelected, boolean disabled, String styleClass) throws IOException {
@@ -60,19 +63,19 @@ public class RendererUtils {
             icon = HTML.CHECKBOX_UNCHECKED_ICON_CLASS;
         }
 
-        writer.startElement("div", null);
-        writer.writeAttribute("class", containerClass, null);
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, containerClass, null);
 
-        writer.startElement("div", null);
-        writer.writeAttribute("class", boxClass, null);
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, boxClass, null);
 
-        writer.startElement("span", null);
-        writer.writeAttribute("class", icon, null);
-        writer.endElement("span");
+        writer.startElement(SPAN, null);
+        writer.writeAttribute(CLASS, icon, null);
+        writer.endElement(SPAN);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
 }

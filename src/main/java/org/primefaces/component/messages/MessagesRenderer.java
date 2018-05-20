@@ -21,20 +21,23 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.ONCLICK;
+import static org.primefaces.component.Literals.ROLE;
+import static org.primefaces.component.Literals.SPAN;
+import static org.primefaces.component.Literals.STYLE;
 import org.primefaces.context.PrimeApplicationContext;
 import org.primefaces.expression.SearchExpressionFacade;
 import org.primefaces.expression.SearchExpressionHint;
 import org.primefaces.renderkit.UINotificationRenderer;
 
 public class MessagesRenderer extends UINotificationRenderer {
-    
-    private final static Logger logger = Logger.getLogger(MessagesRenderer.class.getName());
 
     @Override
     public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
@@ -104,12 +107,12 @@ public class MessagesRenderer extends UINotificationRenderer {
             }
         }
 
-        writer.startElement("div", uiMessages);
+        writer.startElement(DIV, uiMessages);
         writer.writeAttribute("id", clientId, "id");
-        writer.writeAttribute("class", styleClass, null);
+        writer.writeAttribute(CLASS, styleClass, null);
 
         if (style != null) {
-            writer.writeAttribute("style", style, null);
+            writer.writeAttribute(STYLE, style, null);
         }
 
         writer.writeAttribute("aria-live", "polite", null);
@@ -130,7 +133,7 @@ public class MessagesRenderer extends UINotificationRenderer {
             }
         }
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void addMessage(Messages uiMessages, FacesMessage message, Map<String, List<FacesMessage>> messagesMap, String severity) {
@@ -151,17 +154,17 @@ public class MessagesRenderer extends UINotificationRenderer {
         String styleClassPrefix = Messages.SEVERITY_PREFIX_CLASS + severity;
         boolean escape = uiMessages.isEscape();
 
-        writer.startElement("div", null);
-        writer.writeAttribute("class", styleClassPrefix + " ui-corner-all", null);
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, styleClassPrefix + " ui-corner-all", null);
 
         if (uiMessages.isClosable()) {
             encodeCloseIcon(context, uiMessages);
         }
 
         if (uiMessages.isShowIcon()) {
-            writer.startElement("span", null);
-            writer.writeAttribute("class", styleClassPrefix + "-icon", null);
-            writer.endElement("span");
+            writer.startElement(SPAN, null);
+            writer.writeAttribute(CLASS, styleClassPrefix + "-icon", null);
+            writer.endElement(SPAN);
         }
 
         writer.startElement("ul", null);
@@ -170,15 +173,15 @@ public class MessagesRenderer extends UINotificationRenderer {
             FacesMessage message = messages.get(i);
             writer.startElement("li", null);
 
-            writer.writeAttribute("role", "alert", null);
+            writer.writeAttribute(ROLE, "alert", null);
             writer.writeAttribute("aria-atomic", "true", null);
 
             String summary = message.getSummary() != null ? message.getSummary() : "";
             String detail = message.getDetail() != null ? message.getDetail() : summary;
 
             if (uiMessages.isShowSummary()) {
-                writer.startElement("span", null);
-                writer.writeAttribute("class", styleClassPrefix + "-summary", null);
+                writer.startElement(SPAN, null);
+                writer.writeAttribute(CLASS, styleClassPrefix + "-summary", null);
 
                 if (escape) {
                     writer.writeText(summary, null);
@@ -187,12 +190,12 @@ public class MessagesRenderer extends UINotificationRenderer {
                     writer.write(summary);
                 }
 
-                writer.endElement("span");
+                writer.endElement(SPAN);
             }
 
             if (uiMessages.isShowDetail()) {
-                writer.startElement("span", null);
-                writer.writeAttribute("class", styleClassPrefix + "-detail", null);
+                writer.startElement(SPAN, null);
+                writer.writeAttribute(CLASS, styleClassPrefix + "-detail", null);
 
                 if (escape) {
                     writer.writeText(detail, null);
@@ -201,7 +204,7 @@ public class MessagesRenderer extends UINotificationRenderer {
                     writer.write(detail);
                 }
 
-                writer.endElement("span");
+                writer.endElement(SPAN);
             }
 
             writer.endElement("li");
@@ -211,7 +214,7 @@ public class MessagesRenderer extends UINotificationRenderer {
 
         writer.endElement("ul");
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeCloseIcon(FacesContext context, Messages uiMessages) throws IOException {
@@ -219,12 +222,12 @@ public class MessagesRenderer extends UINotificationRenderer {
 
         writer.startElement("a", null);
         writer.writeAttribute("href", "#", null);
-        writer.writeAttribute("class", Messages.CLOSE_LINK_CLASS, null);
-        writer.writeAttribute("onclick", "$(this).parent().slideUp();return false;", null);
+        writer.writeAttribute(CLASS, Messages.CLOSE_LINK_CLASS, null);
+        writer.writeAttribute(ONCLICK, "$(this).parent().slideUp();return false;", null);
 
-        writer.startElement("span", null);
-        writer.writeAttribute("class", Messages.CLOSE_ICON_CLASS, null);
-        writer.endElement("span");
+        writer.startElement(SPAN, null);
+        writer.writeAttribute(CLASS, Messages.CLOSE_ICON_CLASS, null);
+        writer.endElement(SPAN);
 
         writer.endElement("a");
     }

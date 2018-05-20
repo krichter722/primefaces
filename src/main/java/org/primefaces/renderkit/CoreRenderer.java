@@ -39,6 +39,10 @@ import javax.faces.context.ResponseWriter;
 import javax.faces.convert.Converter;
 import javax.faces.render.Renderer;
 import javax.faces.validator.Validator;
+import static org.primefaces.component.Literals.LABEL;
+import static org.primefaces.component.Literals.ONCLICK;
+import static org.primefaces.component.Literals.SCRIPT;
+import static org.primefaces.component.Literals.TYPE;
 
 import org.primefaces.component.api.AjaxSource;
 import org.primefaces.component.api.ClientBehaviorRenderingMode;
@@ -66,6 +70,7 @@ public abstract class CoreRenderer extends Renderer {
     private static final String SB_BUILD_NON_AJAX_REQUEST = CoreRenderer.class.getName() + "#buildNonAjaxRequest";
     private static final String SB_GET_EVENT_BEHAVIORS = CoreRenderer.class.getName() + "#getEventBehaviors";
     private static final String SB_RENDER_VALIDATOR_IDS = CoreRenderer.class.getName() + "#renderValidatorIds";
+    private static final String LITERAL0 = "function(event){";
 
     protected void renderChildren(FacesContext context, UIComponent component) throws IOException {
         if (component.getChildCount() > 0) {
@@ -179,7 +184,7 @@ public abstract class CoreRenderer extends Renderer {
                         builder.append("PrimeFaces.bcn(this,event,[");
 
                         if (hasEventValue) {
-                            builder.append("function(event){").append(eventValue).append("}");
+                            builder.append(LITERAL0).append(eventValue).append('}');
                             chained = true;
                         }
 
@@ -188,9 +193,9 @@ public abstract class CoreRenderer extends Renderer {
                             String script = behavior.getScript(cbc);
                             if (script != null) {
                                 if (chained) {
-                                    builder.append(",");
+                                    builder.append(',');
                                 }
-                                builder.append("function(event){").append(script).append("}");
+                                builder.append(LITERAL0).append(script).append('}');
                                 chained = true;
                             }
                         }
@@ -244,7 +249,7 @@ public abstract class CoreRenderer extends Renderer {
     }
 
     protected void renderOnclick(FacesContext context, UIComponent component, String command) throws IOException {
-        this.renderDomEvent(context, component, "onclick", "click", "action", command);
+        this.renderDomEvent(context, component, ONCLICK, "click", "action", command);
     }
 
     protected void renderDomEvent(FacesContext context, UIComponent component, String domEvent, String behaviorEvent,
@@ -301,7 +306,7 @@ public abstract class CoreRenderer extends Renderer {
                 builder.append("PrimeFaces.bcn(this,event,[");
 
                 if (hasEvent) {
-                    builder.append("function(event){").append(event).append("}");
+                    builder.append(LITERAL0).append(event).append('}');
                     first = false;
                 }
 
@@ -317,10 +322,10 @@ public abstract class CoreRenderer extends Renderer {
 
                         if (script != null) {
                             if (!first) {
-                                builder.append(",");
+                                builder.append(',');
                             }
 
-                            builder.append("function(event){").append(script).append("}");
+                            builder.append(LITERAL0).append(script).append('}');
                             first = false;
                         }
                     }
@@ -328,10 +333,10 @@ public abstract class CoreRenderer extends Renderer {
 
                 if (hasCommand) {
                     if (!first) {
-                        builder.append(",");
+                        builder.append(',');
                     }
 
-                    builder.append("function(event){").append(command).append("}");
+                    builder.append(LITERAL0).append(command).append('}');
                     first = false;
                 }
 
@@ -466,10 +471,10 @@ public abstract class CoreRenderer extends Renderer {
                 String key = it.next();
                 String value = ComponentUtils.escapeText(String.valueOf(params.get(key))) ;
 
-                request.append("'").append(key).append("':'").append(value).append("'");
+                request.append('\'').append(key).append("':'").append(value).append('\'');
 
                 if (it.hasNext()) {
-                    request.append(",");
+                    request.append(',');
                 }
             }
 
@@ -478,17 +483,17 @@ public abstract class CoreRenderer extends Renderer {
 
         if (submit) {
             Object target = component.getAttributes().get("target");
-            request.append(".submit('").append(formId).append("'");
+            request.append(".submit('").append(formId).append('\'');
 
             if (target != null) {
-                request.append(",'").append(target).append("'");
+                request.append(",'").append(target).append('\'');
             }
 
             request.append(");return false;");
         }
 
         if (!submit && !params.isEmpty()) {
-            request.append(";");
+            request.append(';');
         }
 
         request.append("PrimeFaces.onPost();");
@@ -599,13 +604,13 @@ public abstract class CoreRenderer extends Renderer {
     }
 
     protected void startScript(ResponseWriter writer, String clientId) throws IOException {
-        writer.startElement("script", null);
+        writer.startElement(SCRIPT, null);
         writer.writeAttribute("id", clientId + "_s", null);
-        writer.writeAttribute("type", "text/javascript", null);
+        writer.writeAttribute(TYPE, "text/javascript", null);
     }
 
     protected void endScript(ResponseWriter writer) throws IOException {
-        writer.endElement("script");
+        writer.endElement(SCRIPT);
     }
 
     protected String escapeText(String text) {
@@ -636,7 +641,7 @@ public abstract class CoreRenderer extends Renderer {
                 String script = behavior.getScript(cbc);
 
                 if (script != null) {
-                    sb.append(script).append(";");
+                    sb.append(script).append(';');
                 }
             }
         }
@@ -673,7 +678,7 @@ public abstract class CoreRenderer extends Renderer {
         }
 
         Map<String, Object> attrs = comp.getAttributes();
-        Object label = attrs.get("label");
+        Object label = attrs.get(LABEL);
         Object requiredMessage = attrs.get("requiredMessage");
         Object validatorMessage = attrs.get("validatorMessage");
         Object converterMessage = attrs.get("converterMessage");

@@ -20,6 +20,9 @@ import java.io.IOException;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.STYLE;
 
 import org.primefaces.renderkit.CoreRenderer;
 import org.primefaces.util.WidgetBuilder;
@@ -39,16 +42,16 @@ public class NotificationBarRenderer extends CoreRenderer {
         String styleClass = bar.getStyleClass();
         styleClass = styleClass == null ? NotificationBar.STYLE_CLASS : NotificationBar.STYLE_CLASS + " " + styleClass;
 
-        writer.startElement("div", bar);
+        writer.startElement(DIV, bar);
         writer.writeAttribute("id", bar.getClientId(context), null);
-        writer.writeAttribute("class", styleClass, null);
+        writer.writeAttribute(CLASS, styleClass, null);
         if (bar.getStyle() != null) {
-            writer.writeAttribute("style", bar.getStyle(), null);
+            writer.writeAttribute(STYLE, bar.getStyle(), null);
         }
 
         renderChildren(context, bar);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     private void encodeScript(FacesContext context, NotificationBar bar) throws IOException {

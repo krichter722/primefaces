@@ -21,6 +21,11 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import org.primefaces.component.separator.UISeparator;
 import org.primefaces.renderkit.CoreRenderer;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.ROLE;
+import static org.primefaces.component.Literals.SPAN;
+import static org.primefaces.component.Literals.STYLE;
 
 public class ToolbarRenderer extends CoreRenderer {
 
@@ -32,12 +37,12 @@ public class ToolbarRenderer extends CoreRenderer {
         String styleClass = toolbar.getStyleClass();
         styleClass = styleClass == null ? Toolbar.CONTAINER_CLASS : Toolbar.CONTAINER_CLASS + " " + styleClass;
 
-        writer.startElement("div", toolbar);
+        writer.startElement(DIV, toolbar);
         writer.writeAttribute("id", toolbar.getClientId(context), null);
-        writer.writeAttribute("class", styleClass, null);
-        writer.writeAttribute("role", "toolbar", null);
+        writer.writeAttribute(CLASS, styleClass, null);
+        writer.writeAttribute(ROLE, "toolbar", null);
         if (style != null) {
-            writer.writeAttribute("style", style, null);
+            writer.writeAttribute(STYLE, style, null);
         }
 
         if (toolbar.getChildCount() > 0) {
@@ -48,7 +53,7 @@ public class ToolbarRenderer extends CoreRenderer {
             encodeFacet(context, toolbar, "right");
         }
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeToolbarGroups(FacesContext context, Toolbar toolbar) throws IOException {
@@ -63,10 +68,10 @@ public class ToolbarRenderer extends CoreRenderer {
                 String groupStyle = group.getStyle();
                 groupClass = groupClass == null ? defaultGroupClass : defaultGroupClass + " " + groupClass;
 
-                writer.startElement("div", null);
-                writer.writeAttribute("class", groupClass, null);
+                writer.startElement(DIV, null);
+                writer.writeAttribute(CLASS, groupClass, null);
                 if (groupStyle != null) {
-                    writer.writeAttribute("style", groupStyle, null);
+                    writer.writeAttribute(STYLE, groupStyle, null);
                 }
 
                 for (UIComponent groupChild : group.getChildren()) {
@@ -78,7 +83,7 @@ public class ToolbarRenderer extends CoreRenderer {
                     }
                 }
 
-                writer.endElement("div");
+                writer.endElement(DIV);
             }
         }
     }
@@ -88,10 +93,10 @@ public class ToolbarRenderer extends CoreRenderer {
         UIComponent facet = toolbar.getFacet(facetName);
 
         if (facet != null) {
-            writer.startElement("div", null);
-            writer.writeAttribute("class", "ui-toolbar-group-" + facetName, null);
+            writer.startElement(DIV, null);
+            writer.writeAttribute(CLASS, "ui-toolbar-group-" + facetName, null);
             facet.encodeAll(context);
-            writer.endElement("div");
+            writer.endElement(DIV);
         }
     }
 
@@ -101,17 +106,17 @@ public class ToolbarRenderer extends CoreRenderer {
         String styleClass = separator.getStyleClass();
         styleClass = styleClass == null ? Toolbar.SEPARATOR_CLASS : Toolbar.SEPARATOR_CLASS + " " + styleClass;
 
-        writer.startElement("span", null);
-        writer.writeAttribute("class", styleClass, null);
+        writer.startElement(SPAN, null);
+        writer.writeAttribute(CLASS, styleClass, null);
         if (style != null) {
-            writer.writeAttribute("style", style, null);
+            writer.writeAttribute(STYLE, style, null);
         }
 
-        writer.startElement("span", null);
-        writer.writeAttribute("class", Toolbar.SEPARATOR_ICON_CLASS, null);
-        writer.endElement("span");
+        writer.startElement(SPAN, null);
+        writer.writeAttribute(CLASS, Toolbar.SEPARATOR_ICON_CLASS, null);
+        writer.endElement(SPAN);
 
-        writer.endElement("span");
+        writer.endElement(SPAN);
     }
 
     @Override

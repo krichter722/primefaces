@@ -21,11 +21,20 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.UIPanel;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import static org.primefaces.component.Literals.COLSPAN;
+import static org.primefaces.component.Literals.ROLE;
 import org.primefaces.component.column.Column;
 import org.primefaces.component.row.Row;
 import org.primefaces.renderkit.CoreRenderer;
 import org.primefaces.util.Constants;
 import org.primefaces.util.GridLayoutUtils;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.GRID;
+import static org.primefaces.component.Literals.STYLE;
+import static org.primefaces.component.Literals.TABLE;
+import static org.primefaces.component.Literals.TBODY;
+import static org.primefaces.component.Literals.UI_WIDGET_HEADER;
 
 public class PanelGridRenderer extends CoreRenderer {
 
@@ -36,7 +45,7 @@ public class PanelGridRenderer extends CoreRenderer {
         if (grid.getLayout().equals("tabular")) {
             encodeTableLayout(context, grid);
         }
-        else if (grid.getLayout().equals("grid")) {
+        else if (grid.getLayout().equals(GRID)) {
             encodeGridLayout(context, grid);
         }
         else {
@@ -52,19 +61,19 @@ public class PanelGridRenderer extends CoreRenderer {
         String styleClass = grid.getStyleClass();
         styleClass = styleClass == null ? PanelGrid.CONTAINER_CLASS : PanelGrid.CONTAINER_CLASS + " " + styleClass;
 
-        writer.startElement("table", grid);
+        writer.startElement(TABLE, grid);
         writer.writeAttribute("id", clientId, "id");
-        writer.writeAttribute("class", styleClass, "styleClass");
+        writer.writeAttribute(CLASS, styleClass, "styleClass");
         if (style != null) {
-            writer.writeAttribute("style", style, "style");
+            writer.writeAttribute(STYLE, style, STYLE);
         }
-        writer.writeAttribute("role", grid.getRole(), null);
+        writer.writeAttribute(ROLE, grid.getRole(), null);
 
         encodeTableFacet(context, grid, columns, "header", "thead", PanelGrid.HEADER_CLASS);
         encodeTableFacet(context, grid, columns, "footer", "tfoot", PanelGrid.FOOTER_CLASS);
         encodeTableBody(context, grid, columns);
 
-        writer.endElement("table");
+        writer.endElement(TABLE);
     }
 
     public void encodeGridLayout(FacesContext context, PanelGrid grid) throws IOException {
@@ -79,24 +88,24 @@ public class PanelGridRenderer extends CoreRenderer {
         String styleClass = grid.getStyleClass();
         styleClass = styleClass == null ? PanelGrid.CONTAINER_CLASS : PanelGrid.CONTAINER_CLASS + " " + styleClass;
 
-        writer.startElement("div", grid);
+        writer.startElement(DIV, grid);
         writer.writeAttribute("id", clientId, "id");
-        writer.writeAttribute("class", styleClass, "styleClass");
+        writer.writeAttribute(CLASS, styleClass, "styleClass");
         if (style != null) {
-            writer.writeAttribute("style", style, "style");
+            writer.writeAttribute(STYLE, style, STYLE);
         }
 
         encodeGridFacet(context, grid, columns, "header", PanelGrid.HEADER_CLASS);
         encodeGridBody(context, grid, columns);
         encodeGridFacet(context, grid, columns, "footer", PanelGrid.FOOTER_CLASS);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     public void encodeTableBody(FacesContext context, PanelGrid grid, int columns) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
 
-        writer.startElement("tbody", grid);
+        writer.startElement(TBODY, grid);
 
         if (columns > 0) {
             encodeDynamicBody(context, grid, grid.getColumns());
@@ -105,7 +114,7 @@ public class PanelGridRenderer extends CoreRenderer {
             encodeStaticBody(context, grid);
         }
 
-        writer.endElement("tbody");
+        writer.endElement(TBODY);
     }
 
     public void encodeDynamicBody(FacesContext context, PanelGrid grid, int columns) throws IOException {
@@ -122,16 +131,16 @@ public class PanelGridRenderer extends CoreRenderer {
             int colMod = i % columns;
             if (colMod == 0) {
                 writer.startElement("tr", null);
-                writer.writeAttribute("class", PanelGrid.TABLE_ROW_CLASS, null);
-                writer.writeAttribute("role", "row", null);
+                writer.writeAttribute(CLASS, PanelGrid.TABLE_ROW_CLASS, null);
+                writer.writeAttribute(ROLE, "row", null);
             }
 
             String columnClass = (colMod < columnClasses.length)
                     ? PanelGrid.CELL_CLASS + " " + columnClasses[colMod].trim()
                     : PanelGrid.CELL_CLASS;
             writer.startElement("td", null);
-            writer.writeAttribute("role", "gridcell", null);
-            writer.writeAttribute("class", columnClass, null);
+            writer.writeAttribute(ROLE, "gridcell", null);
+            writer.writeAttribute(CLASS, columnClass, null);
             child.encodeAll(context);
             writer.endElement("td");
 
@@ -177,10 +186,10 @@ public class PanelGridRenderer extends CoreRenderer {
         if (row.getStyleClass() != null) {
             rowClass += " " + row.getStyleClass();
         }
-        if (style != null) writer.writeAttribute("style", style, null);
+        if (style != null) writer.writeAttribute(STYLE, style, null);
 
-        writer.writeAttribute("class", rowClass, null);
-        writer.writeAttribute("role", "row", null);
+        writer.writeAttribute(CLASS, rowClass, null);
+        writer.writeAttribute(ROLE, "row", null);
 
         for (UIComponent child : row.getChildren()) {
             if (child instanceof Column && child.isRendered()) {
@@ -192,11 +201,11 @@ public class PanelGridRenderer extends CoreRenderer {
                 if (shouldWriteId(column)) {
                     writer.writeAttribute("id", column.getClientId(context), null);
                 }
-                writer.writeAttribute("role", columnRole, null);
-                writer.writeAttribute("class", styleClass, null);
+                writer.writeAttribute(ROLE, columnRole, null);
+                writer.writeAttribute(CLASS, styleClass, null);
 
-                if (column.getStyle() != null) writer.writeAttribute("style", column.getStyle(), null);
-                if (column.getColspan() > 1) writer.writeAttribute("colspan", column.getColspan(), null);
+                if (column.getStyle() != null) writer.writeAttribute(STYLE, column.getStyle(), null);
+                if (column.getColspan() > 1) writer.writeAttribute(COLSPAN, column.getColspan(), null);
                 if (column.getRowspan() > 1) writer.writeAttribute("rowspan", column.getRowspan(), null);
 
                 renderChildren(context, column);
@@ -217,9 +226,9 @@ public class PanelGridRenderer extends CoreRenderer {
         String columnClassesValue = grid.getColumnClasses();
         String[] columnClasses = columnClassesValue == null ? new String[0] : columnClassesValue.split(",");
 
-        writer.startElement("div", grid);
+        writer.startElement(DIV, grid);
         writer.writeAttribute("id", clientId + "_content", null);
-        writer.writeAttribute("class", PanelGrid.CONTENT_CLASS, null);
+        writer.writeAttribute(CLASS, PanelGrid.CONTENT_CLASS, null);
 
         int i = 0;
         for (UIComponent child : grid.getChildren()) {
@@ -229,9 +238,9 @@ public class PanelGridRenderer extends CoreRenderer {
 
             int colMod = i % columns;
             if (colMod == 0) {
-                writer.startElement("div", null);
+                writer.startElement(DIV, null);
                 String rowClass = (columnClasses.length > 0 && columnClasses[0].contains("ui-grid-col-")) ? "ui-grid-row" : PanelGrid.GRID_ROW_CLASS;
-                writer.writeAttribute("class", rowClass, null);
+                writer.writeAttribute(CLASS, rowClass, null);
             }
 
             String columnClass = (colMod < columnClasses.length) ? PanelGrid.CELL_CLASS + " " + columnClasses[colMod].trim() : PanelGrid.CELL_CLASS;
@@ -239,24 +248,24 @@ public class PanelGridRenderer extends CoreRenderer {
                 columnClass = columnClass + " " + GridLayoutUtils.getColumnClass(columns);
             }
 
-            writer.startElement("div", null);
-            writer.writeAttribute("class", columnClass, null);
+            writer.startElement(DIV, null);
+            writer.writeAttribute(CLASS, columnClass, null);
             child.encodeAll(context);
-            writer.endElement("div");
+            writer.endElement(DIV);
 
             i++;
             colMod = i % columns;
 
             if (colMod == 0) {
-                writer.endElement("div");
+                writer.endElement(DIV);
             }
         }
 
         if (i != 0 && (i % columns) != 0) {
-            writer.endElement("div");
+            writer.endElement(DIV);
         }
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     public void encodeTableFacet(FacesContext context, PanelGrid grid, int columns, String facet, String tag, String styleClass)
@@ -267,17 +276,17 @@ public class PanelGridRenderer extends CoreRenderer {
         if (component != null && component.isRendered()) {
             ResponseWriter writer = context.getResponseWriter();
             writer.startElement(tag, null);
-            writer.writeAttribute("class", styleClass, null);
+            writer.writeAttribute(CLASS, styleClass, null);
 
             if (columns > 0) {
                 writer.startElement("tr", null);
-                writer.writeAttribute("class", "ui-widget-header", null);
-                writer.writeAttribute("role", "row", null);
+                writer.writeAttribute(CLASS, UI_WIDGET_HEADER, null);
+                writer.writeAttribute(ROLE, "row", null);
 
                 writer.startElement("td", null);
-                writer.writeAttribute("colspan", columns, null);
-                writer.writeAttribute("role", "columnheader", null);
-                writer.writeAttribute("class", PanelGrid.CELL_CLASS + " ui-widget-header", null);
+                writer.writeAttribute(COLSPAN, columns, null);
+                writer.writeAttribute(ROLE, "columnheader", null);
+                writer.writeAttribute(CLASS, PanelGrid.CELL_CLASS + " " + UI_WIDGET_HEADER, null);
                 
                 component.encodeAll(context);
 
@@ -287,13 +296,13 @@ public class PanelGridRenderer extends CoreRenderer {
             else {
                 context.getAttributes().put(Constants.HELPER_RENDERER, "panelGridFacet");
                 if (component instanceof Row) {
-                    encodeRow(context, (Row) component, "columnheader", "ui-widget-header", PanelGrid.CELL_CLASS + " ui-widget-header");
+                    encodeRow(context, (Row) component, "columnheader", UI_WIDGET_HEADER, PanelGrid.CELL_CLASS + " " + UI_WIDGET_HEADER);
                 }
                 else if (component instanceof UIPanel) {
                     for (UIComponent child : component.getChildren()) {
                         if (child.isRendered()) {
                             if (child instanceof Row) {
-                                encodeRow(context, (Row) child, "columnheader", "ui-widget-header", PanelGrid.CELL_CLASS + " ui-widget-header");
+                                encodeRow(context, (Row) child, "columnheader", UI_WIDGET_HEADER, PanelGrid.CELL_CLASS + " " + UI_WIDGET_HEADER);
                             }
                             else {
                                 component.encodeAll(context);
@@ -317,10 +326,10 @@ public class PanelGridRenderer extends CoreRenderer {
         if (component != null && component.isRendered()) {
             ResponseWriter writer = context.getResponseWriter();
 
-            writer.startElement("div", null);
-            writer.writeAttribute("class", styleClass + " ui-widget-header", null);
+            writer.startElement(DIV, null);
+            writer.writeAttribute(CLASS, styleClass + " " + UI_WIDGET_HEADER, null);
             component.encodeAll(context);
-            writer.endElement("div");
+            writer.endElement(DIV);
         }
     }
 

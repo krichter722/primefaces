@@ -24,6 +24,9 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.behavior.ClientBehavior;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.STYLE;
 
 import org.primefaces.behavior.ajax.AjaxBehavior;
 
@@ -38,6 +41,12 @@ import org.primefaces.renderkit.CoreRenderer;
 import org.primefaces.util.WidgetBuilder;
 
 public class GMapRenderer extends CoreRenderer {
+
+    private static final String ID = "id:'";
+    private static final String ZINDEX = ",zIndex:";
+    private static final String STROKE_OPACITY = ",strokeOpacity:";
+    private static final String STROKE_WEIGHT = ",strokeWeight:";
+    private static final String STROKE_COLOR = ",strokeColor:'";
 
     @Override
     public void decode(FacesContext context, UIComponent component) {
@@ -56,16 +65,15 @@ public class GMapRenderer extends CoreRenderer {
         ResponseWriter writer = context.getResponseWriter();
         String clientId = map.getClientId(context);
 
-        writer.startElement("div", map);
+        writer.startElement(DIV, map);
         writer.writeAttribute("id", clientId, null);
-        if (map.getStyle() != null) writer.writeAttribute("style", map.getStyle(), null);
-        if (map.getStyleClass() != null) writer.writeAttribute("class", map.getStyleClass(), null);
+        if (map.getStyle() != null) writer.writeAttribute(STYLE, map.getStyle(), null);
+        if (map.getStyleClass() != null) writer.writeAttribute(CLASS, map.getStyleClass(), null);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeScript(FacesContext context, GMap map) throws IOException {
-        ResponseWriter writer = context.getResponseWriter();
         String clientId = map.getClientId(context);
         String widgetVar = map.resolveWidgetVar();
         GMapInfoWindow infoWindow = map.getInfoWindow();
@@ -142,7 +150,7 @@ public class GMapRenderer extends CoreRenderer {
 
         if (infoWindow != null) {
             writer.write(",infoWindow: new google.maps.InfoWindow({");
-            writer.write("id:'" + infoWindow.getClientId(context) + "'");
+            writer.write(ID + infoWindow.getClientId(context) + "'");
             writer.write("})");
         }
     }
@@ -178,7 +186,7 @@ public class GMapRenderer extends CoreRenderer {
         if (marker.isDraggable()) writer.write(",draggable: true");
         if (!marker.isVisible()) writer.write(",visible: false");
         if (marker.isFlat()) writer.write(",flat: true");
-        if (marker.getZindex() > Integer.MIN_VALUE) writer.write(",zIndex:" + marker.getZindex());
+        if (marker.getZindex() > Integer.MIN_VALUE) writer.write(ZINDEX + marker.getZindex());
 
         writer.write("})");
     }
@@ -193,15 +201,15 @@ public class GMapRenderer extends CoreRenderer {
             Polyline polyline = (Polyline) lines.next();
 
             writer.write("new google.maps.Polyline({");
-            writer.write("id:'" + polyline.getId() + "'");
+            writer.write(ID + polyline.getId() + "'");
 
             encodePaths(context, polyline.getPaths());
 
-            writer.write(",strokeOpacity:" + polyline.getStrokeOpacity());
-            writer.write(",strokeWeight:" + polyline.getStrokeWeight());
+            writer.write(STROKE_OPACITY + polyline.getStrokeOpacity());
+            writer.write(STROKE_WEIGHT + polyline.getStrokeWeight());
 
-            if (polyline.getStrokeColor() != null) writer.write(",strokeColor:'" + polyline.getStrokeColor() + "'");
-            if (polyline.getZindex() > Integer.MIN_VALUE) writer.write(",zIndex:" + polyline.getZindex());
+            if (polyline.getStrokeColor() != null) writer.write(STROKE_COLOR + polyline.getStrokeColor() + "'");
+            if (polyline.getZindex() > Integer.MIN_VALUE) writer.write(ZINDEX + polyline.getZindex());
             if (polyline.getIcons() != null) writer.write(", icons:" + polyline.getIcons());
 
             writer.write("})");
@@ -224,17 +232,17 @@ public class GMapRenderer extends CoreRenderer {
             Polygon polygon = (Polygon) polygons.next();
 
             writer.write("new google.maps.Polygon({");
-            writer.write("id:'" + polygon.getId() + "'");
+            writer.write(ID + polygon.getId() + "'");
 
             encodePaths(context, polygon.getPaths());
 
-            writer.write(",strokeOpacity:" + polygon.getStrokeOpacity());
-            writer.write(",strokeWeight:" + polygon.getStrokeWeight());
+            writer.write(STROKE_OPACITY + polygon.getStrokeOpacity());
+            writer.write(STROKE_WEIGHT + polygon.getStrokeWeight());
             writer.write(",fillOpacity:" + polygon.getFillOpacity());
 
-            if (polygon.getStrokeColor() != null) writer.write(",strokeColor:'" + polygon.getStrokeColor() + "'");
+            if (polygon.getStrokeColor() != null) writer.write(STROKE_COLOR + polygon.getStrokeColor() + "'");
             if (polygon.getFillColor() != null) writer.write(",fillColor:'" + polygon.getFillColor() + "'");
-            if (polygon.getZindex() > Integer.MIN_VALUE) writer.write(",zIndex:" + polygon.getZindex());
+            if (polygon.getZindex() > Integer.MIN_VALUE) writer.write(ZINDEX + polygon.getZindex());
 
             writer.write("})");
 
@@ -256,18 +264,18 @@ public class GMapRenderer extends CoreRenderer {
             Circle circle = (Circle) circles.next();
 
             writer.write("new google.maps.Circle({");
-            writer.write("id:'" + circle.getId() + "'");
+            writer.write(ID + circle.getId() + "'");
 
             writer.write(",center:new google.maps.LatLng(" + circle.getCenter().getLat() + ", " + circle.getCenter().getLng() + ")");
             writer.write(",radius:" + circle.getRadius());
 
-            writer.write(",strokeOpacity:" + circle.getStrokeOpacity());
-            writer.write(",strokeWeight:" + circle.getStrokeWeight());
+            writer.write(STROKE_OPACITY + circle.getStrokeOpacity());
+            writer.write(STROKE_WEIGHT + circle.getStrokeWeight());
             writer.write(",fillOpacity:" + circle.getFillOpacity());
 
-            if (circle.getStrokeColor() != null) writer.write(",strokeColor:'" + circle.getStrokeColor() + "'");
+            if (circle.getStrokeColor() != null) writer.write(STROKE_COLOR + circle.getStrokeColor() + "'");
             if (circle.getFillColor() != null) writer.write(",fillColor:'" + circle.getFillColor() + "'");
-            if (circle.getZindex() > Integer.MIN_VALUE) writer.write(",zIndex:" + circle.getZindex());
+            if (circle.getZindex() > Integer.MIN_VALUE) writer.write(ZINDEX + circle.getZindex());
 
             writer.write("})");
 
@@ -289,7 +297,7 @@ public class GMapRenderer extends CoreRenderer {
             Rectangle rectangle = (Rectangle) rectangles.next();
 
             writer.write("new google.maps.Rectangle({");
-            writer.write("id:'" + rectangle.getId() + "'");
+            writer.write(ID + rectangle.getId() + "'");
 
             LatLng ne = rectangle.getBounds().getNorthEast();
             LatLng sw = rectangle.getBounds().getSouthWest();
@@ -297,13 +305,13 @@ public class GMapRenderer extends CoreRenderer {
             writer.write(",bounds:new google.maps.LatLngBounds( new google.maps.LatLng("
                     + sw.getLat() + "," + sw.getLng() + "), new google.maps.LatLng(" + ne.getLat() + "," + ne.getLng() + "))");
 
-            writer.write(",strokeOpacity:" + rectangle.getStrokeOpacity());
-            writer.write(",strokeWeight:" + rectangle.getStrokeWeight());
+            writer.write(STROKE_OPACITY + rectangle.getStrokeOpacity());
+            writer.write(STROKE_WEIGHT + rectangle.getStrokeWeight());
             writer.write(",fillOpacity:" + rectangle.getFillOpacity());
 
-            if (rectangle.getStrokeColor() != null) writer.write(",strokeColor:'" + rectangle.getStrokeColor() + "'");
+            if (rectangle.getStrokeColor() != null) writer.write(STROKE_COLOR + rectangle.getStrokeColor() + "'");
             if (rectangle.getFillColor() != null) writer.write(",fillColor:'" + rectangle.getFillColor() + "'");
-            if (rectangle.getZindex() > Integer.MIN_VALUE) writer.write(",zIndex:" + rectangle.getZindex());
+            if (rectangle.getZindex() > Integer.MIN_VALUE) writer.write(ZINDEX + rectangle.getZindex());
 
             writer.write("})");
 

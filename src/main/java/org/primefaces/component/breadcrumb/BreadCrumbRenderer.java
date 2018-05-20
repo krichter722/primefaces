@@ -25,6 +25,13 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import java.io.IOException;
 import java.util.List;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.MENUITEM;
+import static org.primefaces.component.Literals.ROLE;
+import static org.primefaces.component.Literals.SPAN;
+import static org.primefaces.component.Literals.STYLE;
+import static org.primefaces.component.Literals.VALUE;
 
 public class BreadCrumbRenderer extends BaseMenuRenderer {
 
@@ -44,12 +51,12 @@ public class BreadCrumbRenderer extends BaseMenuRenderer {
             ((MenuItem) menuElements.get(0)).setStyleClass("ui-icon ui-icon-home");
         }
 
-        writer.startElement("div", null);
+        writer.startElement(DIV, null);
         writer.writeAttribute("id", clientId, null);
-        writer.writeAttribute("class", styleClass, null);
-        writer.writeAttribute("role", "menu", null);
+        writer.writeAttribute(CLASS, styleClass, null);
+        writer.writeAttribute(ROLE, "menu", null);
         if (breadCrumb.getStyle() != null) {
-            writer.writeAttribute("style", breadCrumb.getStyle(), null);
+            writer.writeAttribute(STYLE, breadCrumb.getStyle(), null);
         }
 
         if (elementCount > 0) {
@@ -64,12 +71,12 @@ public class BreadCrumbRenderer extends BaseMenuRenderer {
                     //dont render chevron before home icon
                     if (i != 0) {
                         writer.startElement("li", null);
-                        writer.writeAttribute("class", BreadCrumb.CHEVRON_CLASS, null);
+                        writer.writeAttribute(CLASS, BreadCrumb.CHEVRON_CLASS, null);
                         writer.endElement("li");
                     }
 
                     writer.startElement("li", null);
-                    writer.writeAttribute("role", "menuitem", null);
+                    writer.writeAttribute(ROLE, MENUITEM, null);
 
                     if (item.isDisabled()) {
                         encodeDisabledMenuItem(context, item);
@@ -85,8 +92,8 @@ public class BreadCrumbRenderer extends BaseMenuRenderer {
             UIComponent optionsFacet = menu.getFacet("options");
             if (optionsFacet != null) {
                 writer.startElement("li", null);
-                writer.writeAttribute("class", BreadCrumb.OPTIONS_CLASS, null);
-                writer.writeAttribute("role", "menuitem", null);
+                writer.writeAttribute(CLASS, BreadCrumb.OPTIONS_CLASS, null);
+                writer.writeAttribute(ROLE, MENUITEM, null);
                 optionsFacet.encodeAll(context);
                 writer.endElement("li");
             }
@@ -94,7 +101,7 @@ public class BreadCrumbRenderer extends BaseMenuRenderer {
             writer.endElement("ul");
         }
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     @Override
@@ -120,27 +127,27 @@ public class BreadCrumbRenderer extends BaseMenuRenderer {
         styleClass = styleClass == null ? BreadCrumb.MENUITEM_LINK_CLASS : BreadCrumb.MENUITEM_LINK_CLASS + " " + styleClass;
         styleClass += " ui-state-disabled";
 
-        writer.startElement("span", null);
-        writer.writeAttribute("class", styleClass, null);
+        writer.startElement(SPAN, null);
+        writer.writeAttribute(CLASS, styleClass, null);
         if (style != null) {
-            writer.writeAttribute("style", style, null);
+            writer.writeAttribute(STYLE, style, null);
         }
 
         String icon = menuItem.getIcon();
         Object value = menuItem.getValue();
 
         if (icon != null) {
-            writer.startElement("span", null);
-            writer.writeAttribute("class", BreadCrumb.MENUITEM_ICON_CLASS + " " + icon, null);
-            writer.endElement("span");
+            writer.startElement(SPAN, null);
+            writer.writeAttribute(CLASS, BreadCrumb.MENUITEM_ICON_CLASS + " " + icon, null);
+            writer.endElement(SPAN);
         }
 
-        writer.startElement("span", null);
-        writer.writeAttribute("class", BreadCrumb.MENUITEM_TEXT_CLASS, null);
+        writer.startElement(SPAN, null);
+        writer.writeAttribute(CLASS, BreadCrumb.MENUITEM_TEXT_CLASS, null);
 
         if (value != null) {
             if (menuItem.isEscape()) {
-                writer.writeText(value, "value");
+                writer.writeText(value, VALUE);
             }
             else {
                 writer.write(value.toString());
@@ -148,6 +155,6 @@ public class BreadCrumbRenderer extends BaseMenuRenderer {
         }
 
 
-        writer.endElement("span");
+        writer.endElement(SPAN);
     }
 }

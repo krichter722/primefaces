@@ -53,6 +53,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import static javax.faces.component.UINamingContainer.getSeparatorChar;
 import org.primefaces.component.api.UITabPanel;
 import org.primefaces.model.IterableDataModel;
+import static org.primefaces.component.Literals.VALUE;
 
 public class UIRepeat extends UINamingContainer {
 
@@ -239,7 +240,7 @@ public class UIRepeat extends UINamingContainer {
 
     public Object getValue() {
         if (this.value == null) {
-            ValueExpression ve = this.getValueExpression("value");
+            ValueExpression ve = this.getValueExpression(VALUE);
             if (ve != null) {
                 return ve.getValue(getFacesContext().getELContext());
             }
@@ -251,6 +252,7 @@ public class UIRepeat extends UINamingContainer {
         this.value = value;
     }
 
+    @SuppressWarnings("PMD.AvoidStringBufferField")
     private transient StringBuffer buffer;
 
     private StringBuffer getBuffer() {
@@ -1078,6 +1080,7 @@ public class UIRepeat extends UINamingContainer {
     }
 
     @Override
+    @SuppressWarnings("PMD.AvoidThrowingNullPointerException")
     public void restoreState(FacesContext faces, Object object) {
         if (faces == null) {
             throw new NullPointerException();
@@ -1098,6 +1101,7 @@ public class UIRepeat extends UINamingContainer {
     }
 
     @Override
+    @SuppressWarnings("PMD.AvoidThrowingNullPointerException")
     public Object saveState(FacesContext faces) {
         resetClientIds(this);
 

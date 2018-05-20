@@ -16,12 +16,17 @@
 package org.primefaces.component.media;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIParameter;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.NAME;
+import static org.primefaces.component.Literals.TYPE;
+import static org.primefaces.component.Literals.VALUE;
 import org.primefaces.application.resource.DynamicContentType;
 
 import org.primefaces.component.media.player.MediaPlayer;
@@ -35,6 +40,7 @@ import org.primefaces.util.HTML;
 public class MediaRenderer extends CoreRenderer {
 
     @Override
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
         Media media = (Media) component;
         MediaPlayer player = resolvePlayer(context, media);
@@ -53,7 +59,7 @@ public class MediaRenderer extends CoreRenderer {
         if (value != null && value instanceof StreamedContent && player.getType().equals("application/pdf")) {
             StreamedContent streamedContent = (StreamedContent) value;
             if (streamedContent.getName() != null) {
-                int index = src.indexOf("?");
+                int index = src.indexOf('?');
                 src = src.substring(0, index) + ";/" + streamedContent.getName() + "" + src.substring(index, src.length());
             }
         }
@@ -73,7 +79,7 @@ public class MediaRenderer extends CoreRenderer {
         }
 
         writer.startElement("object", media);
-        writer.writeAttribute("type", player.getType(), null);
+        writer.writeAttribute(TYPE, player.getType(), null);
         writer.writeAttribute("data", src, null);
 
         if (isIE) {
@@ -81,7 +87,7 @@ public class MediaRenderer extends CoreRenderer {
         }
 
         if (media.getStyleClass() != null) {
-            writer.writeAttribute("class", media.getStyleClass(), null);
+            writer.writeAttribute(CLASS, media.getStyleClass(), null);
         }
 
         renderPassThruAttributes(context, media, HTML.MEDIA_ATTRS);
@@ -121,8 +127,8 @@ public class MediaRenderer extends CoreRenderer {
         }
         else {
             writer.startElement("param", null);
-            writer.writeAttribute("name", name, null);
-            writer.writeAttribute("value", value.toString(), null);
+            writer.writeAttribute(NAME, name, null);
+            writer.writeAttribute(VALUE, value.toString(), null);
             writer.endElement("param");
         }
     }
@@ -149,7 +155,7 @@ public class MediaRenderer extends CoreRenderer {
                 + media.getClientId(context) + "', cannot play source:" + media.getValue());
     }
 
-    protected String getMediaSrc(FacesContext context, Media media) throws Exception {
+    protected String getMediaSrc(FacesContext context, Media media) throws UnsupportedEncodingException {
         return DynamicContentSrcBuilder.build(context, media.getValue(), media, media.isCache(), DynamicContentType.STREAMED_CONTENT, true);
     }
 

@@ -21,6 +21,10 @@ import java.util.Map;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.STYLE;
+import static org.primefaces.component.Literals.TYPE;
 import org.primefaces.component.chart.renderer.BarRenderer;
 import org.primefaces.component.chart.renderer.BasePlotRenderer;
 import org.primefaces.component.chart.renderer.DonutRenderer;
@@ -73,12 +77,12 @@ public class ChartRenderer extends CoreRenderer {
         String style = chart.getStyle();
         String styleClass = chart.getStyleClass();
 
-        writer.startElement("div", null);
+        writer.startElement(DIV, null);
         writer.writeAttribute("id", chart.getClientId(context), null);
-        if (style != null) writer.writeAttribute("style", style, "style");
-        if (styleClass != null) writer.writeAttribute("class", styleClass, "styleClass");
+        if (style != null) writer.writeAttribute(STYLE, style, STYLE);
+        if (styleClass != null) writer.writeAttribute(CLASS, styleClass, "styleClass");
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeScript(FacesContext context, Chart chart) throws IOException {
@@ -88,7 +92,7 @@ public class ChartRenderer extends CoreRenderer {
 
         WidgetBuilder wb = getWidgetBuilder(context);
         wb.init("Chart", chart.resolveWidgetVar(), clientId)
-            .attr("type", type);
+            .attr(TYPE, type);
         
         if (chart.isResponsive()) wb.attr("responsive", true);
 

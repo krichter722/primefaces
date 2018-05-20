@@ -19,6 +19,8 @@ import java.io.IOException;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DIV;
 
 import org.primefaces.expression.SearchExpressionFacade;
 import org.primefaces.renderkit.CoreRenderer;
@@ -54,13 +56,13 @@ public class BlockUIRenderer extends CoreRenderer {
         BlockUI blockUI = (BlockUI) component;
         String clientId = blockUI.getClientId(context);
 
-        writer.startElement("div", blockUI);
+        writer.startElement(DIV, blockUI);
         writer.writeAttribute("id", clientId, "id");
-        writer.writeAttribute("class", "ui-blockui-content ui-widget ui-widget-content ui-corner-all ui-helper-hidden ui-shadow", null);
+        writer.writeAttribute(CLASS, "ui-blockui-content ui-widget ui-widget-content ui-corner-all ui-helper-hidden ui-shadow", null);
 
         renderChildren(context, blockUI);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     @Override

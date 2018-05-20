@@ -21,6 +21,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.visit.VisitCallback;
 import javax.faces.component.visit.VisitContext;
 import javax.faces.component.visit.VisitResult;
+import static org.primefaces.component.Literals.VALUE;
 
 public class ResetInputVisitCallback implements VisitCallback {
 
@@ -44,7 +45,7 @@ public class ResetInputVisitCallback implements VisitCallback {
             input.resetValue();
 
             if (clearModel) {
-                ValueExpression ve = target.getValueExpression("value");
+                ValueExpression ve = target.getValueExpression(VALUE);
                 if (ve != null) {
                     ve.setValue(context.getFacesContext().getELContext(), null);
                 }

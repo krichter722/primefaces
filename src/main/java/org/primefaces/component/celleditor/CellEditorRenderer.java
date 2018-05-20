@@ -19,6 +19,9 @@ import java.io.IOException;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.INPUT;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.component.treetable.TreeTable;
 import org.primefaces.renderkit.CoreRenderer;
@@ -55,24 +58,24 @@ public class CellEditorRenderer extends CoreRenderer {
             isLazyCellEdit = (editMode != null && cellEditMode != null && editMode.equals("cell") && cellEditMode.equals("lazy"));
         }
 
-        writer.startElement("div", null);
+        writer.startElement(DIV, null);
         writer.writeAttribute("id", component.getClientId(context), null);
-        writer.writeAttribute("class", DataTable.CELL_EDITOR_CLASS, null);
+        writer.writeAttribute(CLASS, DataTable.CELL_EDITOR_CLASS, null);
 
-        writer.startElement("div", null);
-        writer.writeAttribute("class", DataTable.CELL_EDITOR_OUTPUT_CLASS, null);
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, DataTable.CELL_EDITOR_OUTPUT_CLASS, null);
         editor.getFacet("output").encodeAll(context);
-        writer.endElement("div");
+        writer.endElement(DIV);
 
-        writer.startElement("div", null);
-        writer.writeAttribute("class", DataTable.CELL_EDITOR_INPUT_CLASS, null);
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, DataTable.CELL_EDITOR_INPUT_CLASS, null);
 
         if (!isLazyCellEdit) {
-            editor.getFacet("input").encodeAll(context);
+            editor.getFacet(INPUT).encodeAll(context);
         }
-        writer.endElement("div");
+        writer.endElement(DIV);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     @Override

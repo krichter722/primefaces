@@ -67,6 +67,9 @@ public class DefaultUploadedFile implements UploadedFile, Serializable {
     }
 
     @Override
+    @SuppressWarnings("PMD.AvoidThrowingRawException")
+    //suggested another exception to be thrown in FileItem.write at
+    //https://github.com/apache/commons-fileupload/pull/13
     public void write(String filePath) throws Exception {
         fileItem.write(new File(filePath));
     }

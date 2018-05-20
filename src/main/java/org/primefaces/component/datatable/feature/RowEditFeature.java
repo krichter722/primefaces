@@ -21,6 +21,7 @@ import javax.faces.component.EditableValueHolder;
 import javax.faces.component.UIComponent;
 import javax.faces.component.visit.VisitContext;
 import javax.faces.context.FacesContext;
+import static org.primefaces.component.Literals.INPUT;
 import org.primefaces.component.api.UIColumn;
 import org.primefaces.component.celleditor.CellEditor;
 import org.primefaces.component.datatable.DataTable;
@@ -31,6 +32,7 @@ import org.primefaces.visit.ResetInputVisitCallback;
 public class RowEditFeature implements DataTableFeature {
 
     @Override
+    @SuppressWarnings("PMD.AvoidThrowingRawExceptionTypes")
     public void decode(FacesContext context, DataTable table) {
         throw new RuntimeException("RowEditFeature should not encode.");
     }
@@ -53,7 +55,7 @@ public class RowEditFeature implements DataTableFeature {
             for (UIColumn column : table.getColumns()) {
                 for (UIComponent grandkid : column.getChildren()) {
                     if (grandkid instanceof CellEditor) {
-                        UIComponent inputFacet = grandkid.getFacet("input");
+                        UIComponent inputFacet = grandkid.getFacet(INPUT);
 
                         if (inputFacet instanceof EditableValueHolder) {
                             ((EditableValueHolder) inputFacet).resetValue();

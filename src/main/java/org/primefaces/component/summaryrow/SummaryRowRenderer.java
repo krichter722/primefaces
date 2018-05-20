@@ -22,6 +22,9 @@ import javax.faces.context.ResponseWriter;
 import org.primefaces.component.column.Column;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.renderkit.CoreRenderer;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.COLSPAN;
+import static org.primefaces.component.Literals.STYLE;
 
 public class SummaryRowRenderer extends CoreRenderer {
 
@@ -31,7 +34,7 @@ public class SummaryRowRenderer extends CoreRenderer {
         ResponseWriter writer = context.getResponseWriter();
 
         writer.startElement("tr", null);
-        writer.writeAttribute("class", DataTable.SUMMARY_ROW_CLASS, null);
+        writer.writeAttribute(CLASS, DataTable.SUMMARY_ROW_CLASS, null);
 
         for (UIComponent kid : row.getChildren()) {
             if (kid.isRendered() && kid instanceof Column) {
@@ -40,10 +43,10 @@ public class SummaryRowRenderer extends CoreRenderer {
                 String styleClass = column.getStyleClass();
 
                 writer.startElement("td", null);
-                if (style != null) writer.writeAttribute("style", style, null);
-                if (styleClass != null) writer.writeAttribute("class", styleClass, null);
+                if (style != null) writer.writeAttribute(STYLE, style, null);
+                if (styleClass != null) writer.writeAttribute(CLASS, styleClass, null);
                 if (column.getRowspan() != 1) writer.writeAttribute("rowspan", column.getRowspan(), null);
-                if (column.getColspan() != 1) writer.writeAttribute("colspan", column.getColspan(), null);
+                if (column.getColspan() != 1) writer.writeAttribute(COLSPAN, column.getColspan(), null);
 
                 column.encodeAll(context);
 

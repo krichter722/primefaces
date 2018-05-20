@@ -20,6 +20,10 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import org.primefaces.component.api.Pageable;
 import org.primefaces.component.api.UIData;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.OPTION;
+import static org.primefaces.component.Literals.SELECT;
+import static org.primefaces.component.Literals.VALUE;
 
 public class JumpToPageDropdownRenderer implements PaginatorElementRenderer {
 
@@ -29,23 +33,23 @@ public class JumpToPageDropdownRenderer implements PaginatorElementRenderer {
         int currentPage = pageable.getPage();
         int pageCount = pageable.getPageCount();
 
-        writer.startElement("select", null);
-        writer.writeAttribute("class", UIData.PAGINATOR_JTP_CLASS, null);
-        writer.writeAttribute("value", pageable.getPage(), null);
+        writer.startElement(SELECT, null);
+        writer.writeAttribute(CLASS, UIData.PAGINATOR_JTP_CLASS, null);
+        writer.writeAttribute(VALUE, pageable.getPage(), null);
 
         for (int i = 0; i < pageCount; i++) {
-            writer.startElement("option", null);
-            writer.writeAttribute("value", i, null);
+            writer.startElement(OPTION, null);
+            writer.writeAttribute(VALUE, i, null);
 
             if (i == currentPage) {
                 writer.writeAttribute("selected", "selected", null);
             }
 
             writer.writeText((i + 1), null);
-            writer.endElement("option");
+            writer.endElement(OPTION);
         }
 
-        writer.endElement("select");
+        writer.endElement(SELECT);
     }
 
 }

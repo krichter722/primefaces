@@ -15,7 +15,6 @@
  */
 package org.primefaces.context;
 
-import java.util.logging.Logger;
 
 import javax.faces.component.EditableValueHolder;
 import javax.faces.component.visit.VisitContext;
@@ -32,8 +31,6 @@ import org.primefaces.visit.ResetInputContextCallback;
 import org.primefaces.visit.ResetInputVisitCallback;
 
 public class PrimePartialViewContext extends PartialViewContextWrapper {
-
-    private static final Logger LOG = Logger.getLogger(PrimePartialViewContext.class.getName());
 
     private PartialViewContext wrapped;
     private PartialResponseWriter writer = null;

@@ -23,6 +23,9 @@ import org.primefaces.model.tagcloud.TagCloudItem;
 import org.primefaces.model.tagcloud.TagCloudModel;
 import org.primefaces.renderkit.CoreRenderer;
 import org.primefaces.util.WidgetBuilder;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.STYLE;
 
 public class TagCloudRenderer extends CoreRenderer {
 
@@ -46,11 +49,11 @@ public class TagCloudRenderer extends CoreRenderer {
         String style = tagCloud.getStyle();
         styleClass = styleClass == null ? TagCloud.STYLE_CLASS : TagCloud.STYLE_CLASS + " " + styleClass;
 
-        writer.startElement("div", tagCloud);
+        writer.startElement(DIV, tagCloud);
         writer.writeAttribute("id", tagCloud.getClientId(context), "id");
-        writer.writeAttribute("class", styleClass, "styleClass");
+        writer.writeAttribute(CLASS, styleClass, "styleClass");
         if (style != null) {
-            writer.writeAttribute("style", style, "style");
+            writer.writeAttribute(STYLE, style, STYLE);
         }
 
         writer.startElement("ul", null);
@@ -60,7 +63,7 @@ public class TagCloudRenderer extends CoreRenderer {
             String href = url == null ? "#" : item.getUrl();
 
             writer.startElement("li", null);
-            writer.writeAttribute("class", "ui-tagcloud-strength-" + item.getStrength(), null);
+            writer.writeAttribute(CLASS, "ui-tagcloud-strength-" + item.getStrength(), null);
 
             writer.startElement("a", null);
             writer.writeAttribute("href", href, null);
@@ -72,7 +75,7 @@ public class TagCloudRenderer extends CoreRenderer {
 
         writer.endElement("ul");
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeScript(FacesContext context, TagCloud tagCloud) throws IOException {

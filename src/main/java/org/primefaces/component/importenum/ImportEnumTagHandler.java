@@ -27,6 +27,7 @@ import javax.faces.view.facelets.FaceletContext;
 import javax.faces.view.facelets.TagAttribute;
 import javax.faces.view.facelets.TagConfig;
 import javax.faces.view.facelets.TagHandler;
+import static org.primefaces.component.Literals.TYPE;
 import org.primefaces.context.PrimeApplicationContext;
 
 /**
@@ -43,7 +44,7 @@ public class ImportEnumTagHandler extends TagHandler {
     public ImportEnumTagHandler(TagConfig config) {
         super(config);
 
-        typeTagAttribute = super.getRequiredAttribute("type");
+        typeTagAttribute = super.getRequiredAttribute(TYPE);
         varTagAttribute = super.getAttribute("var");
         allSuffixTagAttribute = super.getAttribute("allSuffix");
     }

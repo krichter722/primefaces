@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.util.Iterator;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import static org.primefaces.component.Literals.NULL;
 import org.primefaces.component.chart.Chart;
 import org.primefaces.model.chart.CartesianChartModel;
 import org.primefaces.model.chart.ChartSeries;
@@ -39,7 +40,7 @@ public class LineRenderer extends CartesianPlotRenderer {
             for (Iterator<Object> x = series.getData().keySet().iterator(); x.hasNext();) {
                 Object xValue = x.next();
                 Number yValue = series.getData().get(xValue);
-                String yValueAsString = (yValue == null) ? "null" : escapeChartData(yValue);
+                String yValueAsString = (yValue == null) ? NULL : escapeChartData(yValue);
                 String xValueAsString = escapeChartData(xValue);
 
                 writer.write("[");

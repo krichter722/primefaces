@@ -52,6 +52,8 @@ import javax.faces.model.ListDataModel;
 import javax.faces.model.ResultSetDataModel;
 import javax.faces.model.ScalarDataModel;
 import javax.faces.render.Renderer;
+import static org.primefaces.component.Literals.NAME;
+import static org.primefaces.component.Literals.VALUE;
 import org.primefaces.component.tabview.Tab;
 import org.primefaces.util.ComponentUtils;
 import org.primefaces.util.Constants;
@@ -201,10 +203,11 @@ public class UITabPanel extends UIPanel implements NamingContainer {
     }
 
     @Override
+    @SuppressWarnings("PMD.AvoidThrowingNullPointerException")
     public void setValueExpression(String name, ValueExpression binding) {
         if (name == null) {
-            throw new NullPointerException("name");
-        } else if (name.equals("value")) {
+            throw new NullPointerException(NAME);
+        } else if (name.equals(VALUE)) {
             _dataModelMap.clear();
         } else if (name.equals("rowIndex")) {
             throw new IllegalArgumentException("name " + name);
@@ -785,6 +788,8 @@ public class UITabPanel extends UIPanel implements NamingContainer {
     }
 
     @Override
+    @SuppressWarnings({"PMD.AvoidThrowingNullPointerException",
+        "PMD.AvoidCatchingGenericException"})
     public boolean invokeOnComponent(FacesContext context, String clientId, ContextCallback callback) throws FacesException {
         if (!this.isRepeating()) {
             return super.invokeOnComponent(context, clientId, callback);
@@ -1003,6 +1008,7 @@ public class UITabPanel extends UIPanel implements NamingContainer {
     }
 
     @Override
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     public void processDecodes(FacesContext context) {
         if (!isRendered()) {
             return;

@@ -20,7 +20,7 @@ import javax.faces.component.behavior.Behavior;
 import org.primefaces.model.OrganigramNode;
 
 /**
- * Event class for the "select" event.
+ * Event class for the SELECT event.
  */
 public class OrganigramNodeSelectEvent extends AbstractOrganigramNodeEvent {
 

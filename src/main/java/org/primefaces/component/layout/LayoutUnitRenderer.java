@@ -20,6 +20,11 @@ import java.io.IOException;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.SPAN;
+import static org.primefaces.component.Literals.STYLE;
+import static org.primefaces.component.Literals.TITLE;
 import org.primefaces.renderkit.CoreRenderer;
 
 public class LayoutUnitRenderer extends CoreRenderer {
@@ -34,27 +39,27 @@ public class LayoutUnitRenderer extends CoreRenderer {
         String styleClass = unit.getStyleClass();
         styleClass = styleClass == null ? defaultStyleClass : defaultStyleClass + " " + styleClass;
 
-        writer.startElement("div", component);
+        writer.startElement(DIV, component);
         writer.writeAttribute("id", component.getClientId(context), "id");
-        writer.writeAttribute("class", styleClass , "styleClass");
-        if (unit.getStyle() != null) writer.writeAttribute("style", unit.getStyle() , "style");
+        writer.writeAttribute(CLASS, styleClass , "styleClass");
+        if (unit.getStyle() != null) writer.writeAttribute(STYLE, unit.getStyle() , STYLE);
 
         encodeHeader(context, unit);
 
         if (!nesting) {
-            writer.startElement("div", null);
-            writer.writeAttribute("class", Layout.UNIT_CONTENT_CLASS, null);
+            writer.startElement(DIV, null);
+            writer.writeAttribute(CLASS, Layout.UNIT_CONTENT_CLASS, null);
         }
 
         renderChildren(context, unit);
 
         if (!nesting) {
-            writer.endElement("div");
+            writer.endElement(DIV);
         }
 
         encodeFooter(context, unit);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     @Override
@@ -78,11 +83,11 @@ public class LayoutUnitRenderer extends CoreRenderer {
         ResponseWriter writer = context.getResponseWriter();
         Layout layout = (Layout) unit.getParent();
 
-        writer.startElement("div", null);
-        writer.writeAttribute("class", Layout.UNIT_HEADER_CLASS, null);
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, Layout.UNIT_HEADER_CLASS, null);
 
-        writer.startElement("span", null);
-        writer.writeAttribute("class", Layout.UNIT_HEADER_TITLE_CLASS, null);
+        writer.startElement(SPAN, null);
+        writer.writeAttribute(CLASS, Layout.UNIT_HEADER_TITLE_CLASS, null);
 
         if (headerFacet != null) {
             headerFacet.encodeAll(context);
@@ -91,7 +96,7 @@ public class LayoutUnitRenderer extends CoreRenderer {
             writer.writeText(headerText, null);
         }
 
-        writer.endElement("span");
+        writer.endElement(SPAN);
 
         if (unit.isClosable()) {
             encodeIcon(context, "ui-icon-close", layout.getCloseTitle());
@@ -101,7 +106,7 @@ public class LayoutUnitRenderer extends CoreRenderer {
             encodeIcon(context, unit.getCollapseIcon(), layout.getCollapseTitle());
         }
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     public void encodeFooter(FacesContext context, LayoutUnit unit) throws IOException {
@@ -114,11 +119,11 @@ public class LayoutUnitRenderer extends CoreRenderer {
 
         ResponseWriter writer = context.getResponseWriter();
 
-        writer.startElement("div", null);
-        writer.writeAttribute("class", Layout.UNIT_FOOTER_CLASS, null);
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, Layout.UNIT_FOOTER_CLASS, null);
 
-        writer.startElement("div", null);
-        writer.writeAttribute("class", Layout.UNIT_FOOTER_TITLE_CLASS, null);
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, Layout.UNIT_FOOTER_TITLE_CLASS, null);
 
         if (footerFacet != null) {
             footerFacet.encodeAll(context);
@@ -127,9 +132,9 @@ public class LayoutUnitRenderer extends CoreRenderer {
             writer.writeText(footerText, null);
         }
 
-        writer.endElement("div");
+        writer.endElement(DIV);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeIcon(FacesContext context, String iconClass, String title) throws IOException {
@@ -137,12 +142,12 @@ public class LayoutUnitRenderer extends CoreRenderer {
 
         writer.startElement("a", null);
         writer.writeAttribute("href", "javascript:void(0)", null);
-        writer.writeAttribute("class", Layout.UNIT_HEADER_ICON_CLASS, null);
-        writer.writeAttribute("title", title, null);
+        writer.writeAttribute(CLASS, Layout.UNIT_HEADER_ICON_CLASS, null);
+        writer.writeAttribute(TITLE, title, null);
 
-        writer.startElement("span", null);
-        writer.writeAttribute("class", "ui-icon " + iconClass, null);
-        writer.endElement("span");
+        writer.startElement(SPAN, null);
+        writer.writeAttribute(CLASS, "ui-icon " + iconClass, null);
+        writer.endElement(SPAN);
 
         writer.endElement("a");
     }

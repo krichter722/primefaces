@@ -37,6 +37,7 @@ import org.primefaces.expression.SearchExpressionHint;
  */
 public class AjaxRequestBuilder {
 
+    @SuppressWarnings("PMD.AvoidStringBufferField")
     protected StringBuilder buffer;
     protected FacesContext context;
 
@@ -44,7 +45,7 @@ public class AjaxRequestBuilder {
 
     public AjaxRequestBuilder(FacesContext context) {
         this.context = context;
-        this.buffer = new StringBuilder();
+        this.buffer = new StringBuilder(1024);
     }
 
     public AjaxRequestBuilder init() {
@@ -54,10 +55,10 @@ public class AjaxRequestBuilder {
 
     public AjaxRequestBuilder source(String source) {
         if (source != null) {
-            buffer.append("s:").append("\"").append(source).append("\"");
+            buffer.append("s:\"").append(source).append('\"');
         }
         else {
-            buffer.append("s:").append("this");
+            buffer.append("s:this");
         }
 
         return this;
@@ -65,7 +66,7 @@ public class AjaxRequestBuilder {
 
     public AjaxRequestBuilder form(String form) {
         if (form != null) {
-            buffer.append(",f:\"").append(form).append("\"");
+            buffer.append(",f:\"").append(form).append('\"');
         }
 
         return this;
@@ -86,14 +87,14 @@ public class AjaxRequestBuilder {
     private AjaxRequestBuilder addExpressions(UIComponent component, String expressions, String key, int options) {
         if (!ComponentUtils.isValueBlank(expressions)) {
             String resolvedExpressions = SearchExpressionFacade.resolveClientIds(context, component, expressions, options);
-            buffer.append(",").append(key).append(":\"").append(resolvedExpressions).append("\"");
+            buffer.append(',').append(key).append(":\"").append(resolvedExpressions).append('\"');
         }
 
         return this;
     }
 
     public AjaxRequestBuilder event(String event) {
-        buffer.append(",e:\"").append(event).append("\"");
+        buffer.append(",e:\"").append(event).append('\"');
 
         return this;
     }
@@ -165,7 +166,7 @@ public class AjaxRequestBuilder {
             buffer.append(",ps:true");
 
             if (partialSubmitFilter != null) {
-                buffer.append(",psf:\"").append(partialSubmitFilter).append("\"");
+                buffer.append(",psf:\"").append(partialSubmitFilter).append('\"');
             }
         }
 
@@ -235,16 +236,16 @@ public class AjaxRequestBuilder {
                     buffer.append(",pa:[");
                 }
                 else {
-                    buffer.append(",");
+                    buffer.append(',');
                 }
 
-                buffer.append("{name:").append("\"").append(ComponentUtils.escapeText(parameter.getName())).append("\",value:\"")
+                buffer.append("{name:\"").append(ComponentUtils.escapeText(parameter.getName())).append("\",value:\"")
                     .append(ComponentUtils.escapeText(paramValue.toString())).append("\"}");
             }
         }
 
         if (paramWritten) {
-            buffer.append("]");
+            buffer.append(']');
         }
 
         return this;
@@ -263,20 +264,20 @@ public class AjaxRequestBuilder {
                     if (paramValue == null) {
                         paramValue = "";
                     }
-                    buffer.append("{name:").append("\"").append(ComponentUtils.escapeText(name)).append("\",value:\"")
+                    buffer.append("{name:\"").append(ComponentUtils.escapeText(name)).append("\",value:\"")
                         .append(ComponentUtils.escapeText(paramValue)).append("\"}");
 
                     if (i < (size - 1)) {
-                        buffer.append(",");
+                        buffer.append(',');
                     }
                 }
 
                 if (it.hasNext()) {
-                    buffer.append(",");
+                    buffer.append(',');
                 }
             }
 
-            buffer.append("]");
+            buffer.append(']');
         }
 
         return this;
@@ -336,7 +337,7 @@ public class AjaxRequestBuilder {
     }
 
     public void reset() {
-        buffer.setLength(0);
+        buffer = new StringBuilder(1024);
         preventDefault = false;
     }
 
@@ -344,7 +345,7 @@ public class AjaxRequestBuilder {
         Map<Object, Object> attrs = context.getAttributes();
         Object fragmentId = attrs.get(Constants.FRAGMENT_ID);
         if (fragmentId != null) {
-            buffer.append(",fi:\"").append(fragmentId).append("\"");
+            buffer.append(",fi:\"").append(fragmentId).append('\"');
         }
     }
 }

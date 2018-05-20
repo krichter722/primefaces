@@ -21,6 +21,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import org.primefaces.renderkit.CoreRenderer;
 import org.primefaces.util.WidgetBuilder;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.STYLE;
 
 public class RingRenderer extends CoreRenderer {
 
@@ -40,16 +42,16 @@ public class RingRenderer extends CoreRenderer {
 
         writer.startElement("ul", ring);
         writer.writeAttribute("id", ring.getClientId(context), null);
-        writer.writeAttribute("class", styleClass, null);
+        writer.writeAttribute(CLASS, styleClass, null);
         if (style != null) {
-            writer.writeAttribute("style", style, null);
+            writer.writeAttribute(STYLE, style, null);
         }
 
         for (int rowIndex = 0; rowIndex < ring.getRowCount(); rowIndex++) {
             ring.setRowIndex(rowIndex);
 
             writer.startElement("li", ring);
-            writer.writeAttribute("class", "ui-state-default ui-corner-all", null);
+            writer.writeAttribute(CLASS, "ui-state-default ui-corner-all", null);
 
             for (UIComponent child : ring.getChildren()) {
                 child.encodeAll(context);

@@ -19,9 +19,15 @@ import java.io.IOException;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import static org.primefaces.component.Literals.BUTTON;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.renderkit.CoreRenderer;
 import org.primefaces.util.MessageFactory;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.ROLE;
+import static org.primefaces.component.Literals.SPAN;
+import static org.primefaces.component.Literals.TABINDEX;
 
 public class RowTogglerRenderer extends CoreRenderer {
 
@@ -38,10 +44,10 @@ public class RowTogglerRenderer extends CoreRenderer {
         String togglerClass = iconOnly ? DataTable.ROW_TOGGLER_CLASS + " " + icon : DataTable.ROW_TOGGLER_CLASS;
         String ariaLabel = MessageFactory.getMessage(RowToggler.ROW_TOGGLER, null);
 
-        writer.startElement("div", toggler);
-        writer.writeAttribute("class", togglerClass, null);
-        writer.writeAttribute("tabindex", toggler.getTabindex(), null);
-        writer.writeAttribute("role", "button", null);
+        writer.startElement(DIV, toggler);
+        writer.writeAttribute(CLASS, togglerClass, null);
+        writer.writeAttribute(TABINDEX, toggler.getTabindex(), null);
+        writer.writeAttribute(ROLE, BUTTON, null);
         writer.writeAttribute("aria-expanded", String.valueOf(expanded), null);
         writer.writeAttribute("aria-label", ariaLabel, null);
 
@@ -50,15 +56,15 @@ public class RowTogglerRenderer extends CoreRenderer {
             writeLabel(writer, collapseLabel, expanded);
         }
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void writeLabel(ResponseWriter writer, String label, boolean visible) throws IOException {
-        writer.startElement("span", null);
+        writer.startElement(SPAN, null);
         if (!visible) {
-            writer.writeAttribute("class", "ui-helper-hidden", null);
+            writer.writeAttribute(CLASS, "ui-helper-hidden", null);
         }
         writer.writeText(label, null);
-        writer.endElement("span");
+        writer.endElement(SPAN);
     }
 }

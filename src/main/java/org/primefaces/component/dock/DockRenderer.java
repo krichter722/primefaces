@@ -21,6 +21,12 @@ import java.util.List;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.IMG;
+import static org.primefaces.component.Literals.SPAN;
+import static org.primefaces.component.Literals.UI_WIDGET_HEADER;
+import static org.primefaces.component.Literals.VALUE;
 import org.primefaces.component.menu.AbstractMenu;
 import org.primefaces.component.menu.BaseMenuRenderer;
 import org.primefaces.model.menu.MenuElement;
@@ -53,19 +59,19 @@ public class DockRenderer extends BaseMenuRenderer {
         String clientId = dock.getClientId(context);
         String position = dock.getPosition();
 
-        writer.startElement("div", null);
+        writer.startElement(DIV, null);
         writer.writeAttribute("id", clientId, null);
-        writer.writeAttribute("class", "ui-dock-" + position + " ui-widget", "styleClass");
+        writer.writeAttribute(CLASS, "ui-dock-" + position + " ui-widget", "styleClass");
         renderPassThruAttributes(context, dock, null);
 
-        writer.startElement("div", null);
-        writer.writeAttribute("class", "ui-dock-container-" + position + " ui-widget-header", null);
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, "ui-dock-container-" + position + " " + UI_WIDGET_HEADER, null);
 
         encodeMenuItems(context, dock);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeMenuItems(FacesContext context, Dock dock) throws IOException {
@@ -97,26 +103,26 @@ public class DockRenderer extends BaseMenuRenderer {
     protected void encodeItemIcon(FacesContext context, MenuItem menuitem) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
 
-        writer.startElement("img", null);
+        writer.startElement(IMG, null);
         writer.writeAttribute("src", getResourceURL(context, menuitem.getIcon()), null);
-        writer.endElement("img");
+        writer.endElement(IMG);
     }
 
     protected void encodeItemLabel(FacesContext context, MenuItem menuitem) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
 
-        writer.startElement("span", null);
+        writer.startElement(SPAN, null);
 
         if (menuitem.getValue() != null) {
             if (menuitem.isEscape()) {
-                writer.writeText((String) menuitem.getValue(), "value");
+                writer.writeText((String) menuitem.getValue(), VALUE);
             } 
             else {
                 writer.write((String) menuitem.getValue());
             }
         }
 
-        writer.endElement("span");
+        writer.endElement(SPAN);
     }
 
     @Override

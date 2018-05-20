@@ -41,6 +41,7 @@ import javax.faces.context.PartialResponseWriter;
 import javax.faces.event.ExceptionQueuedEvent;
 import javax.faces.event.PhaseId;
 import javax.faces.view.ViewDeclarationLanguage;
+import static org.primefaces.component.Literals.SCRIPT;
 import org.primefaces.component.ajaxexceptionhandler.AjaxExceptionHandler;
 import org.primefaces.component.ajaxexceptionhandler.AjaxExceptionHandlerVisitCallback;
 import org.primefaces.context.PrimeApplicationContext;
@@ -65,6 +66,7 @@ public class PrimeExceptionHandler extends ExceptionHandlerWrapper {
     }
 
     @Override
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     public void handle() throws FacesException {
         FacesContext context = FacesContext.getCurrentInstance();
 
@@ -138,7 +140,8 @@ public class PrimeExceptionHandler extends ExceptionHandlerWrapper {
         return throwable;
     }
 
-    protected void handleAjaxException(FacesContext context, Throwable rootCause, ExceptionInfo info) throws Exception {
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
+    protected void handleAjaxException(FacesContext context, Throwable rootCause, ExceptionInfo info) throws IOException {
         ExternalContext externalContext = context.getExternalContext();
         PartialResponseWriter writer = context.getPartialViewContext().getPartialResponseWriter();
 
@@ -353,9 +356,9 @@ public class PrimeExceptionHandler extends ExceptionHandlerWrapper {
             // workaround for IllegalStateException from redirect of committed response
             if (externalContext.isResponseCommitted() && !context.getPartialViewContext().isAjaxRequest()) {
                 PartialResponseWriter writer = context.getPartialViewContext().getPartialResponseWriter();
-                writer.startElement("script", null);
+                writer.startElement(SCRIPT, null);
                 writer.write("window.location.href = '" + url + "';");
-                writer.endElement("script");
+                writer.endElement(SCRIPT);
                 writer.getWrapped().endDocument();
             }
             else {

@@ -96,7 +96,7 @@ public class CSVExporter extends Exporter {
 
             if (col.isRendered() && col.isExportable()) {
                 if (firstCellWritten) {
-                    builder.append(",");
+                    builder.append(',');
                 }
 
                 UIComponent facet = col.getFacet(columnType.facet());
@@ -127,7 +127,7 @@ public class CSVExporter extends Exporter {
             }
         }
 
-        builder.append("\n");
+        builder.append('\n');
     }
 
     @Override
@@ -142,7 +142,7 @@ public class CSVExporter extends Exporter {
 
             if (col.isRendered() && col.isExportable()) {
                 if (firstCellWritten) {
-                    builder.append(",");
+                    builder.append(',');
                 }
 
                 try {
@@ -172,7 +172,7 @@ public class CSVExporter extends Exporter {
             addColumnValue(builder, col.getChildren(), col);
 
             if (iterator.hasNext()) {
-                builder.append(",");
+                builder.append(',');
             }
         }
     }
@@ -192,7 +192,7 @@ public class CSVExporter extends Exporter {
     protected void addColumnValue(StringBuilder builder, List<UIComponent> components, UIColumn column) throws IOException {
         FacesContext context = FacesContext.getCurrentInstance();
 
-        builder.append("\"");
+        builder.append('\"');
 
         if (column.getExportFunction() != null) {
             String value = exportColumnByFunction(context, column);
@@ -214,11 +214,11 @@ public class CSVExporter extends Exporter {
             }
         }
 
-        builder.append("\"");
+        builder.append('\"');
     }
 
     @Override
     protected void postRowExport(DataTable table, Object document) {
-        ((StringBuilder) document).append("\n");
+        ((StringBuilder) document).append('\n');
     }
 }

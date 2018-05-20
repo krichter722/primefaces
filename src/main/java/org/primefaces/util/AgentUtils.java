@@ -19,11 +19,13 @@ import javax.faces.context.FacesContext;
 
 public class AgentUtils {
 
+    private static final String USER_AGENT = "User-Agent";
+
     private AgentUtils() {
     }
 
     public static boolean isEdge(FacesContext context) {
-        String userAgent = context.getExternalContext().getRequestHeaderMap().get("User-Agent");
+        String userAgent = context.getExternalContext().getRequestHeaderMap().get(USER_AGENT);
 
         if (userAgent == null) {
             return false;
@@ -34,7 +36,7 @@ public class AgentUtils {
     }
     
     public static boolean isIE(FacesContext context) {
-        String userAgent = context.getExternalContext().getRequestHeaderMap().get("User-Agent");
+        String userAgent = context.getExternalContext().getRequestHeaderMap().get(USER_AGENT);
 
         if (userAgent == null) {
             return false;
@@ -45,7 +47,7 @@ public class AgentUtils {
     }
 
     public static boolean isIE(FacesContext context, int value) {
-        String userAgent = context.getExternalContext().getRequestHeaderMap().get("User-Agent");
+        String userAgent = context.getExternalContext().getRequestHeaderMap().get(USER_AGENT);
 
         if (userAgent == null) {
             return false;
@@ -65,7 +67,7 @@ public class AgentUtils {
     }
 
     public static boolean isLessThanIE(FacesContext context, int value) {
-        String userAgent = context.getExternalContext().getRequestHeaderMap().get("User-Agent");
+        String userAgent = context.getExternalContext().getRequestHeaderMap().get(USER_AGENT);
 
         if (userAgent == null) {
             return false;

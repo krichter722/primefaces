@@ -886,7 +886,7 @@ import org.primefaces.component.datatable.TableState;
             builder.append(iter.next());
 
             if(iter.hasNext()) {
-                builder.append(",");
+                builder.append(',');
             }
         }
 
@@ -1550,14 +1550,14 @@ import org.primefaces.component.datatable.TableState;
                 UIColumn column = columns.get(i);
                 if(column.isGroupRow()) {
                     if(hasIndex) {
-                       sb.append(",");
+                       sb.append(',');
                     }
 
                     sb.append(i);
                     hasIndex = true;
                 }
             }
-            sb.append("]");
+            sb.append(']');
 
             return sb.toString();
         }

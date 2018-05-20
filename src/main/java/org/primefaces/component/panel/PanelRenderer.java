@@ -27,6 +27,15 @@ import org.primefaces.renderkit.CoreRenderer;
 import org.primefaces.util.ComponentUtils;
 import org.primefaces.util.HTML;
 import org.primefaces.util.WidgetBuilder;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.INPUT;
+import static org.primefaces.component.Literals.NAME;
+import static org.primefaces.component.Literals.SPAN;
+import static org.primefaces.component.Literals.STYLE;
+import static org.primefaces.component.Literals.TITLE;
+import static org.primefaces.component.Literals.TYPE;
+import static org.primefaces.component.Literals.VALUE;
 
 public class PanelRenderer extends CoreRenderer {
 
@@ -94,7 +103,7 @@ public class PanelRenderer extends CoreRenderer {
         boolean collapsed = panel.isCollapsed();
         boolean visible = panel.isVisible();
 
-        writer.startElement("div", null);
+        writer.startElement(DIV, null);
         writer.writeAttribute("id", clientId, null);
         String styleClass = panel.getStyleClass() == null ? Panel.PANEL_CLASS : Panel.PANEL_CLASS + " " + panel.getStyleClass();
 
@@ -110,10 +119,10 @@ public class PanelRenderer extends CoreRenderer {
             styleClass += " ui-helper-hidden";
         }
 
-        writer.writeAttribute("class", styleClass, "styleClass");
+        writer.writeAttribute(CLASS, styleClass, "styleClass");
 
         if (panel.getStyle() != null) {
-            writer.writeAttribute("style", panel.getStyle(), "style");
+            writer.writeAttribute(STYLE, panel.getStyle(), STYLE);
         }
 
         writer.writeAttribute(HTML.WIDGET_VAR, widgetVar, null);
@@ -141,7 +150,7 @@ public class PanelRenderer extends CoreRenderer {
             optionsMenu.encodeAll(context);
         }
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeHeader(FacesContext context, Panel panel) throws IOException {
@@ -154,13 +163,13 @@ public class PanelRenderer extends CoreRenderer {
             return;
         }
 
-        writer.startElement("div", null);
+        writer.startElement(DIV, null);
         writer.writeAttribute("id", panel.getClientId(context) + "_header", null);
-        writer.writeAttribute("class", Panel.PANEL_TITLEBAR_CLASS, null);
+        writer.writeAttribute(CLASS, Panel.PANEL_TITLEBAR_CLASS, null);
 
         //Title
-        writer.startElement("span", null);
-        writer.writeAttribute("class", Panel.PANEL_TITLE_CLASS, null);
+        writer.startElement(SPAN, null);
+        writer.writeAttribute(CLASS, Panel.PANEL_TITLE_CLASS, null);
 
         if (header != null) {
             renderChild(context, header);
@@ -169,7 +178,7 @@ public class PanelRenderer extends CoreRenderer {
             writer.writeText(headerText, null);
         }
 
-        writer.endElement("span");
+        writer.endElement(SPAN);
 
         //Options
         if (panel.isClosable()) {
@@ -188,28 +197,28 @@ public class PanelRenderer extends CoreRenderer {
         //Actions
         UIComponent actionsFacet = panel.getFacet("actions");
         if (actionsFacet != null) {
-            writer.startElement("div", null);
-            writer.writeAttribute("class", Panel.PANEL_ACTIONS_CLASS, null);
+            writer.startElement(DIV, null);
+            writer.writeAttribute(CLASS, Panel.PANEL_ACTIONS_CLASS, null);
             actionsFacet.encodeAll(context);
-            writer.endElement("div");
+            writer.endElement(DIV);
         }
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeContent(FacesContext context, Panel panel) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
 
-        writer.startElement("div", null);
+        writer.startElement(DIV, null);
         writer.writeAttribute("id", panel.getClientId(context) + "_content", null);
-        writer.writeAttribute("class", Panel.PANEL_CONTENT_CLASS, null);
+        writer.writeAttribute(CLASS, Panel.PANEL_CONTENT_CLASS, null);
         if (panel.isCollapsed()) {
-            writer.writeAttribute("style", "display:none", null);
+            writer.writeAttribute(STYLE, "display:none", null);
         }
 
         renderChildren(context, panel);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeFooter(FacesContext context, Panel panel) throws IOException {
@@ -218,9 +227,9 @@ public class PanelRenderer extends CoreRenderer {
         String footerText = panel.getFooter();
 
         if (footerText != null || ComponentUtils.shouldRenderFacet(footer)) {
-            writer.startElement("div", null);
+            writer.startElement(DIV, null);
             writer.writeAttribute("id", panel.getClientId(context) + "_footer", null);
-            writer.writeAttribute("class", Panel.PANEL_FOOTER_CLASS, null);
+            writer.writeAttribute(CLASS, Panel.PANEL_FOOTER_CLASS, null);
 
             if (footer != null) {
                 renderChild(context, footer);
@@ -229,7 +238,7 @@ public class PanelRenderer extends CoreRenderer {
                 writer.writeText(footerText, null);
             }
 
-            writer.endElement("div");
+            writer.endElement(DIV);
         }
     }
 
@@ -241,14 +250,14 @@ public class PanelRenderer extends CoreRenderer {
             writer.writeAttribute("id", id, null);
         }
         writer.writeAttribute("href", "#", null);
-        writer.writeAttribute("class", Panel.PANEL_TITLE_ICON_CLASS, null);
+        writer.writeAttribute(CLASS, Panel.PANEL_TITLE_ICON_CLASS, null);
         if (title != null) {
-            writer.writeAttribute("title", title, null);
+            writer.writeAttribute(TITLE, title, null);
         }
 
-        writer.startElement("span", null);
-        writer.writeAttribute("class", "ui-icon " + iconClass, null);
-        writer.endElement("span");
+        writer.startElement(SPAN, null);
+        writer.writeAttribute(CLASS, "ui-icon " + iconClass, null);
+        writer.endElement(SPAN);
 
         writer.endElement("a");
     }
@@ -256,12 +265,12 @@ public class PanelRenderer extends CoreRenderer {
     protected void encodeStateHolder(FacesContext context, Panel panel, String name, String value) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
 
-        writer.startElement("input", null);
-        writer.writeAttribute("type", "hidden", null);
+        writer.startElement(INPUT, null);
+        writer.writeAttribute(TYPE, "hidden", null);
         writer.writeAttribute("id", name, null);
-        writer.writeAttribute("name", name, null);
-        writer.writeAttribute("value", value, null);
-        writer.endElement("input");
+        writer.writeAttribute(NAME, name, null);
+        writer.writeAttribute(VALUE, value, null);
+        writer.endElement(INPUT);
     }
 
     @Override

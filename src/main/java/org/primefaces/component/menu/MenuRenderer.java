@@ -20,6 +20,13 @@ import java.util.List;
 
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.MENUITEM;
+import static org.primefaces.component.Literals.ROLE;
+import static org.primefaces.component.Literals.SPAN;
+import static org.primefaces.component.Literals.STYLE;
+import static org.primefaces.component.Literals.VALUE;
 
 import org.primefaces.model.menu.MenuElement;
 import org.primefaces.model.menu.MenuItem;
@@ -58,24 +65,24 @@ public class MenuRenderer extends BaseMenuRenderer {
         }
         styleClass = styleClass == null ? defaultStyleClass : defaultStyleClass + " " + styleClass;
 
-        writer.startElement("div", menu);
+        writer.startElement(DIV, menu);
         writer.writeAttribute("id", clientId, "id");
-        writer.writeAttribute("class", styleClass, "styleClass");
+        writer.writeAttribute(CLASS, styleClass, "styleClass");
         if (style != null) {
-            writer.writeAttribute("style", style, "style");
+            writer.writeAttribute(STYLE, style, STYLE);
         }
-        writer.writeAttribute("role", "menu", null);
+        writer.writeAttribute(ROLE, "menu", null);
 
         encodeKeyboardTarget(context, menu);
 
         if (menu.getElementsCount() > 0) {
             writer.startElement("ul", null);
-            writer.writeAttribute("class", Menu.LIST_CLASS, null);
+            writer.writeAttribute(CLASS, Menu.LIST_CLASS, null);
             encodeElements(context, menu, menu.getElements(), false);
             writer.endElement("ul");
         }
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeElements(FacesContext context, Menu menu, List<MenuElement> elements, boolean isSubmenu) throws IOException {
@@ -95,10 +102,10 @@ public class MenuRenderer extends BaseMenuRenderer {
                     }
 
                     writer.startElement("li", null);
-                    writer.writeAttribute("class", containerStyleClass, null);
-                    writer.writeAttribute("role", "menuitem", null);
+                    writer.writeAttribute(CLASS, containerStyleClass, null);
+                    writer.writeAttribute(ROLE, MENUITEM, null);
                     if (containerStyle != null) {
-                        writer.writeAttribute("style", containerStyle, null);
+                        writer.writeAttribute(STYLE, containerStyle, null);
                     }
                     encodeMenuItem(context, menu, menuItem);
                     writer.endElement("li");
@@ -127,9 +134,9 @@ public class MenuRenderer extends BaseMenuRenderer {
         if (toggleable) {
             writer.writeAttribute("id", submenu.getClientId(), null);
         }
-        writer.writeAttribute("class", styleClass, null);
+        writer.writeAttribute(CLASS, styleClass, null);
         if (style != null) {
-            writer.writeAttribute("style", style, null);
+            writer.writeAttribute(STYLE, style, null);
         }
 
         writer.startElement("h3", null);
@@ -143,7 +150,7 @@ public class MenuRenderer extends BaseMenuRenderer {
         }
 
         if (label != null) {
-            writer.writeText(label, "value");
+            writer.writeText(label, VALUE);
         }
 
         writer.endElement("h3");
@@ -156,8 +163,8 @@ public class MenuRenderer extends BaseMenuRenderer {
     protected void encodeIcon(FacesContext context, String label, String styleClass) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
 
-        writer.startElement("span", null);
-        writer.writeAttribute("class", styleClass, null);
-        writer.endElement("span");
+        writer.startElement(SPAN, null);
+        writer.writeAttribute(CLASS, styleClass, null);
+        writer.endElement(SPAN);
     }
 }

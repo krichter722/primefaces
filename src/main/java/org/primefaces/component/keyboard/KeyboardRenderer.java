@@ -20,6 +20,14 @@ import java.io.IOException;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DISABLED;
+import static org.primefaces.component.Literals.INPUT;
+import static org.primefaces.component.Literals.NAME;
+import static org.primefaces.component.Literals.READONLY;
+import static org.primefaces.component.Literals.STYLE;
+import static org.primefaces.component.Literals.TYPE;
+import static org.primefaces.component.Literals.VALUE;
 import org.primefaces.context.PrimeApplicationContext;
 
 import org.primefaces.renderkit.InputRenderer;
@@ -95,29 +103,29 @@ public class KeyboardRenderer extends InputRenderer {
         styleClass = styleClass == null ? defaultClass : defaultClass + " " + styleClass;
         String valueToRender = ComponentUtils.getValueToRender(context, keyboard);
 
-        writer.startElement("input", keyboard);
+        writer.startElement(INPUT, keyboard);
         writer.writeAttribute("id", clientId, "id");
-        writer.writeAttribute("name", clientId, null);
-        writer.writeAttribute("type", type, null);
+        writer.writeAttribute(NAME, clientId, null);
+        writer.writeAttribute(TYPE, type, null);
 
         if (valueToRender != null) {
-            writer.writeAttribute("value", valueToRender, "value");
+            writer.writeAttribute(VALUE, valueToRender, VALUE);
         }
 
         renderPassThruAttributes(context, keyboard, HTML.INPUT_TEXT_ATTRS_WITHOUT_EVENTS);
         renderDomEvents(context, keyboard, HTML.INPUT_TEXT_EVENTS);
 
-        writer.writeAttribute("class", styleClass, "styleClass");
+        writer.writeAttribute(CLASS, styleClass, "styleClass");
 
-        if (keyboard.isDisabled()) writer.writeAttribute("disabled", "disabled", "disabled");
-        if (keyboard.isReadonly()) writer.writeAttribute("readonly", "readonly", "readonly");
-        if (keyboard.getStyle() != null) writer.writeAttribute("style", keyboard.getStyle(), "style");
+        if (keyboard.isDisabled()) writer.writeAttribute(DISABLED, DISABLED, DISABLED);
+        if (keyboard.isReadonly()) writer.writeAttribute(READONLY, READONLY, READONLY);
+        if (keyboard.getStyle() != null) writer.writeAttribute(STYLE, keyboard.getStyle(), STYLE);
         if (keyboard.isRequired()) writer.writeAttribute("aria-required", "true", null);
 
         if (PrimeApplicationContext.getCurrentInstance(context).getConfig().isClientSideValidationEnabled()) {
             renderValidationMetadata(context, keyboard);
         }
 
-        writer.endElement("input");
+        writer.endElement(INPUT);
     }
 }

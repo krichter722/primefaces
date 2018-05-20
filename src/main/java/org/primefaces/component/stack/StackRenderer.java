@@ -26,6 +26,11 @@ import org.primefaces.component.menu.BaseMenuRenderer;
 import org.primefaces.model.menu.MenuElement;
 import org.primefaces.model.menu.MenuItem;
 import org.primefaces.util.WidgetBuilder;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.IMG;
+import static org.primefaces.component.Literals.SPAN;
+import static org.primefaces.component.Literals.STYLE;
 
 public class StackRenderer extends BaseMenuRenderer {
 
@@ -48,13 +53,13 @@ public class StackRenderer extends BaseMenuRenderer {
         Stack stack = (Stack) menu;
         String clientId = stack.getClientId(context);
 
-        writer.startElement("div", stack);
+        writer.startElement(DIV, stack);
         writer.writeAttribute("id", clientId, "id");
-        writer.writeAttribute("class", "ui-stack", null);
+        writer.writeAttribute(CLASS, "ui-stack", null);
 
-        writer.startElement("img", null);
+        writer.startElement(IMG, null);
         writer.writeAttribute("src", getResourceURL(context, stack.getIcon()), null);
-        writer.endElement("img");
+        writer.endElement(IMG);
 
         if (stack.getElementsCount() > 0) {
             List<MenuElement> elements = stack.getElements();
@@ -69,8 +74,8 @@ public class StackRenderer extends BaseMenuRenderer {
                     String containerStyleClass = menuItem.getContainerStyleClass();
 
                     writer.startElement("li", null);
-                    if (containerStyle != null) writer.writeAttribute("style", containerStyle, null);
-                    if (containerStyleClass != null) writer.writeAttribute("class", containerStyleClass, null);
+                    if (containerStyle != null) writer.writeAttribute(STYLE, containerStyle, null);
+                    if (containerStyleClass != null) writer.writeAttribute(CLASS, containerStyleClass, null);
 
                     encodeMenuItem(context, stack, menuItem);
                     writer.endElement("li");
@@ -80,23 +85,23 @@ public class StackRenderer extends BaseMenuRenderer {
 
         writer.endElement("ul");
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     @Override
     protected void encodeMenuItemContent(FacesContext context, AbstractMenu menu, MenuItem menuitem) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
 
-        writer.startElement("span", null);
+        writer.startElement(SPAN, null);
         if (menuitem.getValue() != null) {
             writer.write((String) menuitem.getValue());
         }
 
-        writer.endElement("span");
+        writer.endElement(SPAN);
 
-        writer.startElement("img", null);
+        writer.startElement(IMG, null);
         writer.writeAttribute("src", getResourceURL(context, menuitem.getIcon()), null);
-        writer.endElement("img");
+        writer.endElement(IMG);
     }
 
     @Override

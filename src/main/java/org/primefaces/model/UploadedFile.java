@@ -34,7 +34,10 @@ public interface UploadedFile {
      * Writes the uploaded file to the given file path.
      *
      * @param filePath The target file path.
-     * @throws Exception If something went wrong.
+     * @throws Exception If an error occurs.
      */
+    @SuppressWarnings("PMD.SignatureDeclareThrowsException")
+        //change of FileItem.write's signature suggested at
+        //https://github.com/apache/commons-fileupload/pull/13
     public void write(String filePath) throws Exception;
 }

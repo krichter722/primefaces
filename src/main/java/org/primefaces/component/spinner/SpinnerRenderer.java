@@ -20,6 +20,16 @@ import java.io.IOException;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DISABLED;
+import static org.primefaces.component.Literals.INPUT;
+import static org.primefaces.component.Literals.NAME;
+import static org.primefaces.component.Literals.READONLY;
+import static org.primefaces.component.Literals.SPAN;
+import static org.primefaces.component.Literals.STYLE;
+import static org.primefaces.component.Literals.TYPE;
+import static org.primefaces.component.Literals.UI_STATE_ERROR;
+import static org.primefaces.component.Literals.VALUE;
 import org.primefaces.context.PrimeApplicationContext;
 import org.primefaces.renderkit.InputRenderer;
 import org.primefaces.util.ComponentUtils;
@@ -29,6 +39,7 @@ import org.primefaces.util.WidgetBuilder;
 public class SpinnerRenderer extends InputRenderer {
 
     @Override
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     public void decode(FacesContext context, UIComponent component) {
         Spinner spinner = (Spinner) component;
 
@@ -88,15 +99,15 @@ public class SpinnerRenderer extends InputRenderer {
         boolean valid = spinner.isValid();
         styleClass = styleClass == null ? Spinner.CONTAINER_CLASS : Spinner.CONTAINER_CLASS + " " + styleClass;
         styleClass = spinner.isDisabled() ? styleClass + " ui-state-disabled" : styleClass;
-        styleClass = !spinner.isValid() ? styleClass + " ui-state-error" : styleClass;
+        styleClass = !spinner.isValid() ? styleClass + " " + UI_STATE_ERROR : styleClass;
         String upButtonClass = (valid) ? Spinner.UP_BUTTON_CLASS : Spinner.UP_BUTTON_CLASS + " ui-state-error";
         String downButtonClass = (valid) ? Spinner.DOWN_BUTTON_CLASS : Spinner.DOWN_BUTTON_CLASS + " ui-state-error";
 
-        writer.startElement("span", null);
+        writer.startElement(SPAN, null);
         writer.writeAttribute("id", clientId, null);
-        writer.writeAttribute("class", styleClass, null);
+        writer.writeAttribute(CLASS, styleClass, null);
         if (spinner.getStyle() != null) {
-            writer.writeAttribute("style", spinner.getStyle(), null);
+            writer.writeAttribute(STYLE, spinner.getStyle(), null);
         }
 
         encodeInput(context, spinner);
@@ -104,7 +115,7 @@ public class SpinnerRenderer extends InputRenderer {
         encodeButton(context, upButtonClass, Spinner.UP_ICON_CLASS);
         encodeButton(context, downButtonClass, Spinner.DOWN_ICON_CLASS);
 
-        writer.endElement("span");
+        writer.endElement(SPAN);
     }
 
     protected void encodeInput(FacesContext context, Spinner spinner) throws IOException {
@@ -113,25 +124,25 @@ public class SpinnerRenderer extends InputRenderer {
         String inputClass = spinner.isValid() ? Spinner.INPUT_CLASS : Spinner.INPUT_CLASS + " ui-state-error";
         String labelledBy = spinner.getLabelledBy();
 
-        writer.startElement("input", null);
+        writer.startElement(INPUT, null);
         writer.writeAttribute("id", inputId, null);
-        writer.writeAttribute("name", inputId, null);
-        writer.writeAttribute("type", "text", null);
-        writer.writeAttribute("class", inputClass, null);
+        writer.writeAttribute(NAME, inputId, null);
+        writer.writeAttribute(TYPE, "text", null);
+        writer.writeAttribute(CLASS, inputClass, null);
         writer.writeAttribute("autocomplete", "off", null);
 
         String valueToRender = ComponentUtils.getValueToRender(context, spinner);
         if (valueToRender != null) {
             valueToRender = spinner.getPrefix() != null ? spinner.getPrefix() + valueToRender : valueToRender;
             valueToRender = spinner.getSuffix() != null ? valueToRender + spinner.getSuffix() : valueToRender;
-            writer.writeAttribute("value", valueToRender, null);
+            writer.writeAttribute(VALUE, valueToRender, null);
         }
 
         renderPassThruAttributes(context, spinner, HTML.INPUT_TEXT_ATTRS_WITHOUT_EVENTS);
         renderDomEvents(context, spinner, HTML.INPUT_TEXT_EVENTS);
 
-        if (spinner.isDisabled()) writer.writeAttribute("disabled", "disabled", null);
-        if (spinner.isReadonly()) writer.writeAttribute("readonly", "readonly", null);
+        if (spinner.isDisabled()) writer.writeAttribute(DISABLED, DISABLED, null);
+        if (spinner.isReadonly()) writer.writeAttribute(READONLY, READONLY, null);
         if (spinner.isRequired()) writer.writeAttribute("aria-required", "true", null);
         if (labelledBy != null) writer.writeAttribute("aria-labelledby", labelledBy, null);
 
@@ -139,23 +150,23 @@ public class SpinnerRenderer extends InputRenderer {
             renderValidationMetadata(context, spinner);
         }
 
-        writer.endElement("input");
+        writer.endElement(INPUT);
     }
 
     protected void encodeButton(FacesContext context, String styleClass, String iconClass) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
 
         writer.startElement("a", null);
-        writer.writeAttribute("class", styleClass, null);
+        writer.writeAttribute(CLASS, styleClass, null);
 
-        writer.startElement("span", null);
-        writer.writeAttribute("class", "ui-button-text", null);
+        writer.startElement(SPAN, null);
+        writer.writeAttribute(CLASS, "ui-button-text", null);
 
-        writer.startElement("span", null);
-        writer.writeAttribute("class", iconClass, null);
-        writer.endElement("span");
+        writer.startElement(SPAN, null);
+        writer.writeAttribute(CLASS, iconClass, null);
+        writer.endElement(SPAN);
 
-        writer.endElement("span");
+        writer.endElement(SPAN);
 
         writer.endElement("a");
     }

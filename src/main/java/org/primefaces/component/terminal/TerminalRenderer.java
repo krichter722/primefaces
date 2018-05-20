@@ -27,6 +27,14 @@ import org.primefaces.model.terminal.TerminalAutoCompleteModel;
 import org.primefaces.model.terminal.TerminalAutoCompleteMatches;
 import org.primefaces.renderkit.CoreRenderer;
 import org.primefaces.util.WidgetBuilder;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.INPUT;
+import static org.primefaces.component.Literals.NAME;
+import static org.primefaces.component.Literals.NULL;
+import static org.primefaces.component.Literals.SPAN;
+import static org.primefaces.component.Literals.STYLE;
+import static org.primefaces.component.Literals.TYPE;
 
 public class TerminalRenderer extends CoreRenderer {
 
@@ -57,49 +65,49 @@ public class TerminalRenderer extends CoreRenderer {
         
         ResponseWriter writer = context.getResponseWriter();
         
-        writer.startElement("div", terminal);
+        writer.startElement(DIV, terminal);
         writer.writeAttribute("id", clientId, "id");
-        writer.writeAttribute("class", styleClass, "styleClass");
+        writer.writeAttribute(CLASS, styleClass, "styleClass");
         if (style != null) {
-            writer.writeAttribute("style", style, "style");
+            writer.writeAttribute(STYLE, style, STYLE);
         }
         
         if (welcomeMessage != null) {
-            writer.startElement("div", null);
+            writer.startElement(DIV, null);
             if (terminal.isEscape()) {
                 writer.writeText(welcomeMessage, null);
             }
             else {
                 writer.write(welcomeMessage);
             }
-            writer.endElement("div");
+            writer.endElement(DIV);
         }
 
-        writer.startElement("div", null);
-        writer.writeAttribute("class", Terminal.CONTENT_CLASS, null);
-        writer.endElement("div");
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, Terminal.CONTENT_CLASS, null);
+        writer.endElement(DIV);
 
-        writer.startElement("div", null);
-        writer.startElement("span", null);
-        writer.writeAttribute("class", Terminal.PROMPT_CLASS, null);
+        writer.startElement(DIV, null);
+        writer.startElement(SPAN, null);
+        writer.writeAttribute(CLASS, Terminal.PROMPT_CLASS, null);
         if (terminal.isEscape()) {
             writer.writeText(prompt, null);
         }
         else {
             writer.write(prompt);
         }
-        writer.endElement("span");
+        writer.endElement(SPAN);
 
-        writer.startElement("input", null);
+        writer.startElement(INPUT, null);
         writer.writeAttribute("id", inputId, null);
-        writer.writeAttribute("name", inputId, null);
-        writer.writeAttribute("type", "text", null);
+        writer.writeAttribute(NAME, inputId, null);
+        writer.writeAttribute(TYPE, "text", null);
         writer.writeAttribute("autocomplete", "off", null);
-        writer.writeAttribute("class", Terminal.INPUT_CLASS, null);
-        writer.endElement("input");
+        writer.writeAttribute(CLASS, Terminal.INPUT_CLASS, null);
+        writer.endElement(INPUT);
 
-        writer.endElement("div");
-        writer.endElement("div");
+        writer.endElement(DIV);
+        writer.endElement(DIV);
     }
 
     protected void encodeScript(FacesContext context, Terminal terminal) throws IOException {
@@ -129,7 +137,7 @@ public class TerminalRenderer extends CoreRenderer {
         TerminalAutoCompleteModel autoCompleteModel = terminal.getAutoCompleteModel();
         ResponseWriter writer = context.getResponseWriter();
         if (autoCompleteModel == null) {
-            writer.write("null");
+            writer.write(NULL);
         }
         else {
             TerminalAutoCompleteMatches matches = terminal.traverseAutoCompleteModel(autoCompleteModel, command, args);

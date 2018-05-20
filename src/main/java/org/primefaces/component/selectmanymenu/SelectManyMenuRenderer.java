@@ -31,6 +31,22 @@ import org.primefaces.renderkit.RendererUtils;
 import org.primefaces.renderkit.SelectManyRenderer;
 import org.primefaces.util.ComponentUtils;
 import org.primefaces.util.WidgetBuilder;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DISABLED;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.FILTER;
+import static org.primefaces.component.Literals.INPUT;
+import static org.primefaces.component.Literals.NAME;
+import static org.primefaces.component.Literals.OPTION;
+import static org.primefaces.component.Literals.SELECT;
+import static org.primefaces.component.Literals.SPAN;
+import static org.primefaces.component.Literals.STYLE;
+import static org.primefaces.component.Literals.TABINDEX;
+import static org.primefaces.component.Literals.TABLE;
+import static org.primefaces.component.Literals.TBODY;
+import static org.primefaces.component.Literals.TITLE;
+import static org.primefaces.component.Literals.TYPE;
+import static org.primefaces.component.Literals.VALUE;
 
 public class SelectManyMenuRenderer extends SelectManyRenderer {
 
@@ -63,11 +79,11 @@ public class SelectManyMenuRenderer extends SelectManyRenderer {
         styleClass = menu.isDisabled() ? styleClass + " ui-state-disabled" : styleClass;
         styleClass = !menu.isValid() ? styleClass + " ui-state-error" : styleClass;
 
-        writer.startElement("div", menu);
+        writer.startElement(DIV, menu);
         writer.writeAttribute("id", clientId, "id");
-        writer.writeAttribute("class", styleClass, "styleClass");
+        writer.writeAttribute(CLASS, styleClass, "styleClass");
         if (style != null) {
-            writer.writeAttribute("style", style, "style");
+            writer.writeAttribute(STYLE, style, STYLE);
         }
 
         if (menu.isFilter()) {
@@ -77,18 +93,18 @@ public class SelectManyMenuRenderer extends SelectManyRenderer {
         encodeInput(context, menu, clientId, selectItems);
         encodeList(context, menu, selectItems);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeScript(FacesContext context, SelectManyMenu menu) throws IOException {
         String clientId = menu.getClientId(context);
         WidgetBuilder wb = getWidgetBuilder(context);
         wb.init("SelectManyMenu", menu.resolveWidgetVar(), clientId)
-                .attr("disabled", menu.isDisabled(), false)
+                .attr(DISABLED, menu.isDisabled(), false)
                 .attr("showCheckbox", menu.isShowCheckbox(), false);
 
         if (menu.isFilter()) {
-            wb.attr("filter", true)
+            wb.attr(FILTER, true)
                     .attr("filterMatchMode", menu.getFilterMatchMode(), null)
                     .nativeAttr("filterFunction", menu.getFilterFunction(), null)
                     .attr("caseSensitive", menu.isCaseSensitive(), false);
@@ -104,12 +120,12 @@ public class SelectManyMenuRenderer extends SelectManyRenderer {
         String inputid = clientId + "_input";
         String labelledBy = menu.getLabelledBy();
 
-        writer.startElement("div", null);
-        writer.writeAttribute("class", "ui-helper-hidden-accessible", null);
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, "ui-helper-hidden-accessible", null);
 
-        writer.startElement("select", null);
+        writer.startElement(SELECT, null);
         writer.writeAttribute("id", inputid, "id");
-        writer.writeAttribute("name", inputid, null);
+        writer.writeAttribute(NAME, inputid, null);
         writer.writeAttribute("multiple", "multiple", null);
         writer.writeAttribute("size", "2", null);   //prevent browser to send value when no item is selected
 
@@ -120,11 +136,11 @@ public class SelectManyMenuRenderer extends SelectManyRenderer {
         }
 
         if (menu.getTabindex() != null) {
-            writer.writeAttribute("tabindex", menu.getTabindex(), null);
+            writer.writeAttribute(TABINDEX, menu.getTabindex(), null);
         }
         
         if (menu.isDisabled()) {
-            writer.writeAttribute("disabled", "disabled", null);
+            writer.writeAttribute(DISABLED, DISABLED, null);
         }
 
         if (PrimeApplicationContext.getCurrentInstance(context).getConfig().isClientSideValidationEnabled()) {
@@ -133,9 +149,9 @@ public class SelectManyMenuRenderer extends SelectManyRenderer {
 
         encodeSelectItems(context, menu, selectItems);
 
-        writer.endElement("select");
+        writer.endElement(SELECT);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeList(FacesContext context, SelectManyMenu menu, List<SelectItem> selectItems) throws IOException {
@@ -146,24 +162,24 @@ public class SelectManyMenuRenderer extends SelectManyRenderer {
         boolean customContent = menu.getVar() != null;
         boolean showCheckbox = menu.isShowCheckbox();
 
-        writer.startElement("div", menu);
-        writer.writeAttribute("class", SelectManyMenu.LIST_CONTAINER_CLASS, null);
-        writer.writeAttribute("style", "height:" + calculateWrapperHeight(menu, countSelectItems(selectItems)), null);
+        writer.startElement(DIV, menu);
+        writer.writeAttribute(CLASS, SelectManyMenu.LIST_CONTAINER_CLASS, null);
+        writer.writeAttribute(STYLE, "height:" + calculateWrapperHeight(menu, countSelectItems(selectItems)), null);
 
         if (customContent) {
-            writer.startElement("table", null);
-            writer.writeAttribute("class", SelectManyMenu.LIST_CLASS, null);
-            writer.startElement("tbody", null);
+            writer.startElement(TABLE, null);
+            writer.writeAttribute(CLASS, SelectManyMenu.LIST_CLASS, null);
+            writer.startElement(TBODY, null);
             for (int i = 0; i < selectItems.size(); i++) {
                 SelectItem selectItem = selectItems.get(i);
                 encodeItem(context, menu, selectItem, values, submittedValues, converter, customContent, showCheckbox);
             }
-            writer.endElement("tbody");
-            writer.endElement("table");
+            writer.endElement(TBODY);
+            writer.endElement(TABLE);
         }
         else {
             writer.startElement("ul", null);
-            writer.writeAttribute("class", SelectManyMenu.LIST_CLASS, null);
+            writer.writeAttribute(CLASS, SelectManyMenu.LIST_CLASS, null);
             for (int i = 0; i < selectItems.size(); i++) {
                 SelectItem selectItem = selectItems.get(i);
                 encodeItem(context, menu, selectItem, values, submittedValues, converter, customContent, showCheckbox);
@@ -171,7 +187,7 @@ public class SelectManyMenuRenderer extends SelectManyRenderer {
             writer.endElement("ul");
         }
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeItem(FacesContext context, SelectManyMenu menu, SelectItem option, Object values, Object submittedValues,
@@ -206,9 +222,9 @@ public class SelectManyMenuRenderer extends SelectManyRenderer {
             context.getExternalContext().getRequestMap().put(var, option.getValue());
 
             writer.startElement("tr", null);
-            writer.writeAttribute("class", itemClass, null);
+            writer.writeAttribute(CLASS, itemClass, null);
             if (option.getDescription() != null) {
-                writer.writeAttribute("title", option.getDescription(), null);
+                writer.writeAttribute(TITLE, option.getDescription(), null);
             }
 
             if (showCheckbox) {
@@ -223,8 +239,8 @@ public class SelectManyMenuRenderer extends SelectManyRenderer {
                     String styleClass = ((Column) child).getStyleClass();
 
                     writer.startElement("td", null);
-                    if (styleClass != null) writer.writeAttribute("class", styleClass, "styleClass");
-                    if (style != null) writer.writeAttribute("style", style, "style");
+                    if (styleClass != null) writer.writeAttribute(CLASS, styleClass, "styleClass");
+                    if (style != null) writer.writeAttribute(STYLE, style, STYLE);
 
                     renderChildren(context, child);
                     writer.endElement("td");
@@ -235,7 +251,7 @@ public class SelectManyMenuRenderer extends SelectManyRenderer {
         }
         else {
             writer.startElement("li", null);
-            writer.writeAttribute("class", itemClass, null);
+            writer.writeAttribute(CLASS, itemClass, null);
 
             if (showCheckbox) {
                 RendererUtils.encodeCheckbox(context, selected);
@@ -287,9 +303,9 @@ public class SelectManyMenuRenderer extends SelectManyRenderer {
             return;
         }
 
-        writer.startElement("option", null);
-        writer.writeAttribute("value", itemValueAsString, null);
-        if (disabled) writer.writeAttribute("disabled", "disabled", null);
+        writer.startElement(OPTION, null);
+        writer.writeAttribute(VALUE, itemValueAsString, null);
+        if (disabled) writer.writeAttribute(DISABLED, DISABLED, null);
         if (selected) writer.writeAttribute("selected", "selected", null);
 
         if (option.isEscape()) {
@@ -299,7 +315,7 @@ public class SelectManyMenuRenderer extends SelectManyRenderer {
             writer.write(option.getLabel());
         }
 
-        writer.endElement("option");
+        writer.endElement(OPTION);
     }
 
     protected void encodeFilter(FacesContext context, SelectManyMenu menu) throws IOException {
@@ -308,24 +324,24 @@ public class SelectManyMenuRenderer extends SelectManyRenderer {
         boolean disabled = menu.isDisabled();
         String filterClass = disabled ? SelectManyMenu.FILTER_CLASS + " ui-state-disabled" : SelectManyMenu.FILTER_CLASS;
 
-        writer.startElement("div", null);
-        writer.writeAttribute("class", SelectManyMenu.FILTER_CONTAINER_CLASS, null);
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, SelectManyMenu.FILTER_CONTAINER_CLASS, null);
 
-        writer.startElement("span", null);
-        writer.writeAttribute("class", SelectManyMenu.FILTER_ICON_CLASS, id);
-        writer.endElement("span");
+        writer.startElement(SPAN, null);
+        writer.writeAttribute(CLASS, SelectManyMenu.FILTER_ICON_CLASS, id);
+        writer.endElement(SPAN);
 
-        writer.startElement("input", null);
-        writer.writeAttribute("class", filterClass, null);
+        writer.startElement(INPUT, null);
+        writer.writeAttribute(CLASS, filterClass, null);
         writer.writeAttribute("id", id, null);
-        writer.writeAttribute("name", id, null);
-        writer.writeAttribute("type", "text", null);
+        writer.writeAttribute(NAME, id, null);
+        writer.writeAttribute(TYPE, "text", null);
         writer.writeAttribute("autocomplete", "off", null);
-        if (disabled) writer.writeAttribute("disabled", "disabled", null);
+        if (disabled) writer.writeAttribute(DISABLED, DISABLED, null);
 
-        writer.endElement("input");
+        writer.endElement(INPUT);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected String calculateWrapperHeight(SelectManyMenu menu, int itemSize) {

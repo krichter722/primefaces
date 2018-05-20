@@ -28,10 +28,26 @@ import javax.faces.convert.ConverterException;
 import javax.faces.model.SelectItem;
 import javax.faces.model.SelectItemGroup;
 import javax.faces.render.Renderer;
+import static org.primefaces.component.Literals.UI_STATE_ERROR;
 import org.primefaces.expression.SearchExpressionFacade;
 import org.primefaces.renderkit.SelectManyRenderer;
 import org.primefaces.util.ComponentUtils;
 import org.primefaces.util.WidgetBuilder;
+import static org.primefaces.component.Literals.CHECKED;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DISABLED;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.FILTER;
+import static org.primefaces.component.Literals.INPUT;
+import static org.primefaces.component.Literals.LABEL;
+import static org.primefaces.component.Literals.NAME;
+import static org.primefaces.component.Literals.READONLY;
+import static org.primefaces.component.Literals.SPAN;
+import static org.primefaces.component.Literals.STYLE;
+import static org.primefaces.component.Literals.TABINDEX;
+import static org.primefaces.component.Literals.TITLE;
+import static org.primefaces.component.Literals.TYPE;
+import static org.primefaces.component.Literals.VALUE;
 
 public class SelectCheckboxMenuRenderer extends SelectManyRenderer {
 
@@ -64,14 +80,14 @@ public class SelectCheckboxMenuRenderer extends SelectManyRenderer {
         String styleclass = menu.getStyleClass();
         styleclass = styleclass == null ? SelectCheckboxMenu.STYLE_CLASS : SelectCheckboxMenu.STYLE_CLASS + " " + styleclass;
         styleclass = menu.isDisabled() ? styleclass + " ui-state-disabled" : styleclass;
-        styleclass = !valid ? styleclass + " ui-state-error" : styleclass;
+        styleclass = !valid ? styleclass + " " + UI_STATE_ERROR : styleclass;
         styleclass = menu.isMultiple() ? SelectCheckboxMenu.MULTIPLE_CLASS + " " + styleclass : styleclass;
 
-        writer.startElement("div", menu);
+        writer.startElement(DIV, menu);
         writer.writeAttribute("id", clientId, "id");
-        writer.writeAttribute("class", styleclass, "styleclass");
-        if (style != null) writer.writeAttribute("style", style, "style");
-        if (title != null) writer.writeAttribute("title", title, "title");
+        writer.writeAttribute(CLASS, styleclass, "styleclass");
+        if (style != null) writer.writeAttribute(STYLE, style, STYLE);
+        if (title != null) writer.writeAttribute(TITLE, title, TITLE);
 
         encodeKeyboardTarget(context, menu);
         encodeInputs(context, menu, selectItems);
@@ -84,7 +100,7 @@ public class SelectCheckboxMenuRenderer extends SelectManyRenderer {
 
         encodeMenuIcon(context, menu, valid);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeInputs(FacesContext context, SelectCheckboxMenu menu, List<SelectItem> selectItems) throws IOException {
@@ -93,8 +109,8 @@ public class SelectCheckboxMenuRenderer extends SelectManyRenderer {
         Object values = getValues(menu);
         Object submittedValues = getSubmittedValues(menu);
 
-        writer.startElement("div", menu);
-        writer.writeAttribute("class", "ui-helper-hidden", null);
+        writer.startElement(DIV, menu);
+        writer.writeAttribute(CLASS, "ui-helper-hidden", null);
 
         int idx = -1;
         for (int i = 0; i < selectItems.size(); i++) {
@@ -113,7 +129,7 @@ public class SelectCheckboxMenuRenderer extends SelectManyRenderer {
             }
         }
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeOption(FacesContext context, SelectCheckboxMenu menu, Object values, Object submittedValues,
@@ -149,28 +165,28 @@ public class SelectCheckboxMenuRenderer extends SelectManyRenderer {
         }
 
         //input
-        writer.startElement("input", null);
+        writer.startElement(INPUT, null);
         writer.writeAttribute("id", id, null);
-        writer.writeAttribute("name", name, null);
-        writer.writeAttribute("type", "checkbox", null);
-        writer.writeAttribute("value", itemValueAsString, null);
+        writer.writeAttribute(NAME, name, null);
+        writer.writeAttribute(TYPE, "checkbox", null);
+        writer.writeAttribute(VALUE, itemValueAsString, null);
         writer.writeAttribute("data-escaped", String.valueOf(escaped), null);
         if (selectItemGroupLabel != null) {
             writer.writeAttribute("group-label", selectItemGroupLabel, null);
         }
 
-        if (checked) writer.writeAttribute("checked", "checked", null);
-        if (disabled) writer.writeAttribute("disabled", "disabled", null);
-        if (option.getDescription() != null) writer.writeAttribute("title", option.getDescription(), null);
+        if (checked) writer.writeAttribute(CHECKED, CHECKED, null);
+        if (disabled) writer.writeAttribute(DISABLED, DISABLED, null);
+        if (option.getDescription() != null) writer.writeAttribute(TITLE, option.getDescription(), null);
         if (menu.getOnchange() != null) writer.writeAttribute("onchange", menu.getOnchange(), null);
 
-        writer.endElement("input");
+        writer.endElement(INPUT);
 
         //label
-        writer.startElement("label", null);
+        writer.startElement(LABEL, null);
         writer.writeAttribute("for", id, null);
         if (disabled) {
-            writer.writeAttribute("class", "ui-state-disabled", null);
+            writer.writeAttribute(CLASS, "ui-state-disabled", null);
         }
 
         if (itemLabel.equals("&nbsp;")) {
@@ -178,31 +194,31 @@ public class SelectCheckboxMenuRenderer extends SelectManyRenderer {
         }
         else {
             if (escaped) {
-                writer.writeText(itemLabel, "value");
+                writer.writeText(itemLabel, VALUE);
             }
             else {
                 writer.write(itemLabel);
             }
         }
 
-        writer.endElement("label");
+        writer.endElement(LABEL);
     }
 
     protected void encodeLabel(FacesContext context, SelectCheckboxMenu menu, List<SelectItem> selectItems, boolean valid) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
         String label = menu.getLabel();
-        String labelClass = !valid ? SelectCheckboxMenu.LABEL_CLASS + " ui-state-error" : SelectCheckboxMenu.LABEL_CLASS;
+        String labelClass = !valid ? SelectCheckboxMenu.LABEL_CLASS + " " + UI_STATE_ERROR : SelectCheckboxMenu.LABEL_CLASS;
         if (label == null) {
             label = "&nbsp;";
         }
 
-        writer.startElement("span", null);
-        writer.writeAttribute("class", SelectCheckboxMenu.LABEL_CONTAINER_CLASS, null);
-        writer.startElement("label", null);
-        writer.writeAttribute("class", labelClass, null);
+        writer.startElement(SPAN, null);
+        writer.writeAttribute(CLASS, SelectCheckboxMenu.LABEL_CONTAINER_CLASS, null);
+        writer.startElement(LABEL, null);
+        writer.writeAttribute(CLASS, labelClass, null);
         writer.writeText(label, null);
-        writer.endElement("label");
-        writer.endElement("span");
+        writer.endElement(LABEL);
+        writer.endElement(SPAN);
     }
 
     protected void encodeMultipleLabel(FacesContext context, SelectCheckboxMenu menu, List<SelectItem> selectItems, boolean valid)
@@ -214,21 +230,21 @@ public class SelectCheckboxMenuRenderer extends SelectManyRenderer {
         Object valuesArray = (submittedValues != null) ? submittedValues : values;
         String listClass = menu.isDisabled() ?
                 SelectCheckboxMenu.MULTIPLE_CONTAINER_CLASS + " ui-state-disabled" : SelectCheckboxMenu.MULTIPLE_CONTAINER_CLASS;
-        listClass = valid ? listClass : listClass + " ui-state-error";
+        listClass = valid ? listClass : listClass + " " + UI_STATE_ERROR;
 
         writer.startElement("ul", null);
-        writer.writeAttribute("class", listClass, null);
+        writer.writeAttribute(CLASS, listClass, null);
         if (valuesArray != null) {
             int length = Array.getLength(valuesArray);
             for (int i = 0; i < length; i++) {
                 Object value = Array.get(valuesArray, i);
                 String itemValueAsString = getOptionAsString(context, menu, converter, value);
                 writer.startElement("li", null);
-                writer.writeAttribute("class", SelectCheckboxMenu.TOKEN_DISPLAY_CLASS, null);
+                writer.writeAttribute(CLASS, SelectCheckboxMenu.TOKEN_DISPLAY_CLASS, null);
                 writer.writeAttribute("data-item-value", itemValueAsString, null);
 
-                writer.startElement("span", null);
-                writer.writeAttribute("class", SelectCheckboxMenu.TOKEN_LABEL_CLASS, null);
+                writer.startElement(SPAN, null);
+                writer.writeAttribute(CLASS, SelectCheckboxMenu.TOKEN_LABEL_CLASS, null);
 
                 SelectItem selectedItem = null;
                 for (SelectItem item : selectItems) {
@@ -259,11 +275,11 @@ public class SelectCheckboxMenuRenderer extends SelectManyRenderer {
                     writer.writeText(value, null);
                 }
 
-                writer.endElement("span");
+                writer.endElement(SPAN);
 
-                writer.startElement("span", null);
-                writer.writeAttribute("class", SelectCheckboxMenu.TOKEN_ICON_CLASS, null);
-                writer.endElement("span");
+                writer.startElement(SPAN, null);
+                writer.writeAttribute(CLASS, SelectCheckboxMenu.TOKEN_ICON_CLASS, null);
+                writer.endElement(SPAN);
 
                 writer.endElement("li");
             }
@@ -274,16 +290,16 @@ public class SelectCheckboxMenuRenderer extends SelectManyRenderer {
 
     protected void encodeMenuIcon(FacesContext context, SelectCheckboxMenu menu, boolean valid) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
-        String iconClass = valid ? SelectCheckboxMenu.TRIGGER_CLASS : SelectCheckboxMenu.TRIGGER_CLASS + " ui-state-error";
+        String iconClass = valid ? SelectCheckboxMenu.TRIGGER_CLASS : SelectCheckboxMenu.TRIGGER_CLASS + " " + UI_STATE_ERROR;
 
-        writer.startElement("div", menu);
-        writer.writeAttribute("class", iconClass, null);
+        writer.startElement(DIV, menu);
+        writer.writeAttribute(CLASS, iconClass, null);
 
-        writer.startElement("span", menu);
-        writer.writeAttribute("class", "ui-icon ui-icon-triangle-1-s", null);
-        writer.endElement("span");
+        writer.startElement(SPAN, menu);
+        writer.writeAttribute(CLASS, "ui-icon ui-icon-triangle-1-s", null);
+        writer.endElement(SPAN);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeScript(FacesContext context, SelectCheckboxMenu menu) throws IOException {
@@ -302,7 +318,7 @@ public class SelectCheckboxMenuRenderer extends SelectManyRenderer {
                 .attr("appendTo", SearchExpressionFacade.resolveClientId(context, menu, menu.getAppendTo()), null);
 
         if (menu.isFilter()) {
-            wb.attr("filter", true)
+            wb.attr(FILTER, true)
                     .attr("filterMatchMode", menu.getFilterMatchMode(), null)
                     .nativeAttr("filterFunction", menu.getFilterFunction(), null)
                     .attr("caseSensitive", menu.isCaseSensitive(), false);
@@ -325,17 +341,17 @@ public class SelectCheckboxMenuRenderer extends SelectManyRenderer {
         String inputId = menu.getClientId(context) + "_focus";
         String tabindex = menu.getTabindex();
 
-        writer.startElement("div", null);
-        writer.writeAttribute("class", "ui-helper-hidden-accessible", null);
-        writer.startElement("input", menu);
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, "ui-helper-hidden-accessible", null);
+        writer.startElement(INPUT, menu);
         writer.writeAttribute("id", inputId, null);
-        writer.writeAttribute("name", inputId, null);
-        writer.writeAttribute("type", "text", null);
-        writer.writeAttribute("readonly", "readonly", null);
+        writer.writeAttribute(NAME, inputId, null);
+        writer.writeAttribute(TYPE, "text", null);
+        writer.writeAttribute(READONLY, READONLY, null);
         if (tabindex != null) {
-            writer.writeAttribute("tabindex", tabindex, null);
+            writer.writeAttribute(TABINDEX, tabindex, null);
         }
-        writer.endElement("input");
-        writer.endElement("div");
+        writer.endElement(INPUT);
+        writer.endElement(DIV);
     }
 }

@@ -32,6 +32,8 @@ import org.primefaces.util.XMLUtils;
 
 public class XMLExporter extends Exporter {
 
+    private static final String CLOSE_NL = ">\n";
+
     @Override
     public void export(FacesContext context, DataTable table, String filename, boolean pageOnly, boolean selectionOnly,
             String encodingType, MethodExpression preProcessor, MethodExpression postProcessor, ExporterOptions options,
@@ -39,14 +41,13 @@ public class XMLExporter extends Exporter {
         
         ExternalContext externalContext = context.getExternalContext();
         configureResponse(externalContext, filename);
-        StringBuilder builder = new StringBuilder();
+        StringBuilder builder = new StringBuilder(1024);
 
         if (preProcessor != null) {
             preProcessor.invoke(context.getELContext(), new Object[]{builder});
         }
 
-        builder.append("<?xml version=\"1.0\"?>\n");
-        builder.append("<" + table.getId() + ">\n");
+        builder.append("<?xml version=\"1.0\"?>\n<" + table.getId() + CLOSE_NL);
 
         if (pageOnly) {
             exportPageOnly(context, table, builder);
@@ -92,12 +93,12 @@ public class XMLExporter extends Exporter {
 
     @Override
     protected void preRowExport(DataTable table, Object document) {
-        ((StringBuilder) document).append("\t<" + table.getVar() + ">\n");
+        ((StringBuilder) document).append("\t<" + table.getVar() + CLOSE_NL);
     }
 
     @Override
     protected void postRowExport(DataTable table, Object document) {
-        ((StringBuilder) document).append("\t</" + table.getVar() + ">\n");
+        ((StringBuilder) document).append("\t</" + table.getVar() + CLOSE_NL);
     }
 
     @Override
@@ -158,7 +159,7 @@ public class XMLExporter extends Exporter {
             }
         }
 
-        builder.append("</" + tag + ">\n");
+        builder.append("</" + tag + CLOSE_NL);
     }
 
     protected void configureResponse(ExternalContext externalContext, String filename) {

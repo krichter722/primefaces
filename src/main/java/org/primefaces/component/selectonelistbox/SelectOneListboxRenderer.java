@@ -30,6 +30,22 @@ import org.primefaces.context.PrimeApplicationContext;
 import org.primefaces.renderkit.SelectOneRenderer;
 import org.primefaces.util.ComponentUtils;
 import org.primefaces.util.WidgetBuilder;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DISABLED;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.FILTER;
+import static org.primefaces.component.Literals.INPUT;
+import static org.primefaces.component.Literals.NAME;
+import static org.primefaces.component.Literals.OPTION;
+import static org.primefaces.component.Literals.SELECT;
+import static org.primefaces.component.Literals.SPAN;
+import static org.primefaces.component.Literals.STYLE;
+import static org.primefaces.component.Literals.TABINDEX;
+import static org.primefaces.component.Literals.TABLE;
+import static org.primefaces.component.Literals.TBODY;
+import static org.primefaces.component.Literals.TITLE;
+import static org.primefaces.component.Literals.TYPE;
+import static org.primefaces.component.Literals.VALUE;
 
 public class SelectOneListboxRenderer extends SelectOneRenderer {
 
@@ -62,11 +78,11 @@ public class SelectOneListboxRenderer extends SelectOneRenderer {
         styleClass = listbox.isDisabled() ? styleClass + " ui-state-disabled" : styleClass;
         styleClass = !listbox.isValid() ? styleClass + " ui-state-error" : styleClass;
 
-        writer.startElement("div", listbox);
+        writer.startElement(DIV, listbox);
         writer.writeAttribute("id", clientId, "id");
-        writer.writeAttribute("class", styleClass, "styleClass");
+        writer.writeAttribute(CLASS, styleClass, "styleClass");
         if (style != null) {
-            writer.writeAttribute("style", style, "style");
+            writer.writeAttribute(STYLE, style, STYLE);
         }
 
         if (listbox.isFilter()) {
@@ -76,17 +92,17 @@ public class SelectOneListboxRenderer extends SelectOneRenderer {
         encodeInput(context, listbox, clientId, selectItems);
         encodeList(context, listbox, selectItems);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeScript(FacesContext context, SelectOneListbox listbox) throws IOException {
         String clientId = listbox.getClientId(context);
         WidgetBuilder wb = getWidgetBuilder(context);
         wb.init("SelectOneListbox", listbox.resolveWidgetVar(), clientId)
-                .attr("disabled", listbox.isDisabled(), false);
+                .attr(DISABLED, listbox.isDisabled(), false);
 
         if (listbox.isFilter()) {
-            wb.attr("filter", true)
+            wb.attr(FILTER, true)
                     .attr("filterMatchMode", listbox.getFilterMatchMode(), null)
                     .nativeAttr("filterFunction", listbox.getFilterFunction(), null)
                     .attr("caseSensitive", listbox.isCaseSensitive(), false);
@@ -102,18 +118,18 @@ public class SelectOneListboxRenderer extends SelectOneRenderer {
         String inputid = clientId + "_input";
         String labelledBy = listbox.getLabelledBy();
 
-        writer.startElement("div", listbox);
-        writer.writeAttribute("class", "ui-helper-hidden-accessible", null);
+        writer.startElement(DIV, listbox);
+        writer.writeAttribute(CLASS, "ui-helper-hidden-accessible", null);
 
-        writer.startElement("select", listbox);
+        writer.startElement(SELECT, listbox);
         writer.writeAttribute("id", inputid, "id");
-        writer.writeAttribute("name", inputid, null);
+        writer.writeAttribute(NAME, inputid, null);
         writer.writeAttribute("size", "2", null);   //prevent browser to send value when no item is selected
 
         renderDomEvents(context, listbox, SelectOneListbox.DOM_EVENTS);
 
         if (listbox.getTabindex() != null) {
-            writer.writeAttribute("tabindex", listbox.getTabindex(), null);
+            writer.writeAttribute(TABINDEX, listbox.getTabindex(), null);
         }
 
         if (labelledBy != null) {
@@ -126,9 +142,9 @@ public class SelectOneListboxRenderer extends SelectOneRenderer {
 
         encodeSelectItems(context, listbox, selectItems);
 
-        writer.endElement("select");
+        writer.endElement(SELECT);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeList(FacesContext context, SelectOneListbox listbox, List<SelectItem> selectItems) throws IOException {
@@ -138,24 +154,24 @@ public class SelectOneListboxRenderer extends SelectOneRenderer {
         Object submittedValues = getSubmittedValues(listbox);
         boolean customContent = listbox.getVar() != null;
         
-        writer.startElement("div", listbox);
-        writer.writeAttribute("class", SelectOneListbox.LIST_CONTAINER_CLASS, null);
-        writer.writeAttribute("style", "height:" + calculateWrapperHeight(listbox, countSelectItems(selectItems)), null);
+        writer.startElement(DIV, listbox);
+        writer.writeAttribute(CLASS, SelectOneListbox.LIST_CONTAINER_CLASS, null);
+        writer.writeAttribute(STYLE, "height:" + calculateWrapperHeight(listbox, countSelectItems(selectItems)), null);
 
         if (customContent) {
-            writer.startElement("table", null);
-            writer.writeAttribute("class", SelectOneListbox.LIST_CLASS, null);
-            writer.startElement("tbody", null);
+            writer.startElement(TABLE, null);
+            writer.writeAttribute(CLASS, SelectOneListbox.LIST_CLASS, null);
+            writer.startElement(TBODY, null);
             for (int i = 0; i < selectItems.size(); i++) {
                 SelectItem selectItem = selectItems.get(i);
                 encodeItem(context, listbox, selectItem, values, submittedValues, converter, customContent);
             }
-            writer.endElement("tbody");
-            writer.endElement("table");
+            writer.endElement(TBODY);
+            writer.endElement(TABLE);
         }
         else {
             writer.startElement("ul", null);
-            writer.writeAttribute("class", SelectOneListbox.LIST_CLASS, null);
+            writer.writeAttribute(CLASS, SelectOneListbox.LIST_CLASS, null);
             for (int i = 0; i < selectItems.size(); i++) {
                 SelectItem selectItem = selectItems.get(i);
                 encodeItem(context, listbox, selectItem, values, submittedValues, converter, customContent);
@@ -163,7 +179,7 @@ public class SelectOneListboxRenderer extends SelectOneRenderer {
             writer.endElement("ul");
         }
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeItem(FacesContext context, SelectOneListbox listbox, SelectItem option, Object values, Object submittedValues,
@@ -199,18 +215,18 @@ public class SelectOneListboxRenderer extends SelectOneRenderer {
             context.getExternalContext().getRequestMap().put(var, option.getValue());
 
             writer.startElement("tr", null);
-            writer.writeAttribute("class", itemClass, null);
+            writer.writeAttribute(CLASS, itemClass, null);
             if (option.getDescription() != null) {
-                writer.writeAttribute("title", option.getDescription(), null);
+                writer.writeAttribute(TITLE, option.getDescription(), null);
             }
 
             for (UIComponent child : listbox.getChildren()) {
                 if (child instanceof Column && child.isRendered()) {
                     writer.startElement("td", null);
                     
-                    writer.startElement("span", null);
+                    writer.startElement(SPAN, null);
                     renderChildren(context, child);
-                    writer.endElement("span");
+                    writer.endElement(SPAN);
                     
                     writer.endElement("td");
                 }
@@ -220,16 +236,16 @@ public class SelectOneListboxRenderer extends SelectOneRenderer {
         }
         else {
             writer.startElement("li", null);
-            writer.writeAttribute("class", itemClass, null);
+            writer.writeAttribute(CLASS, itemClass, null);
             
-            writer.startElement("span", null);
+            writer.startElement(SPAN, null);
             if (option.isEscape()) {
                 writer.writeText(option.getLabel(), null);
             }
             else {
                 writer.write(option.getLabel());
             }
-            writer.endElement("span");
+            writer.endElement(SPAN);
 
             writer.endElement("li");
         }
@@ -270,9 +286,9 @@ public class SelectOneListboxRenderer extends SelectOneRenderer {
             return;
         }
 
-        writer.startElement("option", null);
-        writer.writeAttribute("value", itemValueAsString, null);
-        if (disabled) writer.writeAttribute("disabled", "disabled", null);
+        writer.startElement(OPTION, null);
+        writer.writeAttribute(VALUE, itemValueAsString, null);
+        if (disabled) writer.writeAttribute(DISABLED, DISABLED, null);
         if (selected) writer.writeAttribute("selected", "selected", null);
 
         if (option.isEscape()) {
@@ -282,7 +298,7 @@ public class SelectOneListboxRenderer extends SelectOneRenderer {
             writer.write(option.getLabel());
         }
 
-        writer.endElement("option");
+        writer.endElement(OPTION);
     }
 
     protected void encodeFilter(FacesContext context, SelectOneListbox listbox) throws IOException {
@@ -291,24 +307,24 @@ public class SelectOneListboxRenderer extends SelectOneRenderer {
         boolean disabled = listbox.isDisabled();
         String filterClass = disabled ? SelectOneListbox.FILTER_CLASS + " ui-state-disabled" : SelectOneListbox.FILTER_CLASS;
 
-        writer.startElement("div", null);
-        writer.writeAttribute("class", SelectOneListbox.FILTER_CONTAINER_CLASS, null);
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, SelectOneListbox.FILTER_CONTAINER_CLASS, null);
 
-        writer.startElement("span", null);
-        writer.writeAttribute("class", SelectOneListbox.FILTER_ICON_CLASS, id);
-        writer.endElement("span");
+        writer.startElement(SPAN, null);
+        writer.writeAttribute(CLASS, SelectOneListbox.FILTER_ICON_CLASS, id);
+        writer.endElement(SPAN);
 
-        writer.startElement("input", null);
-        writer.writeAttribute("class", filterClass, null);
+        writer.startElement(INPUT, null);
+        writer.writeAttribute(CLASS, filterClass, null);
         writer.writeAttribute("id", id, null);
-        writer.writeAttribute("name", id, null);
-        writer.writeAttribute("type", "text", null);
+        writer.writeAttribute(NAME, id, null);
+        writer.writeAttribute(TYPE, "text", null);
         writer.writeAttribute("autocomplete", "off", null);
-        if (disabled) writer.writeAttribute("disabled", "disabled", null);
+        if (disabled) writer.writeAttribute(DISABLED, DISABLED, null);
 
-        writer.endElement("input");
+        writer.endElement(INPUT);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected String calculateWrapperHeight(SelectOneListbox listbox, int itemSize) {

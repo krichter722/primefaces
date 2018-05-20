@@ -26,6 +26,12 @@ import org.primefaces.expression.SearchExpressionFacade;
 import org.primefaces.renderkit.CoreRenderer;
 import org.primefaces.util.ComponentUtils;
 import org.primefaces.util.WidgetBuilder;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DISABLED;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.INPUT;
+import static org.primefaces.component.Literals.STYLE;
+import static org.primefaces.component.Literals.VALUE;
 
 public class SliderRenderer extends CoreRenderer {
 
@@ -46,12 +52,12 @@ public class SliderRenderer extends CoreRenderer {
         ResponseWriter writer = context.getResponseWriter();
         String clientId = slider.getClientId(context);
 
-        writer.startElement("div", slider);
+        writer.startElement(DIV, slider);
         writer.writeAttribute("id", clientId , "id");
-        if (slider.getStyle() != null)  writer.writeAttribute("style", slider.getStyle() , null);
-        if (slider.getStyleClass() != null) writer.writeAttribute("class", slider.getStyleClass(), null);
+        if (slider.getStyle() != null)  writer.writeAttribute(STYLE, slider.getStyle() , null);
+        if (slider.getStyleClass() != null) writer.writeAttribute(CLASS, slider.getStyleClass(), null);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeScript(FacesContext context, Slider slider) throws IOException {
@@ -69,15 +75,15 @@ public class SliderRenderer extends CoreRenderer {
             String inputMinValue = ComponentUtils.getValueToRender(context, inputMin);
             String inputMaxValue = ComponentUtils.getValueToRender(context, inputMax);
 
-            wb.attr("input", inputMin.getClientId(context) + "," + inputMax.getClientId(context))
-                    .append(",values:[").append(inputMinValue).append(",").append(inputMaxValue).append("]");
+            wb.attr(INPUT, inputMin.getClientId(context) + "," + inputMax.getClientId(context))
+                    .append(",values:[").append(inputMinValue).append(',').append(inputMaxValue).append(']');
         }
         else {
             UIComponent input = getTarget(context, slider, slider.getFor());
             String inputClientId = input instanceof InputHolder ? ((InputHolder) input).getInputClientId() : input.getClientId(context);
 
-            wb.attr("value", ComponentUtils.getValueToRender(context, input))
-                    .attr("input", inputClientId);
+            wb.attr(VALUE, ComponentUtils.getValueToRender(context, input))
+                    .attr(INPUT, inputClientId);
         }
 
         wb.attr("min", slider.getMinValue())
@@ -85,7 +91,7 @@ public class SliderRenderer extends CoreRenderer {
                 .attr("animate", slider.isAnimate())
                 .attr("step", slider.getStep())
                 .attr("orientation", slider.getType())
-                .attr("disabled", slider.isDisabled(), false)
+                .attr(DISABLED, slider.isDisabled(), false)
                 .attr("range", range)
                 .attr("displayTemplate", slider.getDisplayTemplate(), null)
                 .callback("onSlideStart", "function(event,ui)", slider.getOnSlideStart())

@@ -25,6 +25,7 @@ import org.primefaces.renderkit.CoreRenderer;
 public class FeedReaderRenderer extends CoreRenderer {
 
     @Override
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
         FeedReader reader = (FeedReader) component;
         Map<String, Object> requestMap = context.getExternalContext().getRequestMap();

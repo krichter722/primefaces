@@ -30,6 +30,8 @@ import org.primefaces.context.PrimeRequestContext;
 import org.primefaces.renderkit.CoreRenderer;
 import org.primefaces.util.AjaxRequestBuilder;
 import org.primefaces.util.ComponentTraversalUtils;
+import static org.primefaces.component.Literals.SCRIPT;
+import static org.primefaces.component.Literals.TYPE;
 
 public class RemoteCommandRenderer extends CoreRenderer {
 
@@ -84,9 +86,9 @@ public class RemoteCommandRenderer extends CoreRenderer {
                 .build();
 
         //script
-        writer.startElement("script", command);
+        writer.startElement(SCRIPT, command);
         writer.writeAttribute("id", clientId, null);
-        writer.writeAttribute("type", "text/javascript", null);
+        writer.writeAttribute(TYPE, "text/javascript", null);
 
         writer.write(name + " = function() {");
         writer.write(request);
@@ -98,7 +100,7 @@ public class RemoteCommandRenderer extends CoreRenderer {
             writer.write("});");
         }
 
-        writer.endElement("script");
+        writer.endElement(SCRIPT);
     }
 
     protected String resolveName(RemoteCommand command, FacesContext context) {

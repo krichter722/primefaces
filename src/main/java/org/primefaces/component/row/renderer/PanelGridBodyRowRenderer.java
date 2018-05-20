@@ -21,6 +21,8 @@ import javax.faces.context.ResponseWriter;
 import org.primefaces.component.panelgrid.PanelGrid;
 import org.primefaces.component.row.Row;
 import org.primefaces.renderkit.CoreRenderer;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.ROLE;
 
 public class PanelGridBodyRowRenderer extends CoreRenderer implements HelperRowRenderer {
 
@@ -29,8 +31,8 @@ public class PanelGridBodyRowRenderer extends CoreRenderer implements HelperRowR
         ResponseWriter writer = context.getResponseWriter();
 
         writer.startElement("tr", row);
-        writer.writeAttribute("class", PanelGrid.TABLE_ROW_CLASS, null);
-        writer.writeAttribute("role", "row", null);
+        writer.writeAttribute(CLASS, PanelGrid.TABLE_ROW_CLASS, null);
+        writer.writeAttribute(ROLE, "row", null);
         renderChildren(context, row);
         writer.endElement("tr");
     }

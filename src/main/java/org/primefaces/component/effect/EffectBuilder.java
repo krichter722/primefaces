@@ -19,6 +19,7 @@ import org.primefaces.model.JSObjectBuilder;
 
 public class EffectBuilder implements JSObjectBuilder {
 
+    @SuppressWarnings("PMD.AvoidStringBufferField")
     private StringBuffer buffer;
 
     private boolean hasOption = false;
@@ -38,14 +39,14 @@ public class EffectBuilder implements JSObjectBuilder {
 
     public EffectBuilder withOption(String name, String value) {
         if (hasOption) {
-            buffer.append(",");
+            buffer.append(',');
         }
         else {
             hasOption = true;
         }
 
         buffer.append(name);
-        buffer.append(":");
+        buffer.append(':');
         buffer.append(value);
 
         return this;

@@ -22,6 +22,7 @@ import java.util.Map;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
+import static org.primefaces.component.Literals.VALUE;
 
 public class JSONObjectTest {
 
@@ -59,7 +60,7 @@ public class JSONObjectTest {
     public void testMapToJSONObject() throws JSONException {
         Map<String, String> myMap = new HashMap<String, String>();
         for (int j = 0; j < 5; j++) {
-            myMap.put("key" + j, "value" + j);
+            myMap.put("key" + j, VALUE + j);
         }
 
         assertEquals(5, new JSONObject(myMap).length());

@@ -23,6 +23,9 @@ import javax.faces.context.ResponseWriter;
 import org.primefaces.expression.SearchExpressionFacade;
 import org.primefaces.renderkit.CoreRenderer;
 import org.primefaces.util.WidgetBuilder;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.STYLE;
 
 public class OverlayPanelRenderer extends CoreRenderer {
 
@@ -46,21 +49,21 @@ public class OverlayPanelRenderer extends CoreRenderer {
         String styleClass = panel.getStyleClass();
         styleClass = styleClass == null ? OverlayPanel.STYLE_CLASS : OverlayPanel.STYLE_CLASS + " " + styleClass;
 
-        writer.startElement("div", panel);
+        writer.startElement(DIV, panel);
         writer.writeAttribute("id", clientId, "id");
-        writer.writeAttribute("class", styleClass, "styleClass");
+        writer.writeAttribute(CLASS, styleClass, "styleClass");
         if (style != null) {
-            writer.writeAttribute("style", style, "style");
+            writer.writeAttribute(STYLE, style, STYLE);
         }
 
-        writer.startElement("div", null);
-        writer.writeAttribute("class", OverlayPanel.CONTENT_CLASS, "styleClass");
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, OverlayPanel.CONTENT_CLASS, "styleClass");
         if (!panel.isDynamic()) {
             renderChildren(context, panel);
         }
-        writer.endElement("div");
+        writer.endElement(DIV);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeScript(FacesContext context, OverlayPanel panel) throws IOException {

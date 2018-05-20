@@ -20,9 +20,12 @@ import java.io.IOException;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import static org.primefaces.component.Literals.CLASS;
 
 import org.primefaces.renderkit.CoreRenderer;
 import org.primefaces.util.WidgetBuilder;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.STYLE;
 
 public class AjaxStatusRenderer extends CoreRenderer {
 
@@ -51,11 +54,11 @@ public class AjaxStatusRenderer extends CoreRenderer {
         ResponseWriter writer = context.getResponseWriter();
         String clientId = status.getClientId(context);
 
-        writer.startElement("div", null);
+        writer.startElement(DIV, null);
         writer.writeAttribute("id", clientId, null);
 
-        if (status.getStyle() != null) writer.writeAttribute("style", status.getStyle(), "style");
-        if (status.getStyleClass() != null) writer.writeAttribute("class", status.getStyleClass(), "styleClass");
+        if (status.getStyle() != null) writer.writeAttribute(STYLE, status.getStyle(), STYLE);
+        if (status.getStyleClass() != null) writer.writeAttribute(CLASS, status.getStyleClass(), "styleClass");
 
         for (String event : AjaxStatus.EVENTS) {
             UIComponent facet = status.getFacet(event);
@@ -70,20 +73,20 @@ public class AjaxStatusRenderer extends CoreRenderer {
             encodeFacet(context, clientId, defaultFacet, AjaxStatus.DEFAULT, false);
         }
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeFacet(FacesContext context, String clientId, UIComponent facet, String facetName, boolean hidden) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
 
-        writer.startElement("div", null);
+        writer.startElement(DIV, null);
         writer.writeAttribute("id", clientId + "_" + facetName, null);
         if (hidden) {
-            writer.writeAttribute("style", "display:none", null);
+            writer.writeAttribute(STYLE, "display:none", null);
         }
 
         renderChild(context, facet);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 }

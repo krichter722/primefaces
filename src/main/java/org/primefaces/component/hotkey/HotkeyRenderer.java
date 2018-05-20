@@ -23,6 +23,8 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.event.ActionEvent;
+import static org.primefaces.component.Literals.SCRIPT;
+import static org.primefaces.component.Literals.TYPE;
 
 import org.primefaces.context.PrimeRequestContext;
 import org.primefaces.renderkit.CoreRenderer;
@@ -47,8 +49,8 @@ public class HotkeyRenderer extends CoreRenderer {
         Hotkey hotkey = (Hotkey) component;
         String clientId = hotkey.getClientId(context);
 
-        writer.startElement("script", null);
-        writer.writeAttribute("type", "text/javascript", null);
+        writer.startElement(SCRIPT, null);
+        writer.writeAttribute(TYPE, "text/javascript", null);
 
         writer.write("$(function() {");
         writer.write("$(document).bind('keydown', '" + hotkey.getBind() + "', function(){");
@@ -89,6 +91,6 @@ public class HotkeyRenderer extends CoreRenderer {
 
         writer.write(";return false;});});");
 
-        writer.endElement("script");
+        writer.endElement(SCRIPT);
     }
 }

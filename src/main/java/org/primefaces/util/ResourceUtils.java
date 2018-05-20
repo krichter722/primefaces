@@ -18,20 +18,18 @@ package org.primefaces.util;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 import javax.faces.FacesException;
 import javax.faces.application.Application;
 import javax.faces.application.Resource;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIOutput;
 import javax.faces.context.FacesContext;
+import static org.primefaces.component.Literals.NAME;
 
 public class ResourceUtils {
 
     public static final String RENDERER_SCRIPT = "javax.faces.resource.Script";
     public static final String RENDERER_STYLESHEET = "javax.faces.resource.Stylesheet";
-    
-    private static final Logger LOG = Logger.getLogger(ResourceUtils.class.getName());
     
     public static void addComponentResource(FacesContext context, String name, String library, String target) {
 
@@ -39,7 +37,7 @@ public class ResourceUtils {
 
         UIComponent componentResource = application.createComponent(UIOutput.COMPONENT_TYPE);
         componentResource.setRendererType(application.getResourceHandler().getRendererTypeForResourceName(name));
-        componentResource.getAttributes().put("name", name);
+        componentResource.getAttributes().put(NAME, name);
         componentResource.getAttributes().put("library", library);
         componentResource.getAttributes().put("target", target);
 
@@ -94,7 +92,7 @@ public class ResourceUtils {
         }
        
         String library = (String) component.getAttributes().get("library");
-        String name = (String) component.getAttributes().get("name");
+        String name = (String) component.getAttributes().get(NAME);
        
         return new ResourceInfo(library, name, component);
     }

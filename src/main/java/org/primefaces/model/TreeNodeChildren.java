@@ -36,6 +36,7 @@ public class TreeNodeChildren extends TreeNodeList {
     }
 
     @Override
+    @SuppressWarnings("PMD.AvoidThrowingNullPointerException")
     public boolean add(TreeNode node) {
         if (node == null) {
             throw new NullPointerException();
@@ -50,6 +51,7 @@ public class TreeNodeChildren extends TreeNodeList {
     }
 
     @Override
+    @SuppressWarnings("PMD.AvoidThrowingNullPointerException")
     public void add(int index, TreeNode node) {
         if (node == null) {
             throw new NullPointerException();
@@ -66,6 +68,7 @@ public class TreeNodeChildren extends TreeNodeList {
     }
 
     @Override
+    @SuppressWarnings("PMD.AvoidThrowingNullPointerException")
     public boolean addAll(Collection<? extends TreeNode> collection) {
         Iterator<TreeNode> elements = (new ArrayList<TreeNode>(collection)).iterator();
         boolean changed = false;
@@ -90,6 +93,7 @@ public class TreeNodeChildren extends TreeNodeList {
     }
 
     @Override
+    @SuppressWarnings("PMD.AvoidThrowingNullPointerException")
     public boolean addAll(int index, Collection<? extends TreeNode> collection) {
         Iterator<TreeNode> elements = (new ArrayList<TreeNode>(collection)).iterator();
         boolean changed = false;
@@ -114,6 +118,7 @@ public class TreeNodeChildren extends TreeNodeList {
     }
 
     @Override
+    @SuppressWarnings("PMD.AvoidThrowingNullPointerException")
     public TreeNode set(int index, TreeNode node) {
         if (node == null) {
             throw new NullPointerException();
@@ -143,6 +148,7 @@ public class TreeNodeChildren extends TreeNodeList {
      * @return the node previously at the specified position
      */
     @Override
+    @SuppressWarnings("PMD.AvoidThrowingNullPointerException")
     public TreeNode setSibling(int index, TreeNode node) {
         if (node == null) {
             throw new NullPointerException();
@@ -173,6 +179,7 @@ public class TreeNodeChildren extends TreeNodeList {
     }
 
     @Override
+    @SuppressWarnings("PMD.AvoidThrowingNullPointerException")
     public boolean remove(Object object) {
         TreeNode node = (TreeNode) object;
         if (node == null) {

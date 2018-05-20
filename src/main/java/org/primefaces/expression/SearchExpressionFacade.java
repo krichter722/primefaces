@@ -42,6 +42,9 @@ public class SearchExpressionFacade {
     private static final String SHARED_CLIENT_ID_EXPRESSION_BUFFER_KEY = SearchExpressionFacade.class.getName() + ".SHARED_CLIENT_ID_EXPRESSION_BUFFER_KEY";
 
     private static final char[] EXPRESSION_SEPARATORS = new char[] { ',', ' ' };
+    private static final String DOT = "\".";
+    private static final String LITERAL0 = "\" referenced from \"";
+    private static final String LITERAL1 = "\" in full expression \"";
 
     /**
      * Resolves a list of {@link UIComponent}s for the given expression or expressions.
@@ -182,7 +185,7 @@ public class SearchExpressionFacade {
 
                 if (isPassTroughExpression(expression)) {
                     if (expressionsBuffer.length() > 0) {
-                        expressionsBuffer.append(" ");
+                        expressionsBuffer.append(' ');
                     }
                     expressionsBuffer.append(expression);
                 }
@@ -192,7 +195,7 @@ public class SearchExpressionFacade {
                         String clientIds = resolveClientIdsByExpressionChain(context, source, expression, separatorChar, separatorString, hints);
                         if (!ComponentUtils.isValueBlank(clientIds)) {
                             if (expressionsBuffer.length() > 0) {
-                                expressionsBuffer.append(" ");
+                                expressionsBuffer.append(' ');
                             }
                             expressionsBuffer.append(clientIds);
                         }
@@ -206,7 +209,7 @@ public class SearchExpressionFacade {
                                 String clientIds = ((ClientIdSearchExpressionResolver) resolver).resolveClientIds(context, source, source, expression, hints);
                                 if (!ComponentUtils.isValueBlank(clientIds)) {
                                     if (expressionsBuffer.length() > 0) {
-                                        expressionsBuffer.append(" ");
+                                        expressionsBuffer.append(' ');
                                     }
                                     expressionsBuffer.append(clientIds);
                                 }
@@ -218,7 +221,7 @@ public class SearchExpressionFacade {
                                     UIComponent component = result.get(j);
                                     validateRenderer(context, source, component, expression, hints);
                                     if (expressionsBuffer.length() > 0) {
-                                        expressionsBuffer.append(" ");
+                                        expressionsBuffer.append(' ');
                                     }
                                     expressionsBuffer.append(component.getClientId());
                                 }
@@ -234,7 +237,7 @@ public class SearchExpressionFacade {
                                 else {
                                     validateRenderer(context, source, component, expression, hints);
                                     if (expressionsBuffer.length() > 0) {
-                                        expressionsBuffer.append(" ");
+                                        expressionsBuffer.append(' ');
                                     }
                                     expressionsBuffer.append(component.getClientId(context));
                                 }
@@ -251,7 +254,7 @@ public class SearchExpressionFacade {
 
                             if (callback.getClientId() != null) {
                                 if (expressionsBuffer.length() > 0) {
-                                    expressionsBuffer.append(" ");
+                                    expressionsBuffer.append(' ');
                                 }
                                 expressionsBuffer.append(callback.getClientId());
                             }
@@ -275,7 +278,7 @@ public class SearchExpressionFacade {
                 LOG.warning("Can not update component \"" + component.getClass().getName()
                         + "\" with id \"" + component.getClientId(context)
                         + "\" without a attached renderer. Expression \"" + expression
-                        + "\" referenced from \"" + source.getClientId(context) + "\"");
+                        + LITERAL0 + source.getClientId(context) + "\"");
             }
         }
     }
@@ -508,8 +511,8 @@ public class SearchExpressionFacade {
                     if (!SearchExpressionUtils.isHintSet(hints, SearchExpressionHint.IGNORE_NO_RESULT)) {
                         throw new FacesException("Cannot find component for subexpression \"" + subExpression
                                 + "\" from component with id \"" + last.getClientId(context)
-                                + "\" in full expression \"" + expression
-                                + "\" referenced from \"" + source.getClientId(context) + "\".");
+                                + LITERAL1 + expression
+                                + LITERAL0 + source.getClientId(context) + DOT);
                     }
 
                     return null;
@@ -581,8 +584,8 @@ public class SearchExpressionFacade {
                             if (!SearchExpressionUtils.isHintSet(hints, SearchExpressionHint.IGNORE_NO_RESULT)) {
                                 throw new FacesException("Cannot find component for subexpression \"" + subExpression
                                         + "\" from component with id \"" + last.getClientId(context)
-                                        + "\" in full expression \"" + expression
-                                        + "\" referenced from \"" + source.getClientId(context) + "\".");
+                                        + LITERAL1 + expression
+                                        + LITERAL0 + source.getClientId(context) + DOT);
                             }
                         }
                         else {
@@ -655,7 +658,7 @@ public class SearchExpressionFacade {
                                 clientIdsBuilder = SharedStringBuilder.get(SHARED_CLIENT_ID_EXPRESSION_BUFFER_KEY);
                             }
                             else if (clientIdsBuilder.length() > 0) {
-                                clientIdsBuilder.append(" ");
+                                clientIdsBuilder.append(' ');
                             }
 
                             clientIdsBuilder.append(result);
@@ -671,8 +674,8 @@ public class SearchExpressionFacade {
                             if (!SearchExpressionUtils.isHintSet(hints, SearchExpressionHint.IGNORE_NO_RESULT)) {
                                 throw new FacesException("Cannot find component for subexpression \"" + subExpression
                                         + "\" from component with id \"" + last.getClientId(context)
-                                        + "\" in full expression \"" + expression
-                                        + "\" referenced from \"" + source.getClientId(context) + "\".");
+                                        + LITERAL1 + expression
+                                        + LITERAL0 + source.getClientId(context) + DOT);
                             }
                         }
                         else {
@@ -694,7 +697,7 @@ public class SearchExpressionFacade {
             for (int i = 0; i < lastComponents.size(); i++) {
                 UIComponent result = lastComponents.get(i);
                 if (clientIdsBuilder.length() > 0) {
-                    clientIdsBuilder.append(" ");
+                    clientIdsBuilder.append(' ');
                 }
                 clientIdsBuilder.append(result.getClientId(context));
             }
@@ -706,8 +709,8 @@ public class SearchExpressionFacade {
 
     protected static void cannotFindComponent(FacesContext context, UIComponent source, String expression) {
         throw new ComponentNotFoundException("Cannot find component for expression \""
-                + expression + "\" referenced from \""
-                + source.getClientId(context) + "\".");
+                + expression + LITERAL0
+                + source.getClientId(context) + DOT);
     }
 
     protected static String[] splitExpressions(FacesContext context, UIComponent source, String expressions) {
@@ -742,7 +745,7 @@ public class SearchExpressionFacade {
             // keywords are always related to the current component, not absolute or relative
             if (expression.startsWith(separatorString + SearchExpressionConstants.KEYWORD_PREFIX)) {
                 throw new FacesException("A expression should not start with the separater char and a keyword. "
-                        + "Expression: \"" + expression + "\" referenced from \"" + source.getClientId(context) + "\"");
+                        + "Expression: \"" + expression + LITERAL0 + source.getClientId(context) + "\"");
             }
 
             // Pattern to split expressions by the separator but not inside parenthesis
@@ -756,7 +759,7 @@ public class SearchExpressionFacade {
 
                         if (!isNestable(subExpression)) {
                             throw new FacesException("Subexpression \"" + subExpression
-                                    + "\" in full expression \"" + expression
+                                    + LITERAL1 + expression
                                     + "\" from \"" + source.getClientId(context) + "\" can not be nested.");
                         }
                     }
@@ -783,7 +786,7 @@ public class SearchExpressionFacade {
 
                     throw new FacesException("It's not possible to use @none or @all combined with other expressions."
                             + " Expressions: \"" + expressions
-                            + "\" referenced from \"" + source.getClientId(context) + "\"");
+                            + LITERAL0 + source.getClientId(context) + "\"");
                 }
             }
         }

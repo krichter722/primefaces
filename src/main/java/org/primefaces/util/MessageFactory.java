@@ -23,6 +23,7 @@ import java.util.ResourceBundle;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import static org.primefaces.component.Literals.LABEL;
 
 public class MessageFactory {
 
@@ -40,6 +41,7 @@ public class MessageFactory {
         return facesMessage;
     }
 
+    @SuppressWarnings("PMD.AvoidThrowingNullPointerException")
     public static FacesMessage getMessage(Locale locale, String messageId, Object params[]) {
         String summary = null;
         String detail = null;
@@ -121,7 +123,7 @@ public class MessageFactory {
     }
 
     public static Object getLabel(FacesContext facesContext, UIComponent component) {
-        String label = (String) component.getAttributes().get("label");
+        String label = (String) component.getAttributes().get(LABEL);
 
         if (label == null) {
             label = component.getClientId(facesContext);

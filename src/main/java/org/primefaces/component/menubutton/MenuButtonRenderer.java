@@ -22,6 +22,18 @@ import javax.faces.FacesException;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import static org.primefaces.component.Literals.BUTTON;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DISABLED;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.MENUITEM;
+import static org.primefaces.component.Literals.NAME;
+import static org.primefaces.component.Literals.ROLE;
+import static org.primefaces.component.Literals.SPAN;
+import static org.primefaces.component.Literals.STYLE;
+import static org.primefaces.component.Literals.TITLE;
+import static org.primefaces.component.Literals.TYPE;
+import static org.primefaces.component.Literals.VALUE;
 import org.primefaces.component.menu.AbstractMenu;
 import org.primefaces.component.menu.BaseMenuRenderer;
 import org.primefaces.component.menu.Menu;
@@ -44,22 +56,22 @@ public class MenuButtonRenderer extends BaseMenuRenderer {
         styleClass = styleClass == null ? MenuButton.CONTAINER_CLASS : MenuButton.CONTAINER_CLASS + " " + styleClass;
         boolean disabled = button.isDisabled();
 
-        writer.startElement("span", button);
+        writer.startElement(SPAN, button);
         writer.writeAttribute("id", clientId, "id");
-        writer.writeAttribute("class", styleClass, "class");
+        writer.writeAttribute(CLASS, styleClass, CLASS);
         
         if (button.getStyle() != null) {
-            writer.writeAttribute("style", button.getStyle(), "style");
+            writer.writeAttribute(STYLE, button.getStyle(), STYLE);
         }
         if (button.getTitle() != null) {
-            writer.writeAttribute("title", button.getTitle(), "title");
+            writer.writeAttribute(TITLE, button.getTitle(), TITLE);
         }
         encodeButton(context, button, clientId + "_button", disabled);
         if (!disabled) {
             encodeMenu(context, button, clientId + "_menu");
         }
 
-        writer.endElement("span");
+        writer.endElement(SPAN);
     }
 
     protected void encodeButton(FacesContext context, MenuButton button, String buttonId, boolean disabled) throws IOException {
@@ -72,14 +84,14 @@ public class MenuButtonRenderer extends BaseMenuRenderer {
         }
         String buttonClass = disabled ? buttonTextClass + " ui-state-disabled" : buttonTextClass;
 
-        writer.startElement("button", null);
+        writer.startElement(BUTTON, null);
         writer.writeAttribute("id", buttonId, null);
-        writer.writeAttribute("name", buttonId, null);
-        writer.writeAttribute("type", "button", null);
-        writer.writeAttribute("class", buttonClass, null);
+        writer.writeAttribute(NAME, buttonId, null);
+        writer.writeAttribute(TYPE, BUTTON, null);
+        writer.writeAttribute(CLASS, buttonClass, null);
         writer.writeAttribute("aria-label", button.getAriaLabel(), "ariaLabel");
         if (button.isDisabled()) {
-            writer.writeAttribute("disabled", "disabled", null);
+            writer.writeAttribute(DISABLED, DISABLED, null);
         }
 
         // button icon
@@ -89,24 +101,24 @@ public class MenuButtonRenderer extends BaseMenuRenderer {
         String iconPosClass = isIconLeft ? HTML.BUTTON_LEFT_ICON_CLASS : HTML.BUTTON_RIGHT_ICON_CLASS;
         iconClass = iconPosClass + " " + iconClass;
 
-        writer.startElement("span", null);
-        writer.writeAttribute("class", iconClass, null);
-        writer.endElement("span");
+        writer.startElement(SPAN, null);
+        writer.writeAttribute(CLASS, iconClass, null);
+        writer.endElement(SPAN);
 
         //text
-        writer.startElement("span", null);
-        writer.writeAttribute("class", HTML.BUTTON_TEXT_CLASS, null);
+        writer.startElement(SPAN, null);
+        writer.writeAttribute(CLASS, HTML.BUTTON_TEXT_CLASS, null);
 
         if (isValueBlank(value)) {
             writer.write("ui-button");
         }
         else {
-            writer.writeText(value, "value");
+            writer.writeText(value, VALUE);
         }
 
-        writer.endElement("span");
+        writer.endElement(SPAN);
 
-        writer.endElement("button");
+        writer.endElement(BUTTON);
     }
 
     protected void encodeMenu(FacesContext context, MenuButton button, String menuId) throws IOException {
@@ -114,13 +126,13 @@ public class MenuButtonRenderer extends BaseMenuRenderer {
         String menuStyleClass = button.getMenuStyleClass();
         menuStyleClass = (menuStyleClass == null) ? Menu.DYNAMIC_CONTAINER_CLASS : Menu.DYNAMIC_CONTAINER_CLASS + " " + menuStyleClass;
 
-        writer.startElement("div", null);
+        writer.startElement(DIV, null);
         writer.writeAttribute("id", menuId, null);
-        writer.writeAttribute("class", menuStyleClass, "styleClass");
-        writer.writeAttribute("role", "menu", null);
+        writer.writeAttribute(CLASS, menuStyleClass, "styleClass");
+        writer.writeAttribute(ROLE, "menu", null);
 
         writer.startElement("ul", null);
-        writer.writeAttribute("class", MenuButton.LIST_CLASS, "styleClass");
+        writer.writeAttribute(CLASS, MenuButton.LIST_CLASS, "styleClass");
 
         if (button.getElementsCount() > 0) {
             List<MenuElement> elements = (List<MenuElement>) button.getElements();
@@ -129,8 +141,8 @@ public class MenuButtonRenderer extends BaseMenuRenderer {
                 if (element.isRendered()) {
                     if (element instanceof MenuItem) {
                         writer.startElement("li", null);
-                        writer.writeAttribute("class", Menu.MENUITEM_CLASS, null);
-                        writer.writeAttribute("role", "menuitem", null);
+                        writer.writeAttribute(CLASS, Menu.MENUITEM_CLASS, null);
+                        writer.writeAttribute(ROLE, MENUITEM, null);
                         encodeMenuItem(context, button, (MenuItem) element);
                         writer.endElement("li");
                     }
@@ -142,7 +154,7 @@ public class MenuButtonRenderer extends BaseMenuRenderer {
         }
 
         writer.endElement("ul");
-        writer.endElement("div");
+        writer.endElement(DIV);
 
     }
 

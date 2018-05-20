@@ -18,6 +18,10 @@ package org.primefaces.component.column.renderer;
 import java.io.IOException;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.COLSPAN;
+import static org.primefaces.component.Literals.ROLE;
+import static org.primefaces.component.Literals.STYLE;
 import org.primefaces.component.column.Column;
 import org.primefaces.component.panelgrid.PanelGrid;
 import org.primefaces.renderkit.CoreRenderer;
@@ -32,11 +36,11 @@ public class PanelGridBodyColumnRenderer extends CoreRenderer implements HelperC
         styleClass = (styleClass == null) ? PanelGrid.CELL_CLASS : PanelGrid.CELL_CLASS + " " + styleClass;
 
         writer.startElement("td", null);
-        writer.writeAttribute("role", "gridcell", null);
-        writer.writeAttribute("class", styleClass, null);
+        writer.writeAttribute(ROLE, "gridcell", null);
+        writer.writeAttribute(CLASS, styleClass, null);
 
-        if (style != null) writer.writeAttribute("style", style, null);
-        if (column.getColspan() > 1) writer.writeAttribute("colspan", column.getColspan(), null);
+        if (style != null) writer.writeAttribute(STYLE, style, null);
+        if (column.getColspan() > 1) writer.writeAttribute(COLSPAN, column.getColspan(), null);
         if (column.getRowspan() > 1) writer.writeAttribute("rowspan", column.getRowspan(), null);
 
         renderChildren(context, column);

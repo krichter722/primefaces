@@ -24,6 +24,17 @@ import java.util.Map;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import static org.primefaces.component.Literals.CLASS;
+import static org.primefaces.component.Literals.DIV;
+import static org.primefaces.component.Literals.INPUT;
+import static org.primefaces.component.Literals.NAME;
+import static org.primefaces.component.Literals.ROLE;
+import static org.primefaces.component.Literals.SPAN;
+import static org.primefaces.component.Literals.STYLE;
+import static org.primefaces.component.Literals.TABINDEX;
+import static org.primefaces.component.Literals.TITLE;
+import static org.primefaces.component.Literals.TYPE;
+import static org.primefaces.component.Literals.VALUE;
 
 import org.primefaces.component.tabview.Tab;
 import org.primefaces.renderkit.CoreRenderer;
@@ -94,14 +105,14 @@ public class AccordionPanelRenderer extends CoreRenderer {
             styleClass = styleClass + " ui-accordion-rtl";
         }
 
-        writer.startElement("div", null);
+        writer.startElement(DIV, null);
         writer.writeAttribute("id", clientId, null);
-        writer.writeAttribute("class", styleClass, null);
+        writer.writeAttribute(CLASS, styleClass, null);
         if (acco.getStyle() != null) {
-            writer.writeAttribute("style", acco.getStyle(), null);
+            writer.writeAttribute(STYLE, acco.getStyle(), null);
         }
 
-        writer.writeAttribute("role", "tablist", null);
+        writer.writeAttribute(ROLE, "tablist", null);
 
         writer.writeAttribute(HTML.WIDGET_VAR, widgetVar, null);
 
@@ -109,7 +120,7 @@ public class AccordionPanelRenderer extends CoreRenderer {
 
         encodeStateHolder(context, acco);
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     protected void encodeScript(FacesContext context, AccordionPanel acco) throws IOException {
@@ -142,13 +153,13 @@ public class AccordionPanelRenderer extends CoreRenderer {
         String clientId = accordionPanel.getClientId(context);
         String stateHolderId = clientId + "_active";
 
-        writer.startElement("input", null);
-        writer.writeAttribute("type", "hidden", null);
+        writer.startElement(INPUT, null);
+        writer.writeAttribute(TYPE, "hidden", null);
         writer.writeAttribute("id", stateHolderId, null);
-        writer.writeAttribute("name", stateHolderId, null);
-        writer.writeAttribute("value", accordionPanel.getActiveIndex(), null);
+        writer.writeAttribute(NAME, stateHolderId, null);
+        writer.writeAttribute(VALUE, accordionPanel.getActiveIndex(), null);
         writer.writeAttribute("autocomplete", "off", null);
-        writer.endElement("input");
+        writer.endElement(INPUT);
     }
 
     protected void encodeTabs(FacesContext context, AccordionPanel acco) throws IOException {
@@ -204,25 +215,25 @@ public class AccordionPanelRenderer extends CoreRenderer {
         String contentClass = active
                 ? AccordionPanel.ACTIVE_TAB_CONTENT_CLASS
                 : AccordionPanel.INACTIVE_TAB_CONTENT_CLASS;
-        UIComponent titleFacet = tab.getFacet("title");
+        UIComponent titleFacet = tab.getFacet(TITLE);
         String title = tab.getTitle();
         String tabindex = tab.isDisabled() ? "-1" : accordionPanel.getTabindex();
 
         //header container
-        writer.startElement("div", null);
-        writer.writeAttribute("class", headerClass, null);
-        writer.writeAttribute("role", "tab", null);
+        writer.startElement(DIV, null);
+        writer.writeAttribute(CLASS, headerClass, null);
+        writer.writeAttribute(ROLE, "tab", null);
         writer.writeAttribute("aria-expanded", String.valueOf(active), null);
         writer.writeAttribute("aria-selected", String.valueOf(active), null);
         writer.writeAttribute("aria-label", tab.getAriaLabel(), null);
-        writer.writeAttribute("tabindex", tabindex, null);
-        if (tab.getTitleStyle() != null) writer.writeAttribute("style", tab.getTitleStyle(), null);
-        if (tab.getTitletip() != null) writer.writeAttribute("title", tab.getTitletip(), null);
+        writer.writeAttribute(TABINDEX, tabindex, null);
+        if (tab.getTitleStyle() != null) writer.writeAttribute(STYLE, tab.getTitleStyle(), null);
+        if (tab.getTitletip() != null) writer.writeAttribute(TITLE, tab.getTitletip(), null);
 
         //icon
-        writer.startElement("span", null);
-        writer.writeAttribute("class", iconClass, null);
-        writer.endElement("span");
+        writer.startElement(SPAN, null);
+        writer.writeAttribute(CLASS, iconClass, null);
+        writer.endElement(SPAN);
 
         if (titleFacet != null) {
             titleFacet.encodeAll(context);
@@ -234,13 +245,13 @@ public class AccordionPanelRenderer extends CoreRenderer {
             writer.write("&nbsp;");
         }
 
-        writer.endElement("div");
+        writer.endElement(DIV);
 
         //content
-        writer.startElement("div", null);
+        writer.startElement(DIV, null);
         writer.writeAttribute("id", tab.getClientId(context), null);
-        writer.writeAttribute("class", contentClass, null);
-        writer.writeAttribute("role", "tabpanel", null);
+        writer.writeAttribute(CLASS, contentClass, null);
+        writer.writeAttribute(ROLE, "tabpanel", null);
         writer.writeAttribute("aria-hidden", String.valueOf(!active), null);
 
         if (dynamic) {
@@ -253,7 +264,7 @@ public class AccordionPanelRenderer extends CoreRenderer {
             tab.encodeAll(context);
         }
 
-        writer.endElement("div");
+        writer.endElement(DIV);
     }
 
     @Override

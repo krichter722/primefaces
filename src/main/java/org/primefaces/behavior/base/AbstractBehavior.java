@@ -99,6 +99,7 @@ public abstract class AbstractBehavior extends ClientBehaviorBase {
     }
 
     @Override
+    @SuppressWarnings("PMD.AvoidThrowingNullPointerException")
     public Object saveState(FacesContext context) {
         if (context == null) {
             throw new NullPointerException();
@@ -128,6 +129,7 @@ public abstract class AbstractBehavior extends ClientBehaviorBase {
     }
 
     @Override
+    @SuppressWarnings("PMD.AvoidThrowingNullPointerException")
     public void restoreState(FacesContext context, Object state) {
         if (context == null) {
             throw new NullPointerException();

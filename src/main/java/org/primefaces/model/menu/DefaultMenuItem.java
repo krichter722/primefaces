@@ -249,7 +249,7 @@ public class DefaultMenuItem implements MenuItem, UIOutcomeTarget, AjaxSource, S
         }
 
         if (params == null) {
-            params = new LinkedHashMap<String, List<String>>();
+            params = new LinkedHashMap<>();
         }
 
         if (!params.containsKey(key)) {

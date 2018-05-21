@@ -190,9 +190,9 @@ public abstract class BaseMenuRenderer extends OutcomeTargetRenderer {
                     String menuClientId = menu.getClientId(context);
                     Map<String, List<String>> params = menuitem.getParams();
                     if (params == null) {
-                        params = new LinkedHashMap<String, List<String>>();
+                        params = new LinkedHashMap<>();
                     }
-                    List<String> idParams = new ArrayList<String>();
+                    List<String> idParams = new ArrayList<>();
                     idParams.add(menuitem.getId());
                     params.put(menuClientId + "_menuid", idParams);
 
@@ -358,7 +358,7 @@ public abstract class BaseMenuRenderer extends OutcomeTargetRenderer {
         
         StringBuilder request = SharedStringBuilder.get(context, SB_BUILD_NON_AJAX_REQUEST);
         String formId = form.getClientId(context);
-        Map<String, Object> params = new HashMap<String, Object>();
+        Map<String, Object> params = new HashMap<>();
 
         if (decodeParam != null) {
             params.put(decodeParam, decodeParam);

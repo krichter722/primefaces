@@ -114,7 +114,7 @@ public class DefaultTimelineUpdater extends TimelineUpdater implements PhaseList
         UIComponent groupFacet = timeline.getFacet("group");
         if (groups != null && groupFacet != null) {
             // buffer for groups' content
-            groupsContent = new HashMap<String, String>();
+            groupsContent = new HashMap<>();
         }
 
         TimeZone targetTZ = ComponentUtils.resolveTimeZone(timeline.getTimeZone());
@@ -205,7 +205,7 @@ public class DefaultTimelineUpdater extends TimelineUpdater implements PhaseList
 
     private void checkCrudOperationDataList() {
         if (crudOperationDatas == null) {
-            crudOperationDatas = new ArrayList<CrudOperationData>();
+            crudOperationDatas = new ArrayList<>();
         }
     }
 

@@ -136,7 +136,7 @@ public abstract class UITree extends UIComponentBase implements NamingContainer 
 
     private void addToPreselection(TreeNode node) {
         if (preselection == null) {
-            preselection = new ArrayList<TreeNode>();
+            preselection = new ArrayList<>();
         }
 
         preselection.add(node);

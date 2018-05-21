@@ -47,7 +47,7 @@ public class JSONObjectTest {
     
     @Test
     public void testListToJSONArray() throws JSONException {
-        List<String> myList = new ArrayList<String>();
+        List<String> myList = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
             myList.add("item" + i);
         }
@@ -57,7 +57,7 @@ public class JSONObjectTest {
     
     @Test
     public void testMapToJSONObject() throws JSONException {
-        Map<String, String> myMap = new HashMap<String, String>();
+        Map<String, String> myMap = new HashMap<>();
         for (int j = 0; j < 5; j++) {
             myMap.put("key" + j, "value" + j);
         }

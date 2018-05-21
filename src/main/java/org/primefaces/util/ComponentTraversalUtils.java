@@ -63,7 +63,7 @@ public class ComponentTraversalUtils {
 
     public static <T> ArrayList<T> children(Class<T> type, UIComponent base) {
 
-        ArrayList<T> result = new ArrayList<T>();
+        ArrayList<T> result = new ArrayList<>();
 
         Iterator<UIComponent> kids = base.getFacetsAndChildren();
         while (kids.hasNext()) {

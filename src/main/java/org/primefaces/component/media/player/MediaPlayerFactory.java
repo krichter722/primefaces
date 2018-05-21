@@ -27,7 +27,7 @@ public class MediaPlayerFactory {
      */
     public static Map<String, MediaPlayer> getPlayers() {
         if (players == null) {
-            players = new HashMap<String, MediaPlayer>();
+            players = new HashMap<>();
             players.put(MediaPlayer.QUICKTIME, new QuickTimePlayer());
             players.put(MediaPlayer.FLASH, new FlashPlayer());
             players.put(MediaPlayer.WINDOWS, new WindowsPlayer());

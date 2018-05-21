@@ -45,8 +45,8 @@ public class MultipartRequest extends HttpServletRequestWrapper {
 
     public MultipartRequest(HttpServletRequest request, ServletFileUpload servletFileUpload) throws IOException {
         super(request);
-        formParams = new LinkedHashMap<String, List<String>>();
-        fileParams = new LinkedHashMap<String, List<FileItem>>();
+        formParams = new LinkedHashMap<>();
+        fileParams = new LinkedHashMap<>();
 
         parseRequest(request, servletFileUpload);
     }
@@ -77,7 +77,7 @@ public class MultipartRequest extends HttpServletRequestWrapper {
             fileParams.get(item.getFieldName()).add(item);
         }
         else {
-            List<FileItem> items = new ArrayList<FileItem>();
+            List<FileItem> items = new ArrayList<>();
             items.add(item);
             fileParams.put(item.getFieldName(), items);
         }
@@ -88,7 +88,7 @@ public class MultipartRequest extends HttpServletRequestWrapper {
             formParams.get(item.getFieldName()).add(getItemString(item));
         }
         else {
-            List<String> items = new ArrayList<String>();
+            List<String> items = new ArrayList<>();
             items.add(getItemString(item));
             formParams.put(item.getFieldName(), items);
         }
@@ -124,7 +124,7 @@ public class MultipartRequest extends HttpServletRequestWrapper {
     @Override
     public Map getParameterMap() {
         if (parameterMap == null) {
-            Map<String, String[]> map = new LinkedHashMap<String, String[]>();
+            Map<String, String[]> map = new LinkedHashMap<>();
 
             for (String formParam : formParams.keySet()) {
                 map.put(formParam, formParams.get(formParam).toArray(new String[0]));
@@ -140,7 +140,7 @@ public class MultipartRequest extends HttpServletRequestWrapper {
 
     @Override
     public Enumeration getParameterNames() {
-        Set<String> paramNames = new LinkedHashSet<String>();
+        Set<String> paramNames = new LinkedHashSet<>();
         paramNames.addAll(formParams.keySet());
 
         Enumeration<String> original = super.getParameterNames();

@@ -32,7 +32,7 @@ public class PrimePartialResponseWriterTest {
     @Before
     public void init()
     {
-        FacesContext context = new FacesContextMock(new HashMap<Object, Object>());
+        FacesContext context = new FacesContextMock(new HashMap<>());
     }
     
     @Test

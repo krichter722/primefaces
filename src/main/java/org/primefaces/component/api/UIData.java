@@ -104,8 +104,8 @@ public class UIData extends javax.faces.component.UIData {
     private String clientId = null;
     private DataModel model = null;
     private Object oldVar = null;
-    private Map<String, Object> _rowDeltaStates = new HashMap<String, Object>();
-    private Map<String, Object> _rowTransientStates = new HashMap<String, Object>();
+    private Map<String, Object> _rowDeltaStates = new HashMap<>();
+    private Map<String, Object> _rowTransientStates = new HashMap<>();
     private Object _initialDescendantFullComponentState = null;
     private Boolean isNested = null;
 
@@ -1121,7 +1121,7 @@ public class UIData extends javax.faces.component.UIData {
         Collection<Object[]> childStates = null;
         while (childIterator.hasNext()) {
             if (childStates == null) {
-                childStates = new ArrayList<Object[]>();
+                childStates = new ArrayList<>();
             }
 
             UIComponent child = childIterator.next();
@@ -1172,7 +1172,7 @@ public class UIData extends javax.faces.component.UIData {
                 Object state = child.saveState(facesContext);
                 if (state != null) {
                     if (stateMap == null) {
-                        stateMap = new HashMap<String, Object>();
+                        stateMap = new HashMap<>();
                     }
                     stateMap.put(child.getClientId(facesContext), state);
                 }
@@ -1277,7 +1277,7 @@ public class UIData extends javax.faces.component.UIData {
                 Object state = child.saveTransientState(facesContext);
                 if (state != null) {
                     if (childStates == null) {
-                        childStates = new HashMap<String, Object>();
+                        childStates = new HashMap<>();
                     }
                     childStates.put(child.getClientId(facesContext), state);
                 }

@@ -216,10 +216,10 @@ public class UIRepeat extends UINamingContainer {
             }
             else if (val instanceof List) {
                 //noinspection unchecked
-                this.model = new ListDataModel<Object>((List<Object>) val);
+                this.model = new ListDataModel<>((List<Object>) val);
             }
             else if (Object[].class.isAssignableFrom(val.getClass())) {
-                this.model = new ArrayDataModel<Object>((Object[]) val);
+                this.model = new ArrayDataModel<>((Object[]) val);
             }
             else if (val instanceof ResultSet) {
                 this.model = new ResultSetDataModel((ResultSet) val);
@@ -231,7 +231,7 @@ public class UIRepeat extends UINamingContainer {
                 this.model = new IterableDataModel(((Map<?, ?>) val).entrySet());
             }
             else {
-                this.model = new ScalarDataModel<Object>(val);
+                this.model = new ScalarDataModel<>(val);
             }
         }
         return this.model;
@@ -313,7 +313,7 @@ public class UIRepeat extends UINamingContainer {
 
     private Map<String, SavedState> getChildState() {
         if (this.childState == null) {
-            this.childState = new HashMap<String, SavedState>();
+            this.childState = new HashMap<>();
         }
         return this.childState;
     }
@@ -466,7 +466,7 @@ public class UIRepeat extends UINamingContainer {
      */
     private void saveInitialChildState(FacesContext facesContext) {
         index = -1;
-        initialChildState = new ConcurrentHashMap<String, SavedState>();
+        initialChildState = new ConcurrentHashMap<>();
         initialClientId = getClientId(facesContext);
         if (getChildCount() > 0) {
             for (UIComponent child : getChildren()) {

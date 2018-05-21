@@ -33,8 +33,8 @@ public abstract class AbstractBehavior extends ClientBehaviorBase {
         super();
 
         int propertiesCount = getAllProperties().length;
-        literals = new HashMap<String, Object>(propertiesCount);
-        bindings = new HashMap<String, ValueExpression>(propertiesCount);
+        literals = new HashMap<>(propertiesCount);
+        bindings = new HashMap<>(propertiesCount);
     }
 
     public void setLiteral(String attr, Object val) {
@@ -177,7 +177,7 @@ public abstract class AbstractBehavior extends ClientBehaviorBase {
 
         Enum<?>[] allProperties = getAllProperties();
 
-        Map<String, Object> map = new HashMap<String, Object>(allProperties.length);
+        Map<String, Object> map = new HashMap<>(allProperties.length);
         for (int i = 0; i < allProperties.length; i++) {
             Object val = values[i];
 

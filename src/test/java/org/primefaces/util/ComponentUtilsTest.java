@@ -42,14 +42,14 @@ public class ComponentUtilsTest {
     
     @Test
     public void getHrefURL() {
-        Map<String, List<String>> params = new LinkedHashMap<String, List<String>>();
+        Map<String, List<String>> params = new LinkedHashMap<>();
                 
         params.put("param1", Arrays.asList("value1"));
         params.put("param2", Arrays.asList("enc?de&"));//URLEncoded: enc%3Fde%26
         params.put("param3", Arrays.asList("two", "v@lues"));//v@lues URLEncoded: v%40lues
         params.put("param1=value1Pollution&param4", Arrays.asList("value4"));//URLEncoded: param1%3Dvalue1Pollution%26param4
         
-        Map<String, String> testCases = new LinkedHashMap<String, String>();
+        Map<String, String> testCases = new LinkedHashMap<>();
         
         //No query string nor fragment
         testCases.put("https://foo.bar/some/path", 

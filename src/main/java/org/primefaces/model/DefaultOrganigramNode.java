@@ -41,7 +41,7 @@ public class DefaultOrganigramNode implements OrganigramNode, Serializable {
 
     public DefaultOrganigramNode() {
         this.type = DEFAULT_TYPE;
-        this.children = new ArrayList<OrganigramNode>();
+        this.children = new ArrayList<>();
     }
 
     public DefaultOrganigramNode(Object data) {

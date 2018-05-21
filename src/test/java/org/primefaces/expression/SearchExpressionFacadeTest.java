@@ -32,7 +32,7 @@ public class SearchExpressionFacadeTest {
 
     @Before
     public void setup() {
-        Map<Object, Object> attributes = new HashMap<Object, Object>();
+        Map<Object, Object> attributes = new HashMap<>();
         attributes.put(UINamingContainer.SEPARATOR_CHAR_PARAM_NAME, ':');
 
         FacesContext context = new FacesContextMock(attributes);
@@ -1712,7 +1712,7 @@ public class SearchExpressionFacadeTest {
         innerContainer.setId("innerContainer");
         outerContainer.getChildren().add(innerContainer);
 
-        ArrayList<UIComponent> components = new ArrayList<UIComponent>();
+        ArrayList<UIComponent> components = new ArrayList<>();
         components.add(outerContainer);
         components.add(innerContainer);
 
@@ -1744,7 +1744,7 @@ public class SearchExpressionFacadeTest {
         innerContainer.setId("innerContainer");
         outerContainer.getChildren().add(innerContainer);
 
-        ArrayList<UIComponent> components = new ArrayList<UIComponent>();
+        ArrayList<UIComponent> components = new ArrayList<>();
         components.add(outerContainer);
         components.add(innerContainer);
 
@@ -1776,7 +1776,7 @@ public class SearchExpressionFacadeTest {
         innerContainer.setId("innerContainer");
         outerContainer.getChildren().add(innerContainer);
 
-        ArrayList<UIComponent> components = new ArrayList<UIComponent>();
+        ArrayList<UIComponent> components = new ArrayList<>();
         components.add(outerContainer);
         components.add(innerContainer);
 
@@ -1800,7 +1800,7 @@ public class SearchExpressionFacadeTest {
         form.setPrependId(false);
         root.getChildren().add(form);
 
-        ArrayList<UIComponent> components = new ArrayList<UIComponent>();
+        ArrayList<UIComponent> components = new ArrayList<>();
         components.add(form);
         components.add(root);
 
@@ -1823,7 +1823,7 @@ public class SearchExpressionFacadeTest {
         form.setPrependId(false);
         root.getChildren().add(form);
 
-        ArrayList<UIComponent> components = new ArrayList<UIComponent>();
+        ArrayList<UIComponent> components = new ArrayList<>();
         components.add(form);
         components.add(root);
 

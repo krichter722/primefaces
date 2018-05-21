@@ -38,7 +38,7 @@ public class LazyDataModelIterator<T> implements Iterator<T> {
     LazyDataModelIterator(LazyDataModel<T> model) {
         this.model = model;
         this.index = -1;
-        this.pages = new HashMap<Integer, List<T>>();
+        this.pages = new HashMap<>();
     }
 
     LazyDataModelIterator(LazyDataModel<T> model, String sortField, SortOrder sortOrder, Map<String, Object> filters) {

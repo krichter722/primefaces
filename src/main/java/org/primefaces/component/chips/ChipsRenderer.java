@@ -75,7 +75,7 @@ public class ChipsRenderer extends InputRenderer {
         String clientId = chips.getClientId(context);
         String inputId = clientId + "_input";
         List values = (List) chips.getValue();
-        List<String> stringValues = new ArrayList<String>();
+        List<String> stringValues = new ArrayList<>();
         boolean disabled = chips.isDisabled();
         String title = chips.getTitle();
 

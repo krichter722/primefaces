@@ -24,7 +24,7 @@ public class ChainedBeanPropertyComparator implements Comparator {
     private List<BeanPropertyComparator> comparators;
 
     public ChainedBeanPropertyComparator() {
-        comparators = new ArrayList<BeanPropertyComparator>();
+        comparators = new ArrayList<>();
     }
 
     public void addComparator(BeanPropertyComparator comparator) {

@@ -45,7 +45,7 @@ public class ChartRenderer extends CoreRenderer {
     private static final Map<String, org.primefaces.component.chart.renderer.BasePlotRenderer> CHART_RENDERERS;
 
     static {
-        CHART_RENDERERS = new HashMap<String, org.primefaces.component.chart.renderer.BasePlotRenderer>();
+        CHART_RENDERERS = new HashMap<>();
         CHART_RENDERERS.put(TYPE_PIE, new PieRenderer());
         CHART_RENDERERS.put(TYPE_LINE, new LineRenderer());
         CHART_RENDERERS.put(TYPE_BAR, new BarRenderer());

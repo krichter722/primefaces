@@ -79,7 +79,7 @@ public abstract class Exporter {
             MethodExpression postProcessor, ExporterOptions options, MethodExpression onTableRender) throws IOException;
 
     protected List<UIColumn> getColumnsToExport(UIData table) {
-        List<UIColumn> columns = new ArrayList<UIColumn>();
+        List<UIColumn> columns = new ArrayList<>();
 
         for (UIComponent child : table.getChildren()) {
             if (child instanceof UIColumn) {

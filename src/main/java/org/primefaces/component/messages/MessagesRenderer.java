@@ -41,7 +41,7 @@ public class MessagesRenderer extends UINotificationRenderer {
         Messages uiMessages = (Messages) component;
         ResponseWriter writer = context.getResponseWriter();
         String clientId = uiMessages.getClientId(context);
-        Map<String, List<FacesMessage>> messagesMap = new HashMap<String, List<FacesMessage>>();
+        Map<String, List<FacesMessage>> messagesMap = new HashMap<>();
         boolean globalOnly = uiMessages.isGlobalOnly();
         String containerClass = uiMessages.isShowIcon() ? Messages.CONTAINER_CLASS : Messages.ICONLESS_CONTAINER_CLASS;
         String style = uiMessages.getStyle();
@@ -49,7 +49,7 @@ public class MessagesRenderer extends UINotificationRenderer {
         styleClass = (styleClass == null) ? containerClass : containerClass + " " + styleClass;
 
         String _for = uiMessages.getFor();
-        List<FacesMessage> messages = new ArrayList<FacesMessage>();
+        List<FacesMessage> messages = new ArrayList<>();
         if (!isValueBlank(_for)) {
             String forType = uiMessages.getForType();
             Iterator<FacesMessage> messagesIterator = context.getMessages(_for);
@@ -138,7 +138,7 @@ public class MessagesRenderer extends UINotificationRenderer {
             List<FacesMessage> severityMessages = messagesMap.get(severity);
 
             if (severityMessages == null) {
-                severityMessages = new ArrayList<FacesMessage>();
+                severityMessages = new ArrayList<>();
                 messagesMap.put(severity, severityMessages);
             }
 

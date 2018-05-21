@@ -58,7 +58,7 @@ public class BarcodeRenderer extends CoreRenderer {
             Map<String, Object> session = context.getExternalContext().getSessionMap();
             Map<String, String> barcodeMapping = (Map) session.get(Constants.BARCODE_MAPPING);
             if (barcodeMapping == null) {
-                barcodeMapping = new HashMap<String, String>();
+                barcodeMapping = new HashMap<>();
                 session.put(Constants.BARCODE_MAPPING, barcodeMapping);
             }
             barcodeMapping.put(sessionKey, (String) value);

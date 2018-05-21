@@ -26,7 +26,7 @@ public class BeanUtils {
     private static List<Class<?>> primitiveTypes;
 
     static {
-        primitiveTypes = new ArrayList<Class<?>>();
+        primitiveTypes = new ArrayList<>();
         primitiveTypes.add(Boolean.class);
         primitiveTypes.add(Byte.class);
         primitiveTypes.add(Character.class);

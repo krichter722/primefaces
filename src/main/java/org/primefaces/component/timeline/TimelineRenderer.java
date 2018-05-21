@@ -91,7 +91,7 @@ public class TimelineRenderer extends CoreRenderer {
         UIComponent groupFacet = timeline.getFacet("group");
         if (groups != null && groupFacet != null) {
             // buffer for groups' content
-            groupsContent = new HashMap<String, String>();
+            groupsContent = new HashMap<>();
         }
 
         List<TimelineEvent> events = model.getEvents();

@@ -58,7 +58,7 @@ public class AutoUpdateListener implements ComponentSystemEventListener {
     public static ArrayList<String> getOrCreateAutoUpdateComponentClientIds(FacesContext context) {
         ArrayList<String> clientIds = getAutoUpdateComponentClientIds(context);
         if (clientIds == null) {
-            clientIds = new ArrayList<String>();
+            clientIds = new ArrayList<>();
             context.getViewRoot().getAttributes().put(COMPONENTS, clientIds);
         }
         return clientIds;

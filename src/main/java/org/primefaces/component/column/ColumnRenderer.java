@@ -32,7 +32,7 @@ public class ColumnRenderer extends CoreRenderer {
     static final Map<String, HelperColumnRenderer> RENDERERS;
 
     static {
-        RENDERERS = new HashMap<String, HelperColumnRenderer>();
+        RENDERERS = new HashMap<>();
         RENDERERS.put("columnGroup", new ColumnGroupHelperRenderer());
         RENDERERS.put("panelGridBody", new PanelGridBodyColumnRenderer());
         RENDERERS.put("panelGridFacet", new PanelGridFacetColumnRenderer());

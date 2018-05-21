@@ -21,7 +21,7 @@ public class HorizontalBarChartModel extends BarChartModel {
 
     @Override
     public void createAxes() {
-        axes = new HashMap<AxisType, Axis>();
+        axes = new HashMap<>();
         axes.put(AxisType.X, new LinearAxis());
         axes.put(AxisType.Y, new CategoryAxis());
     }

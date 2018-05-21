@@ -111,7 +111,7 @@ public class TreeTableRenderer extends DataRenderer {
                     tt.setSelection(tt.getRowNode());
                 }
                 else {
-                    List<TreeNode> selectedNodes = new ArrayList<TreeNode>();
+                    List<TreeNode> selectedNodes = new ArrayList<>();
 
                     for (int i = 0; i < selectedRowKeys.length; i++) {
                         tt.setRowKey(selectedRowKeys[i]);
@@ -132,7 +132,7 @@ public class TreeTableRenderer extends DataRenderer {
             String selectedNodeRowKey = params.get(clientId + "_instantSelection");
             tt.setRowKey(selectedNodeRowKey);
             TreeNode selectedNode = tt.getRowNode();
-            List<String> descendantRowKeys = new ArrayList<String>();
+            List<String> descendantRowKeys = new ArrayList<>();
             tt.populateRowKeys(selectedNode, descendantRowKeys);
             int size = descendantRowKeys.size();
             StringBuilder sb = SharedStringBuilder.get(context, SB_DECODE_SELECTION);
@@ -1063,7 +1063,7 @@ public class TreeTableRenderer extends DataRenderer {
     }
 
     public List<FilterMeta> populateFilterMetaData(FacesContext context, TreeTable tt) {
-        List<FilterMeta> filterMetadata = new ArrayList<FilterMeta>();
+        List<FilterMeta> filterMetadata = new ArrayList<>();
         String separator = String.valueOf(UINamingContainer.getSeparatorChar(context));
         Map<String, String> params = context.getExternalContext().getRequestParameterMap();
 

@@ -30,7 +30,7 @@ public class BarChartModel extends CartesianChartModel {
 
     @Override
     public void createAxes() {
-        axes = new HashMap<AxisType, Axis>();
+        axes = new HashMap<>();
         axes.put(AxisType.X, new CategoryAxis());
         axes.put(AxisType.Y, new LinearAxis());
     }
@@ -73,7 +73,7 @@ public class BarChartModel extends CartesianChartModel {
 
     public List<String> getTicks() {
         List<ChartSeries> series = this.getSeries();
-        List<String> ticks = new ArrayList<String>();
+        List<String> ticks = new ArrayList<>();
 
         if (series.size() > 0) {
             Map<Object, Number> firstSeriesData = series.get(0).getData();

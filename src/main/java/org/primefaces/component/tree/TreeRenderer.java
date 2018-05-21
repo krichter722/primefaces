@@ -89,7 +89,7 @@ public class TreeRenderer extends CoreRenderer {
                 tree.setSelection(tree.getRowNode());
             }
             else {
-                List<TreeNode> selectedNodes = new ArrayList<TreeNode>();
+                List<TreeNode> selectedNodes = new ArrayList<>();
 
                 for (int i = 0; i < selectedRowKeys.length; i++) {
                     tree.setRowKey(selectedRowKeys[i]);
@@ -109,7 +109,7 @@ public class TreeRenderer extends CoreRenderer {
             String selectedNodeRowKey = params.get(clientId + "_instantSelection");
             tree.setRowKey(selectedNodeRowKey);
             TreeNode selectedNode = tree.getRowNode();
-            List<String> descendantRowKeys = new ArrayList<String>();
+            List<String> descendantRowKeys = new ArrayList<>();
             tree.populateRowKeys(selectedNode, descendantRowKeys);
             int size = descendantRowKeys.size();
             StringBuilder sb = SharedStringBuilder.get(context, SB_DECODE_SELECTION);
@@ -136,7 +136,7 @@ public class TreeRenderer extends CoreRenderer {
         int dndIndex = Integer.parseInt(params.get(clientId + "_dndIndex"));
         boolean isDroppedNodeCopy = Boolean.valueOf(params.get(clientId + "_isDroppedNodeCopy"));
         String[] dragNodeRowKeyArr = dragNodeRowKey.split(",");
-        List<TreeNode> dragNodeList = new ArrayList<TreeNode>();
+        List<TreeNode> dragNodeList = new ArrayList<>();
         TreeNode dropNode;
         
         for (String rowKey : dragNodeRowKeyArr) {

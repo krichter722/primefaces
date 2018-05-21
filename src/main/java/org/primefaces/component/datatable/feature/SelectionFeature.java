@@ -88,7 +88,7 @@ public class SelectionFeature implements DataTableFeature {
                 table.setSelection(Array.newInstance(clazz.getComponentType(), 0));
             }
             else {
-                table.setSelection(new ArrayList<Object>());
+                table.setSelection(new ArrayList<>());
             }
         }
         else {

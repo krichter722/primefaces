@@ -87,14 +87,14 @@ public class UITabPanel extends UIPanel implements NamingContainer {
     // Holds for each row the states of the child components of this UIData.
     // Note that only "partial" component state is saved: the component fields
     // that are expected to vary between rows.
-    private Map<String, Collection<Object[]>> _rowStates = new HashMap<String, Collection<Object[]>>();
+    private Map<String, Collection<Object[]>> _rowStates = new HashMap<>();
 
     /**
      * Handle case where this table is nested inside another table. See method getDataModel for more details.
      * <p>
      * Key: parentClientId (aka rowId when nested within a parent table) Value: DataModel
      */
-    private Map<String, DataModel> _dataModelMap = new HashMap<String, DataModel>();
+    private Map<String, DataModel> _dataModelMap = new HashMap<>();
 
     // will be set to false if the data should not be refreshed at the beginning of the encode phase
     private boolean _isValidChilds = true;
@@ -438,7 +438,7 @@ public class UITabPanel extends UIPanel implements NamingContainer {
 
                     if (child instanceof EditableValueHolder) {
                         if (childStates == null) {
-                            childStates = new ArrayList<Object[]>(
+                            childStates = new ArrayList<>(
                                     parent.getFacetCount()
                                     + parent.getChildCount()
                                     - totalChildCount
@@ -464,7 +464,7 @@ public class UITabPanel extends UIPanel implements NamingContainer {
                             }
                         } else {
                             if (childStates == null) {
-                                childStates = new ArrayList<Object[]>(
+                                childStates = new ArrayList<>(
                                         parent.getFacetCount()
                                         + parent.getChildCount()
                                         - totalChildCount
@@ -498,7 +498,7 @@ public class UITabPanel extends UIPanel implements NamingContainer {
 
                     if (child instanceof EditableValueHolder) {
                         if (childStates == null) {
-                            childStates = new ArrayList<Object[]>(
+                            childStates = new ArrayList<>(
                                     parent.getFacetCount()
                                     + parent.getChildCount()
                                     - totalChildCount
@@ -524,7 +524,7 @@ public class UITabPanel extends UIPanel implements NamingContainer {
                             }
                         } else {
                             if (childStates == null) {
-                                childStates = new ArrayList<Object[]>(
+                                childStates = new ArrayList<>(
                                         parent.getFacetCount()
                                         + parent.getChildCount()
                                         - totalChildCount

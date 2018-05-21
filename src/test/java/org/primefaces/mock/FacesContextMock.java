@@ -42,7 +42,7 @@ public class FacesContextMock extends FacesContext {
     private UIViewRoot viewRoot;
 
     public FacesContextMock() {
-        this.attributes = new HashMap<Object, Object>();
+        this.attributes = new HashMap<>();
 
         setCurrentInstance(this);
     }

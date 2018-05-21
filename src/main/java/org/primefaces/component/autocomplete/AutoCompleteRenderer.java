@@ -388,7 +388,7 @@ public class AutoCompleteRenderer extends InputRenderer {
             }
         }
 
-        List<String> stringValues = new ArrayList<String>();
+        List<String> stringValues = new ArrayList<>();
         boolean disabled = ac.isDisabled();
         String title = ac.getTitle();
 
@@ -418,7 +418,7 @@ public class AutoCompleteRenderer extends InputRenderer {
             String var = ac.getVar();
             boolean pojo = var != null;
 
-            Collection<Object> items = ac.isUnique() ? new HashSet<Object>(values) : values;
+            Collection<Object> items = ac.isUnique() ? new HashSet<>(values) : values;
             for (Object value : items) {
                 Object itemValue = null;
                 String itemLabel = null;

@@ -37,7 +37,7 @@ public class PrimeFacesTest {
 
     @Before
     public void setup() {
-        Map<Object, Object> attributes = new HashMap<Object, Object>();
+        Map<Object, Object> attributes = new HashMap<>();
         attributes.put(UINamingContainer.SEPARATOR_CHAR_PARAM_NAME, ':');
 
         FacesContext context = new FacesContextMock(attributes);

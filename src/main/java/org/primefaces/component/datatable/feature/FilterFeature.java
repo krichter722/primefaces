@@ -59,7 +59,7 @@ public class FilterFeature implements DataTableFeature {
     private static final Map<String, FilterConstraint> FILTER_CONSTRAINTS;
 
     static {
-        FILTER_CONSTRAINTS = new HashMap<String, FilterConstraint>();
+        FILTER_CONSTRAINTS = new HashMap<>();
         FILTER_CONSTRAINTS.put(STARTS_WITH_MATCH_MODE, new StartsWithFilterConstraint());
         FILTER_CONSTRAINTS.put(ENDS_WITH_MATCH_MODE, new EndsWithFilterConstraint());
         FILTER_CONSTRAINTS.put(CONTAINS_MATCH_MODE, new ContainsFilterConstraint());
@@ -156,7 +156,7 @@ public class FilterFeature implements DataTableFeature {
 
         if (table.isMultiViewState()) {
             List<FilterMeta> filterMetadata = table.getFilterMetadata();
-            List<FilterState> filters = new ArrayList<FilterState>();
+            List<FilterState> filters = new ArrayList<>();
 
             for (FilterMeta filterMeta : filterMetadata) {
                 filters.add(new FilterState(filterMeta.getColumn().getColumnKey(), filterMeta.getFilterValue()));
@@ -242,7 +242,7 @@ public class FilterFeature implements DataTableFeature {
             String globalFilterParam) {
         
         Map<String, String> params = context.getExternalContext().getRequestParameterMap();
-        Map<String, Object> filterParameterMap = new HashMap<String, Object>();
+        Map<String, Object> filterParameterMap = new HashMap<>();
 
         for (FilterMeta filterMeta : filterMetadata) {
             Object filterValue = filterMeta.getFilterValue();
@@ -295,7 +295,7 @@ public class FilterFeature implements DataTableFeature {
     }
 
     public List<FilterMeta> populateFilterMetaData(FacesContext context, DataTable table) {
-        List<FilterMeta> filterMetadata = new ArrayList<FilterMeta>();
+        List<FilterMeta> filterMetadata = new ArrayList<>();
         String separator = String.valueOf(UINamingContainer.getSeparatorChar(context));
         Map<String, String> params = context.getExternalContext().getRequestParameterMap();
         boolean hasFrozenColumns = table.getFrozenColumns() > 0;

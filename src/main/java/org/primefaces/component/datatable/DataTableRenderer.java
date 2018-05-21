@@ -114,7 +114,7 @@ public class DataTableRenderer extends DataRenderer {
         }
 
         List<FilterState> filters = table.getFilterBy();
-        List<FilterMeta> filterMetadata = new ArrayList<FilterMeta>();
+        List<FilterMeta> filterMetadata = new ArrayList<>();
         if (filters != null) {
             for (FilterState filterState : filters) {
                 UIColumn column = table.findColumn(filterState.getColumnKey());
@@ -1735,7 +1735,7 @@ public class DataTableRenderer extends DataRenderer {
 
     protected List<String> getSortableHeadersText(FacesContext context, DataTable table) {
         List<UIColumn> columns = table.getColumns();
-        List<String> headersText = new ArrayList<String>();
+        List<String> headersText = new ArrayList<>();
         ValueExpression columnSortByVE = null;
         boolean sortable = false;
 

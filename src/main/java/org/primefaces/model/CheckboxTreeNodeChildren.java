@@ -69,7 +69,7 @@ public class CheckboxTreeNodeChildren extends TreeNodeList {
 
     @Override
     public boolean addAll(Collection<? extends TreeNode> collection) {
-        Iterator<TreeNode> elements = (new ArrayList<TreeNode>(collection)).iterator();
+        Iterator<TreeNode> elements = (new ArrayList<>(collection)).iterator();
         boolean changed = false;
         while (elements.hasNext()) {
             TreeNode node = elements.next();
@@ -94,7 +94,7 @@ public class CheckboxTreeNodeChildren extends TreeNodeList {
 
     @Override
     public boolean addAll(int index, Collection<? extends TreeNode> collection) {
-        Iterator<TreeNode> elements = (new ArrayList<TreeNode>(collection)).iterator();
+        Iterator<TreeNode> elements = (new ArrayList<>(collection)).iterator();
         boolean changed = false;
         while (elements.hasNext()) {
             TreeNode node = elements.next();

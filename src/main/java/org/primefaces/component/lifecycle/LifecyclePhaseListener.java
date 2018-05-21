@@ -72,7 +72,7 @@ public class LifecyclePhaseListener implements PhaseListener {
                 (Map<String, LinkedHashMap<Integer, PhaseInfo>>) session.get(LifecyclePhaseListener.class.getName());
 
         if (storePerView == null) {
-            storePerView = new HashMap<String, LinkedHashMap<Integer, PhaseInfo>>();
+            storePerView = new HashMap<>();
             session.put(LifecyclePhaseListener.class.getName(), storePerView);
         }
 
@@ -80,7 +80,7 @@ public class LifecyclePhaseListener implements PhaseListener {
 
         LinkedHashMap<Integer, PhaseInfo> store = storePerView.get(viewId);
         if (store == null) {
-            store = new LinkedHashMap<Integer, PhaseInfo>();
+            store = new LinkedHashMap<>();
             storePerView.put(viewId, store);
         }
 

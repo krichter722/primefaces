@@ -16,6 +16,7 @@
 package org.primefaces.component.api;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -43,6 +44,7 @@ import javax.faces.event.PreValidateEvent;
 
 import org.primefaces.component.columns.Columns;
 import org.primefaces.component.tree.UITreeNode;
+import org.primefaces.json.JSONArray;
 import org.primefaces.model.TreeNode;
 import org.primefaces.util.MessageFactory;
 import org.primefaces.util.SharedStringBuilder;
@@ -353,16 +355,8 @@ public abstract class UITree extends UIComponentBase implements NamingContainer 
             }
             else {
                 TreeNode[] nodes = (TreeNode[]) selection;
-                StringBuilder builder = SharedStringBuilder.get(SB_GET_SELECTED_ROW_KEYS_AS_STRING);
-
-                for (int i = 0; i < nodes.length; i++) {
-                    builder.append(nodes[i].getRowKey());
-                    if (i != (nodes.length - 1)) {
-                        builder.append(",");
-                    }
-                }
-
-                value = builder.toString();
+                JSONArray retValueArray = new JSONArray(Arrays.asList(nodes));
+                value = retValueArray.toString();
             }
         }
 

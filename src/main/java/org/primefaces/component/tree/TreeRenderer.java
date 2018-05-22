@@ -30,6 +30,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import org.primefaces.PrimeFaces;
 import org.primefaces.component.api.UITree;
+import org.primefaces.json.JSONArray;
 
 import org.primefaces.model.TreeNode;
 import org.primefaces.model.filter.FilterConstraint;
@@ -82,7 +83,11 @@ public class TreeRenderer extends CoreRenderer {
             }
         }
         else {
-            String[] selectedRowKeys = selection.split(",");
+            JSONArray selectedValueJsonArray = new JSONArray(selection);
+            String[] selectedRowKeys = new String[selectedValueJsonArray.length()];
+            for (int i = 0; i < selectedValueJsonArray.length(); i++) {
+                selectedRowKeys[i] = selectedValueJsonArray.getString(i);
+            }
 
             if (isSingle) {
                 tree.setRowKey(selectedRowKeys[0]);

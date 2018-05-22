@@ -44,6 +44,7 @@ import org.primefaces.component.row.Row;
 import org.primefaces.component.tree.Tree;
 import static org.primefaces.component.treetable.TreeTable.FILTER_CONSTRAINTS;
 import static org.primefaces.component.treetable.TreeTable.GLOBAL_MODE;
+import org.primefaces.json.JSONArray;
 import org.primefaces.model.CheckboxTreeNode;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.FilterMeta;
@@ -104,8 +105,12 @@ public class TreeTableRenderer extends DataRenderer {
                 }
             }
             else {
-                String[] selectedRowKeys = selectionValue.split(",");
-
+                JSONArray selectedValueJsonArray = new JSONArray(selectionValue);
+                String[] selectedRowKeys = new String[selectedValueJsonArray.length()];
+                for (int i = 0; i < selectedValueJsonArray.length(); i++) {
+                    selectedRowKeys[i] = selectedValueJsonArray.getString(i);
+                }
+                
                 if (isSingle) {
                     tt.setRowKey(selectedRowKeys[0]);
                     tt.setSelection(tt.getRowNode());

@@ -73,7 +73,7 @@ public class PrimeFacesTest {
     }
 
     @Test
-    public void update_ComponentNotFound() {
+    public void updateComponentNotFound() {
         UIComponent root = new UIPanel();
         root.setId("root");
         FacesContext.getCurrentInstance().getViewRoot().getChildren().add(root);
@@ -87,7 +87,7 @@ public class PrimeFacesTest {
     }
 
     @Test
-    public void update_Multiple() {
+    public void updateMultiple() {
         UIComponent root = new UIPanel();
         root.setId("root");
         FacesContext.getCurrentInstance().getViewRoot().getChildren().add(root);
@@ -104,7 +104,7 @@ public class PrimeFacesTest {
     }
 
     @Test
-    public void update_Multiple_ComponentNotFound() {
+    public void updateMultipleComponentNotFound() {
         UIComponent root = new UIPanel();
         root.setId("root");
         FacesContext.getCurrentInstance().getViewRoot().getChildren().add(root);

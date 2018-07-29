@@ -33,7 +33,7 @@ import org.junit.jupiter.api.Test;
 
 public class NativeUploadedFileTest {
 
-    NativeUploadedFile file = new NativeUploadedFile();
+    private NativeUploadedFile file = new NativeUploadedFile();
 
     @Test
     public void testValid1() {

@@ -72,11 +72,11 @@ public class TerminalAutoCompleteTest {
         final String[] args = {};
 
         // when
-        TerminalAutoCompleteMatches TerminalAutoCompleteMatches = terminal.traverseAutoCompleteModel(model, input, args);
+        TerminalAutoCompleteMatches terminalAutoCompleteMatches = terminal.traverseAutoCompleteModel(model, input, args);
 
         // then
-        assertBaseCommand(TerminalAutoCompleteMatches, "");
-        assertMatches(TerminalAutoCompleteMatches, "git");
+        assertBaseCommand(terminalAutoCompleteMatches, "");
+        assertMatches(terminalAutoCompleteMatches, "git");
     }
 
     @Test
@@ -86,95 +86,95 @@ public class TerminalAutoCompleteTest {
         final String[] args = {};
 
         // when
-        TerminalAutoCompleteMatches TerminalAutoCompleteMatches = terminal.traverseAutoCompleteModel(model, input, args);
+        TerminalAutoCompleteMatches terminalAutoCompleteMatches = terminal.traverseAutoCompleteModel(model, input, args);
 
         // then
-        assertBaseCommand(TerminalAutoCompleteMatches, "git");
-        assertMatches(TerminalAutoCompleteMatches, "pull", "push","checkout", "commit", "rebase", "squash", "status");
+        assertBaseCommand(terminalAutoCompleteMatches, "git");
+        assertMatches(terminalAutoCompleteMatches, "pull", "push", "checkout", "commit", "rebase", "squash", "status");
     }
 
     @Test
     public void givenGitCThenReturnsCommitAndCheckout() {
         // given
         final String input = "git";
-        final String[] args = { "c" };
+        final String[] args = {"c"};
 
         // when
-        TerminalAutoCompleteMatches TerminalAutoCompleteMatches = terminal.traverseAutoCompleteModel(model, input, args);
+        TerminalAutoCompleteMatches terminalAutoCompleteMatches = terminal.traverseAutoCompleteModel(model, input, args);
 
         // then
-        assertBaseCommand(TerminalAutoCompleteMatches, "git");
-        assertMatches(TerminalAutoCompleteMatches, "commit", "checkout");
+        assertBaseCommand(terminalAutoCompleteMatches, "git");
+        assertMatches(terminalAutoCompleteMatches, "commit", "checkout");
     }
 
     @Test
     public void givenGitCThenReturnsCommit() {
         // given
         final String input = "git";
-        final String[] args = { "co" };
+        final String[] args = {"co"};
 
         // when
-        TerminalAutoCompleteMatches TerminalAutoCompleteMatches = terminal.traverseAutoCompleteModel(model, input, args);
+        TerminalAutoCompleteMatches terminalAutoCompleteMatches = terminal.traverseAutoCompleteModel(model, input, args);
 
         // then
-        assertBaseCommand(TerminalAutoCompleteMatches, "git");
-        assertMatches(TerminalAutoCompleteMatches, "commit");
+        assertBaseCommand(terminalAutoCompleteMatches, "git");
+        assertMatches(terminalAutoCompleteMatches, "commit");
     }
 
     @Test
     public void givenGitPThenReturnsPullAndPush() {
         // given
         final String input = "git";
-        final String[] args = { "p" };
+        final String[] args = {"p"};
 
         // when
-        TerminalAutoCompleteMatches TerminalAutoCompleteMatches = terminal.traverseAutoCompleteModel(model, input, args);
+        TerminalAutoCompleteMatches terminalAutoCompleteMatches = terminal.traverseAutoCompleteModel(model, input, args);
 
         // then
-        assertBaseCommand(TerminalAutoCompleteMatches, "git");
-        assertMatches(TerminalAutoCompleteMatches, "pull", "push");
+        assertBaseCommand(terminalAutoCompleteMatches, "git");
+        assertMatches(terminalAutoCompleteMatches, "pull", "push");
     }
 
     @Test
     public void givenGitRThenReturnsRebase() {
         // given
         final String input = "git";
-        final String[] args = { "r" };
+        final String[] args = {"r"};
 
         // when
-        TerminalAutoCompleteMatches TerminalAutoCompleteMatches = terminal.traverseAutoCompleteModel(model, input, args);
+        TerminalAutoCompleteMatches terminalAutoCompleteMatches = terminal.traverseAutoCompleteModel(model, input, args);
 
         // then
-        assertBaseCommand(TerminalAutoCompleteMatches, "git");
-        assertMatches(TerminalAutoCompleteMatches, "rebase");
+        assertBaseCommand(terminalAutoCompleteMatches, "git");
+        assertMatches(terminalAutoCompleteMatches, "rebase");
     }
 
     @Test
     public void givenGitPushOThenReturnsGitPushOrigin() {
         // given
         final String input = "git";
-        final String[] args = { "push", "o" };
+        final String[] args = {"push", "o"};
 
         // when
-        TerminalAutoCompleteMatches TerminalAutoCompleteMatches = terminal.traverseAutoCompleteModel(model, input, args);
+        TerminalAutoCompleteMatches terminalAutoCompleteMatches = terminal.traverseAutoCompleteModel(model, input, args);
 
         // then
-        assertBaseCommand(TerminalAutoCompleteMatches, "git push");
-        assertMatches(TerminalAutoCompleteMatches, "origin");
+        assertBaseCommand(terminalAutoCompleteMatches, "git push");
+        assertMatches(terminalAutoCompleteMatches, "origin");
     }
 
     @Test
     public void givenGitPushOriginThenReturnsGitPushOriginMaster() {
         // given
         final String input = "git";
-        final String[] args = { "push", "origin" };
+        final String[] args = {"push", "origin"};
 
         // when
-        TerminalAutoCompleteMatches TerminalAutoCompleteMatches = terminal.traverseAutoCompleteModel(model, input, args);
+        TerminalAutoCompleteMatches terminalAutoCompleteMatches = terminal.traverseAutoCompleteModel(model, input, args);
 
         // then
-        assertBaseCommand(TerminalAutoCompleteMatches, "git push origin");
-        assertMatches(TerminalAutoCompleteMatches, "master");
+        assertBaseCommand(terminalAutoCompleteMatches, "git push origin");
+        assertMatches(terminalAutoCompleteMatches, "master");
     }
 
     private void assertBaseCommand(TerminalAutoCompleteMatches autoCompleteMatches, String expectedBaseCommand) {

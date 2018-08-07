@@ -4,7 +4,7 @@ language: java
 jdk:
 - oraclejdk8
 - openjdk8
-# - openjdk7  (not possible since JSF 2.3 dependency - we need to compile it)
+- openjdk7
 
 install:
 - git clone https://github.com/primefaces/maven-jsf-plugin && cd maven-jsf-plugin && mvn install && cd ..
